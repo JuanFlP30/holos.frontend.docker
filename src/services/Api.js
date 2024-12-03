@@ -1,0 +1,561 @@
+/**
+ * Servicio de comunicación API
+ * 
+ * @author Moisés Cortés C. <moises.cortes@notsoweb.com>
+ * @version 1.0.0
+ */
+
+import axios from 'axios';
+import { reactive, ref } from 'vue';
+import { lang } from '@Lang/i18n';
+
+axios.defaults.withXSRFToken = true;
+// axios.defaults.withCredentials = true;
+
+/**
+ * Códigos de falla
+ */
+const failCodes = [
+    400,
+    409,
+];
+
+/**
+ * Servidor a utilizar
+ */
+const server = ref('');
+const token  = ref(localStorage.token);
+
+/**
+ * Define el servidor de la api
+ */
+const defineApiServer = (x) => {
+    server.value = x;
+}
+
+/**
+ * Define el token de la api
+ */
+const defineApiToken = (x) => {
+    token.value = x;
+    localStorage.token = x;
+}
+
+/**
+ * Ruta base del servidor
+ */
+const apiBaseUrl = (url) => {
+    return `${server.value}/${url}`
+}
+
+
+/**
+ * Ruta api del servidor
+ */
+const apiUrl = (url) => {
+    return apiBaseUrl(`api/${url}`)
+}
+
+
+/**
+ * Define el token de la api
+ */
+const resetApiToken = () => {
+    token.value = undefined;
+    localStorage.removeItem('token');
+}
+
+/**
+ * Determina si el token tiene algo o no
+ */
+const hasToken = () => {
+    return token.value !== undefined;
+}
+
+/**
+ * Fuerza el cierre de la sesión
+ */
+const logout = () => {
+    localStorage.removeItem('token');
+    token.value = undefined;
+}
+
+/**
+ * Composición de llaves
+ * 
+ * Utilizado para transformar llaves en FormData
+ */
+function composeKey(parent, key) {
+  return parent ? parent + '[' + key + ']' : key
+}
+
+/**
+ * Instancia de la API de uso directo
+ */
+const api = {
+    errors: {},
+    hasErrors: false,
+    processing: false,
+    wasSuccessful: false,
+    async load({
+        method,
+        url,
+        apiToken = token.value,
+        options = { 
+            data:{},
+            params:{}
+        }
+    }) {
+        this.errors        = {};
+        this.hasErrors     = false;
+        this.processing    = true;
+        this.wasSuccessful = false;
+
+        try {
+            if(options.hasOwnProperty('onStart')) {
+                options.onStart();
+            }
+
+            let { data } = await axios({
+                method: method,
+                url,
+                data: options.data,
+                params: options.params,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${apiToken}`
+                }
+            });
+
+            if(data.status == 'success') {
+                this.wasSuccessful = true;
+
+                if(options.hasOwnProperty('onSuccess')) {
+                    options.onSuccess(data.data, data);
+                }
+            } else if(data.status == 'fail') {
+                if(options.hasOwnProperty('onFail')) {
+                    options.onFail(data.data);
+                }
+            }
+
+            if(options.hasOwnProperty('onFinish')) {
+                options.onFinish(data.data);
+            }
+        } catch (error) {
+            console.error(error)
+
+            this.hasErrors = true;
+
+            let { response } = error
+
+            // Código de sesión invalida
+            if(response.status === 401 && response.data?.message == 'Unauthenticated.') {
+                Notify.error(lang('session.expired'));
+
+                logout();
+
+                return
+            }
+
+            // Fallas
+            if(failCodes.includes(response.status)) {
+                options.hasOwnProperty('onFail')
+                    ? options.onFail(response.data.data)
+                    : Notify.warning(response.data.data.message);
+
+                return
+            }
+
+            if(options.hasOwnProperty('onError')) {
+                options.onError(response.data);
+            }
+
+            if(response.data != null) {
+                this.errors = response.data.errors;
+            }
+        }
+
+        this.processing = false;
+    },
+    get(url, options) {
+        this.load({
+            method: 'get',
+            url: apiUrl(url),
+            options
+        })
+    },
+    post(url, options) {
+        this.load({
+            method: 'post',
+            url: apiUrl(url),
+            options
+        })
+    },
+    put(url, options) {
+        this.load({
+            method: 'put',
+            url: apiUrl(url),
+            options
+        })
+    },
+    patch(url, options) {
+        this.load('patch', {
+            method: 'patch',
+            url: apiUrl(url),
+            options
+        })
+    },
+    delete(url, options) {
+        this.load({
+            method: 'delete',
+            url: apiUrl(url),
+            options
+        })
+    },
+    resource(resources, options) {
+        this.post('resources/get', {
+            ...options,
+            data: resources
+        })
+        console.log(api.resource)
+    },
+    download(url, file, params = {}) {
+        axios({
+            url: url,
+            params: params,
+            method: 'GET',
+            responseType: 'blob',
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        }).then((res) => {
+            const href = URL.createObjectURL(res.data);
+            const link = document.createElement('a');
+
+            link.href = href;
+            link.setAttribute('download', file);
+            document.body.appendChild(link);
+            link.click();
+        
+            document.body.removeChild(link);
+
+            URL.revokeObjectURL(href);
+        });
+    },
+}
+
+/**
+ * Instancia de la API para formularios
+ */
+const useForm = (form = {}) =>  {
+    // Permite agregar datos mediante una transformación
+    let transform = (data) => data
+
+    // Contador de archivos
+    let filesCounter = 0
+
+    // Procesar elementos del formulario
+    const append = (formData, key, value) => {
+        if(Array.isArray(value)) {
+            return Array.from(value.keys()).forEach((index) => append(formData, composeKey(key, index), value[index]));
+        } else if(value instanceof Date) {
+            return formData.append(key, value.toISOString())
+        } else if(value instanceof File) {
+            filesCounter++
+            return formData.append(key, value, value.name)
+        } else if (value instanceof Blob) {
+            return formData.append(key, value)
+        } else if(typeof value === 'boolean') {
+            return formData.append(key, value ? '1' : '0')
+        } else if (typeof value === 'string') {
+            return formData.append(key, value)
+        } else if (typeof value === 'number') {
+            return formData.append(key, `${value}`)
+        } else if(value === null || value === undefined) {
+            return formData.append(key, '')
+        } else if (typeof value === 'object') {
+            objectToFormData(formData, key, value);
+        }
+    }
+
+     // Convertir objeto a elemento de FormData
+    const objectToFormData = (formData, parentKey = null, value) => {
+        value = value || {}
+        for (const key in value) {
+          if (Object.prototype.hasOwnProperty.call(value, key)) {
+            append(formData, composeKey(parentKey, key), value[key])
+          }
+        }
+
+        return formData
+    }
+
+    // Transforma todos los datos
+    const prepareData = (data) => {
+        let formData = new FormData();
+
+        for (let i in data) {
+            append(formData, i, data[i]);
+        }
+
+        return formData;
+    }
+
+    return reactive({
+        ...form,
+        errors: {},
+        hasErrors: false,
+        processing: false,
+        wasSuccessful: false,
+        _inputs: Object.keys(form),
+        data() {
+            let data = {};
+
+            for (let i in this) {
+                if(typeof this[i] !== 'function' && this._inputs.includes(i)){
+                    data[i] = this[i]
+                }
+            }
+
+            return data;
+        },
+        transform(callback) {
+            transform = callback
+
+            return this
+        },
+        async load({
+            method,
+            url,
+            apiToken = token.value,
+            options = { 
+                data:{},
+                params:{}
+            }
+        }) {
+            this.errors        = {};
+            this.hasErrors     = false;
+            this.processing    = true;
+            this.wasSuccessful = false;
+
+            try {
+                if(options.hasOwnProperty('onStart')) {
+                    options.onStart(options);
+                }
+
+                let { data } = await axios({
+                    method: method,
+                    url,
+                    data: prepareData(transform(this.data())),
+                    headers: {
+                        'Content-Type': (filesCounter > 0)
+                            ? 'multipart/form-data  boundary='
+                            : 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${apiToken}`
+                    }
+                });
+
+                if(data.status == 'success') {
+                    this.wasSuccessful = true;
+
+                    if(options.hasOwnProperty('onSuccess')) {
+                        options.onSuccess(data?.data);
+                    }
+                } else if(data.status == 'fail') {
+                    if(options.hasOwnProperty('onFail')) {
+                        options.onFail(data?.data);
+                    }
+                }
+
+                if(options.hasOwnProperty('onFinish')) {
+                    options.onFinish(data?.data);
+                }
+            } catch (error) {
+                console.error(error);
+
+                this.hasErrors = true;
+
+                let { response } = error
+                
+                if(options.hasOwnProperty('onError')) {
+                    options.onError(response);
+                }
+
+                if(response.data?.errors != null) {
+                    this.errors = response.data.errors;
+
+                    for(let e in this.errors) {
+                        Notify.error(this.errors[e])
+                    }
+                }
+            }
+
+            this.processing = false;
+        },
+        fill(model) {
+            this._inputs.forEach(element => {
+                if (element == 'is_active') {
+                    this[element] = (model[element] == 1)
+                } else {
+                    this[element] = model[element] ?? this[element]
+                }
+            });
+        },
+        get(url, options) {
+            this.load({
+                method: 'get',
+                url: apiUrl(url),
+                options
+            })
+        },
+        post(url, options) {
+            this.load({
+                method: 'post',
+                url: apiUrl(url),
+                options
+            })
+        },
+        put(url, options) {
+            this.load({
+                method: 'put',
+                url: apiUrl(url),
+                options
+            })
+        },
+        patch(url, options) {
+            this.load('patch', {
+                method: 'patch',
+                url: apiUrl(url),
+                options
+            })
+        },
+        delete(url, options) {
+            this.load({
+                method: 'delete',
+                url: apiUrl(url),
+                options
+            })
+        },
+    })
+}
+
+/**
+ * Instancia de a API para buscador
+ */
+const useSearcher = (options = {
+    url: '',
+    filters: ''
+}) => reactive({
+    query: '',
+    errors: {},
+    hasErrors: false,
+    processing: false,
+    wasSuccessful: false,
+    async load({
+        url,
+        apiToken = token.value,
+        filters = {}
+    }) {
+        this.errors = {};
+        this.processing = true;
+        this.hasErrors = false;
+        this.wasSuccessful = false;
+
+        try {
+            if(options.hasOwnProperty('onStart')) {
+                options.onStart();
+            }
+
+            let { data } = await axios({
+                method: 'get',
+                url,
+                params: {
+                    query: this.query,
+                    ...filters
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${apiToken}`
+                }
+            });
+
+            if(data.status == 'success') {
+                this.wasSuccessful = true;
+
+                if(options.hasOwnProperty('onSuccess')) {
+                    options.onSuccess(data.data);
+                }
+            } else if(data.status == 'fail') {
+                if(options.hasOwnProperty('onFail')) {
+                    options.onFail(data.data);
+                }
+            }
+
+            if(options.hasOwnProperty('onFinish')) {
+                options.onFinish(data.data);
+            }
+        } catch (error) {
+            console.error(error);
+
+            this.hasErrors = true;
+
+            let { response } = error
+
+            // Código de sesión invalida
+            if(response.status === 401 && response.data.message == 'Unauthenticated.') {
+                Notify.error(lang('session.expired'));
+                logout();
+                return
+            }
+            
+            if(options.hasOwnProperty('onError')) {
+                options.onError(response);
+            }
+
+            if(response.data?.errors != null) {
+                this.errors = response.data.errors;
+                for(let e in this.errors) {
+                    Notify.error(this.errors[e])
+                }
+            }
+        }
+
+        this.processing = false;
+    },
+    pagination(url, filters = {}) {
+        this.load({
+            url,
+            filters
+        })
+    },
+    search(q, filters = {}) {
+        this.query = q
+        this.load({
+            url: apiUrl(options.url),
+            filters
+        })
+    },
+    refresh(filters = {}) {
+        this.load({
+            url: apiUrl(options.url),
+            filters
+        })
+    },
+})
+
+export {
+    api,
+    token,
+    apiBaseUrl,
+    apiUrl,
+    hasToken,
+    useForm,
+    useSearcher,
+    defineApiServer,
+    defineApiToken,
+    resetApiToken
+}
