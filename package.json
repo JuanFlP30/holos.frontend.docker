@@ -28,6 +28,7 @@
     "ziggy-js": "^2.4.1"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.20"
+    "autoprefixer": "^10.4.20",
+    "vite-plugin-html": "^3.2.2"
   }
 }

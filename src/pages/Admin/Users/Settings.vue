@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import { api } from '@Services/Api';
-import { viewTo, to } from './Module';
+import { viewTo, apiTo } from './Module';
 
 import IconButton      from '@Holos/Button/Icon.vue';
 import PageHeader      from '@Holos/PageHeader.vue';
