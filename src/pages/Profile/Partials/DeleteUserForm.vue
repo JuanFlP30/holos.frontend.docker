@@ -1,6 +1,7 @@
 <script setup>
 import { ref }         from 'vue';
-import { useForm }     from '@inertiajs/vue3';
+import { useForm } from '@Services/Api';
+import { logout } from '@Services/Page';
 
 import ActionSection   from '@Holos/ActionSection.vue';
 import DangerButton    from '@Holos/Button/Danger.vue';
@@ -22,9 +23,12 @@ const confirmUserDeletion = () => {
 };
 
 const deleteUser = () => {
-    form.delete(route('current-user.destroy'), {
+    form.delete(route('user.destroy'), {
         preserveScroll: true,
-        onSuccess: () => closeModal(),
+        onSuccess: () => {
+            closeModal();
+            logout();
+        },
         onError: () => passwordInput.value.focus(),
         onFinish: () => form.reset(),
     });

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm } from '@Services/Api';
 
 import ActionSection   from '@Holos/ActionSection.vue';
 import DialogModal     from '@Holos/DialogModal.vue';
@@ -9,7 +9,10 @@ import SecondaryButton from '@Holos/Button/Secondary.vue';
 import Input           from '@Holos/Form/Input.vue';
 
 defineProps({
-    sessions: Array,
+    sessions: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 const confirmingLogout = ref(false);
@@ -30,7 +33,7 @@ const logoutOtherBrowserSessions = () => {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
-            Notify.success(lang('account.sessions.done'));
+            Notify.success(Lang('account.sessions.done'));
         },
         onError: () => passwordInput.value.focus(),
         onFinish: () => form.reset(),

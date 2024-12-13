@@ -64,15 +64,17 @@ onMounted(() => {
             :title="autoTitle"
         />
         <textarea
-            :id="autoId"
-            class="input-primary"
-            :placeholder="placeholder"
             ref="input"
+            v-bind="$attrs"
+            class="input-primary"
+            :id="autoId"
+            :placeholder="placeholder"
             :required="required"
             :value="modelValue"
-            v-bind="$attrs"
             @input="$emit('update:modelValue', $event.target.value)"
         ></textarea>
-        <Error :onError="onError"/>
+        <Error 
+            :onError="onError"
+        />
     </div>
 </template>

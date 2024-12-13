@@ -1,14 +1,9 @@
 <script setup>
-import AppLayout   from '@Layouts/AppLayout.vue';
+import PageHeader from '@Holos/PageHeader.vue';
 
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ $t('dashboard') }}
-            </h2>
-        </template>
-    </AppLayout>
+    <PageHeader title="Dashboard" />
+    <p v-html="$t('welcome', { name: $page.user.name })"></p>
 </template>

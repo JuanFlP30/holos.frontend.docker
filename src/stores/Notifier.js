@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia'
-import { usePage } from '@inertiajs/vue3';
-import axios from 'axios';
-
-/** Definidores */
-const page = usePage();
+import { api } from '@Services/Api'
+import { page } from '@Services/Page'
 
 /** Propiedades */
 const hasNotifications = import.meta.env.VITE_REVERB_ACTIVE === 'true';
@@ -20,7 +17,7 @@ const useNotifier = defineStore('notifier', {
         // Iniciar instancia
         boot() {
             if(!this.isStarted && hasNotifications) {
-                this.user_id = page.props.auth.user.id;
+                this.user_id = page.user.id;
 
                 this.subscribeGLobalNotifications();
                 this.subscribeUserNotifications();
@@ -55,7 +52,6 @@ const useNotifier = defineStore('notifier', {
         subscribeUserNotifications() {
             Echo.private(`App.Models.User.${this.user_id}`)
                 .notification(x => {
-                    console.log(x)
                     Notify[x.typeNotification](x.description, x.title, x.timeout)
                     this.getUpdates()
                 })
@@ -64,22 +60,27 @@ const useNotifier = defineStore('notifier', {
             Echo.leave(`App.Models.User.${this.user_id}`);
         },
         readNotification(id) {
-            axios.post(route('system.notifications.read'), {
+            api.post(route('system.notifications.read'), {
                 id,
-            }).then(res => {
-                Notify.success(lang('notifications.readed'))
-                this.getUpdates();
-            }).catch(res => {
-                Notify.error(lang('error'))
-                this.getUpdates();
+                onSuccess: res => {
+                    Notify.success(Lang('notifications.readed'))
+                    this.getUpdates();
+                },
+                onFailed: res => {
+                    Notify.error(Lang('error'))
+                    this.getUpdates();
+                }
             })
         },
         getUpdates() {
-            axios.get(route('system.notifications.all-unread')).then(res => {
-                this.counter = res.data.total;
-                this.notifications = res.data.notifications;
-            }).catch(res => {
-                console.log('error', res)
+            api.get(route('system.notifications.all-unread'), {
+                onSuccess: res => {
+                    this.counter = res.data.total;
+                    this.notifications = res.data.notifications;
+                },
+                onFailed: res => {
+                    console.log('error', res)
+                }
             })
         }
     }

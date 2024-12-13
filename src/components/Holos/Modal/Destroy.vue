@@ -13,7 +13,7 @@ defineEmits([
 const props = defineProps({
     show: Boolean,
     title: {
-        default: lang('delete.title'),
+        default: Lang('delete.title'),
         type: String
     }
 });
@@ -42,12 +42,12 @@ const props = defineProps({
             <div class="space-x-2">
                 <slot name="buttons" />
                 <DangerButton
-                    @click="$emit('destroy')"
                     v-text="$t('delete.title')"
+                    @click="$emit('destroy')"
                 />
                 <SecondaryButton
-                    @click="$emit('close')"
                     v-text="$t('cancel')"
+                    @click="$emit('close')"
                 />
             </div>
         </template>

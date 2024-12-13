@@ -1,5 +1,6 @@
 <script setup>
-import { ref, reactive, nextTick } from 'vue';
+import { ref, nextTick } from 'vue';
+import { api, useForm } from '@Services/Api';
 
 import Input           from './Form/Input.vue';
 import DialogModal     from './DialogModal.vue';
@@ -11,62 +12,45 @@ const emit = defineEmits(['confirmed']);
 defineProps({
     title: {
         type: String,
-        default: lang('confirm'),
+        default: Lang('confirm'),
     },
     content: {
         type: String,
-        default: lang('account.password.verify'),
+        default: Lang('account.password.verify'),
     },
     button: {
         type: String,
-        default: lang('confirm'),
+        default: Lang('confirm'),
     },
 });
 
 const confirmingPassword = ref(false);
 
-const form = reactive({
+const form = useForm({
     password: '',
-    error: '',
-    processing: false,
 });
 
 const passwordInput = ref(null);
 
 const startConfirmingPassword = () => {
-    axios.get(route('password.confirmation')).then(response => {
-        if (response.data.confirmed) {
-            emit('confirmed');
-        } else {
-            confirmingPassword.value = true;
-
-            setTimeout(() => passwordInput.value.focus(), 250);
-        }
-    });
+    confirmingPassword.value = true;
 };
 
 const confirmPassword = () => {
-    form.processing = true;
-
-    axios.post(route('password.confirm'), {
-        password: form.password,
-    }).then(() => {
-        form.processing = false;
-
-        closeModal();
-        nextTick().then(() => emit('confirmed'));
-
-    }).catch(error => {
-        form.processing = false;
-        form.error = error.response.data.errors.password[0];
-        passwordInput.value.focus();
+    form.post(route('user.password-confirm'), {
+        onSuccess: () => {
+            closeModal();
+            nextTick(() => emit('confirmed'));
+        },
+        onFail: () => {
+            passwordInput.value.focus();
+        }
     });
 };
 
 const closeModal = () => {
     confirmingPassword.value = false;
     form.password = '';
-    form.error = '';
 };
 </script>
 
@@ -84,12 +68,14 @@ const closeModal = () => {
             <template #content>
                 {{ content }}
 
+                {{ form }}
+
                 <div class="mt-4">
                     <Input
                         v-model="form.password"
                         id="password"
                         type="password"
-                        :onError="form.error"
+                        :onError="form.errors.password"
                     />
                 </div>
             </template>

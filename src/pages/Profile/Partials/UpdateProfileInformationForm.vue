@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue';
-import { Link, router, useForm } from '@inertiajs/vue3';
-
+import { onMounted, ref } from 'vue';
+import { api, useForm } from '@Services/Api';
+import { reloadUser } from '@Services/Page';
 import FormSection     from '@Holos/FormSection.vue';
 import Input           from '@Holos/Form/Input.vue';
 import Error           from '@Holos/Form/Elements/Error.vue';
@@ -9,42 +9,34 @@ import Label           from '@Holos/Form/Elements/Label.vue';
 import PrimaryButton   from '@Holos/Button/Primary.vue';
 import SecondaryButton from '@Holos/Button/Secondary.vue';
 
-const props = defineProps({
-    user: Object,
-});
-
+/** Propiedades */
 const form = useForm({
     _method: 'PUT',
-    name: props.user.name,
-    paternal: props.user.paternal,
-    maternal: props.user.maternal,
-    phone: props.user.phone,
-    name: props.user.name,
-    email: props.user.email,
+    name: '',
+    paternal: '',
+    maternal: '',
+    phone: '',
+    email: '',
     photo: null,
 });
 
-const verificationLinkSent = ref(null);
+const photoInput   = ref(null);
 const photoPreview = ref(null);
-const photoInput = ref(null);
 
+/** Métodos */
 const updateProfileInformation = () => {
     if (photoInput.value) {
         form.photo = photoInput.value.files[0];
     }
 
-    form.post(route('user-profile-information.update'), {
-        errorBag: 'updateProfileInformation',
-        preserveScroll: true,
-        onSuccess: () => {
+   form.post(route('user.update'), {
+        onFinish: () => {
+            reloadUser();
             clearPhotoFileInput();
-            Notify.success(lang('account.profile.updated'));
-        },
+        }
     });
-};
 
-const sendEmailVerification = () => {
-    verificationLinkSent.value = true;
+    Notify.success(Lang('account.profile.updated'));
 };
 
 const selectNewPhoto = () => {
@@ -66,12 +58,12 @@ const updatePhotoPreview = () => {
 };
 
 const deletePhoto = () => {
-    router.delete(route('current-user-photo.destroy'), {
-        preserveScroll: true,
-        onSuccess: () => {
+    api.delete(route('user.photo'), {
+        onFinish: () => {
             photoPreview.value = null;
+            reloadUser();
             clearPhotoFileInput();
-        },
+        }
     });
 };
 
@@ -80,6 +72,14 @@ const clearPhotoFileInput = () => {
         photoInput.value.value = null;
     }
 };
+
+onMounted(() => {
+    api.get(route('user.show'), {
+        onSuccess: (r) => {
+            form.fill(r.user);
+        }
+    });
+});
 </script>
 
 <template>
@@ -94,7 +94,7 @@ const clearPhotoFileInput = () => {
 
         <template #form>
             <!-- Profile Photo -->
-            <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-4">
+            <div v-if="$page.user" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
                 <input
                     id="photo"
@@ -111,7 +111,7 @@ const clearPhotoFileInput = () => {
 
                 <!-- Current Profile Photo -->
                 <div v-show="! photoPreview" class="mt-2">
-                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-20 w-20 object-cover">
+                    <img :src="$page.user.profile_photo_url" :alt="$page.user.name" class="rounded-full h-20 w-20 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->
@@ -127,7 +127,7 @@ const clearPhotoFileInput = () => {
                 </SecondaryButton>
 
                 <SecondaryButton
-                    v-if="user.profile_photo_path"
+                    v-if="$page.user.profile_photo_path"
                     type="button"
                     class="mt-2"
                     @click.prevent="deletePhoto"
@@ -180,26 +180,6 @@ const clearPhotoFileInput = () => {
                     :onError="form.errors.email"
                     required
                 />
-
-                <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at === null">
-                    <p class="text-sm mt-2">
-                        {{ $t('account.email.unverify') }}
-
-                        <Link
-                            :href="route('verification.send')"
-                            method="post"
-                            as="button"
-                            class="underline text-sm text-page-t/50 hover:text-page-t dark:text-page-dt/50 dark:hover:text-page-dt rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            @click.prevent="sendEmailVerification"
-                        >
-                            {{ $t('account.email.sendVerification') }}
-                        </Link>
-                    </p>
-
-                    <div v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-green-600">
-                        {{ $t('account.email.notifySendVerification') }}
-                    </div>
-                </div>
             </div>
         </template>
 

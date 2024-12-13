@@ -1,10 +1,10 @@
 <script setup>
 import { onMounted } from 'vue'
-import { Head } from '@inertiajs/vue3';
+import { APP_VERSION, APP_COPYRIGHT } from '@/config.js'
 import useDarkMode from '@Stores/DarkMode'
 
-import IconButton from '@Holos/Button/Icon.vue'
-import Logo       from '@Holos/Logo.vue';
+import IconButton from '../Button/Icon.vue'
+import Logo       from '../Logo.vue';
 
 /** Definidores */
 const darkMode = useDarkMode()
@@ -14,16 +14,13 @@ defineProps({
     title: String
 })
 
-/**
- * Ciclos
- */
+/** Ciclos */
 onMounted(() => {
     darkMode.boot()
 });
 </script>
 
 <template>
-  <Head :title="title" />
   <div class="min-h-screen flex">
     <div
       class="relative flex w-full lg:w-full justify-around items-start with-transition"
@@ -32,13 +29,13 @@ onMounted(() => {
       <header class="absolute top-0 flex w-full h-8 px-1 items-center justify-end text-white">
         <div>
           <IconButton v-if="darkMode.isLight"
-            :title="$t('app.theme.light')"
             icon="light_mode"
+            :title="$t('app.theme.light')"
             @click="darkMode.applyDark()"
           />
           <IconButton v-else
-            :title="$t('app.theme.dark')"
             icon="dark_mode"
+            :title="$t('app.theme.dark')"
             @click="darkMode.applyLight()"
           />
         </div>
@@ -50,19 +47,19 @@ onMounted(() => {
             />
         </div>
 
-        <main  class="bg-white/10 w-full mx-auto sm:max-w-2xl backdrop-blur-sm text-white px-4 py-8 rounded-md">
+        <main class="bg-white/10 w-full mx-auto sm:max-w-2xl backdrop-blur-sm text-white px-4 py-8 rounded-md">
           <slot />
         </main>
 
         <footer class="absolute bottom-0 flex w-full h-8 px-4 items-center justify-between bg-primary dark:bg-primary-d backdrop-blur-sm text-white transition-colors duration-global">
           <div>
               <span>
-                  &copy;2024 {{ $page.props.copyright }}
+                  &copy;{{ APP_COPYRIGHT }}
               </span>
           </div>
           <div>
               <span>
-                  Versión {{ $page.version }}
+                  Versión {{ APP_VERSION }}
               </span>
           </div>
         </footer>

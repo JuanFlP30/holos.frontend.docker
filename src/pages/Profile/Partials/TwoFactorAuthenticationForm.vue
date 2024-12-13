@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
-import { router, useForm, usePage } from '@inertiajs/vue3';
+import { ref, computed, watch, onMounted } from 'vue';
+import { api, useForm } from '@Services/Api';
 
 import ActionSection    from '@Holos/ActionSection.vue';
 import ConfirmsPassword from '@Holos/ConfirmsPassword.vue';
@@ -10,37 +10,40 @@ import SecondaryButton  from '@Holos/Button/Secondary.vue';
 import Input            from '@Holos/Form/Input.vue';
 
 const props = defineProps({
-    requiresConfirmation: Boolean,
+    requiresConfirmation: {
+        type: Boolean,
+        default: false,
+    },
 });
 
-const page = usePage();
 const enabling = ref(false);
 const confirming = ref(false);
 const disabling = ref(false);
 const qrCode = ref(null);
 const setupKey = ref(null);
 const recoveryCodes = ref([]);
+const user = ref(null);
 
 const confirmationForm = useForm({
     code: '',
 });
 
 const twoFactorEnabled = computed(
-    () => ! enabling.value && page.props.auth.user?.two_factor_enabled,
+    () => ! enabling.value && user.value?.two_factor_secret,
 );
 
 watch(twoFactorEnabled, () => {
     if (! twoFactorEnabled.value) {
         confirmationForm.reset();
-        confirmationForm.clearErrors();
     }
 });
 
 const enableTwoFactorAuthentication = () => {
     enabling.value = true;
 
-    router.post(route('two-factor.enable'), {}, {
-        preserveScroll: true,
+    console.log('enabling ...');
+
+    api.post(route('two-factor.enable'), {
         onSuccess: () => Promise.all([
             showQrCode(),
             showSetupKey(),
@@ -93,7 +96,7 @@ const regenerateRecoveryCodes = () => {
 const disableTwoFactorAuthentication = () => {
     disabling.value = true;
 
-    router.delete(route('two-factor.disable'), {
+    api.delete(route('two-factor.disable'), {
         preserveScroll: true,
         onSuccess: () => {
             disabling.value = false;
@@ -101,6 +104,14 @@ const disableTwoFactorAuthentication = () => {
         },
     });
 };
+
+onMounted(() => {
+    api.get(route('user.show'), {
+        onSuccess: (r) => {
+            user.value = r.user;
+        }
+    });
+});
 </script>
 
 <template>

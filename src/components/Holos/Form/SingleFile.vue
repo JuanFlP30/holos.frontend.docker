@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 
 import GoogleIcon      from '@Shared/GoogleIcon.vue'
 import Label           from './Elements/Label.vue';
@@ -12,13 +12,13 @@ const emit = defineEmits([
 
 /** Propiedades */
 const props = defineProps({
-    modelValue:Object|String,
-    class: String,
-    required: Boolean,
     accept: {
         default: 'image/png, image/jpeg',
         type: String
     },
+    class: String,
+    modelValue:Object|String,
+    required: Boolean,
     title: {
         default: 'photo.title',
         type: String
@@ -78,9 +78,9 @@ const updatePhotoPreview = () => {
         <div v-show="photoPreview" class="mt-2">
             <div class="flex overflow-hidden max-w-full">
                 <GoogleIcon 
-                    :title="$t('crud.edit')"
                     class="text-gray-400" 
                     name="picture_as_pdf"
+                    :title="$t('crud.edit')"
                     outline 
                 />
                 <div class="ml-2 font-bold text-gray-400 flex-1">
@@ -94,9 +94,9 @@ const updatePhotoPreview = () => {
             </div>
         </div>
         <SecondaryButton
+            v-text="$t('files.select')"
             class="mt-2 mr-2"
             type="button"
-            v-text="$t('files.select')"
             @click.prevent="selectNewPhoto"
         />
     </div>

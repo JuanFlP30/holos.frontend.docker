@@ -1,9 +1,10 @@
 <script setup>
 import { computed } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { RouterLink } from 'vue-router';
 
 import GoogleIcon from '@Shared/GoogleIcon.vue';
 
+/** Propiedades */
 const props = defineProps({
     icon: String,
     counter: Number,
@@ -15,6 +16,7 @@ const props = defineProps({
     title: String,
 });
 
+/** Propiedades computadas */
 const classes = computed(() => {
     let status = route().current(props.to, props.toParam)
         ? 'bg-secondary bg-opacity-30'
@@ -22,15 +24,18 @@ const classes = computed(() => {
 
     return ` text-primary flex items-center justify-between py-1.5 px-4 rounded cursor-pointer ${status} transition`
 });
-
 </script>
 
 <template>
     <li>
-        <Link v-if="to" :href="route(to, toParam)" :class="classes">
+        <RouterLink 
+            v-if="to"
+            :class="classes"
+            :to="to"
+        >
             <span class="flex items-center space-x-2">
                 <GoogleIcon 
-                class="text-lg"
+                    class="text-lg"
                     :name="icon"
                     outline
                 />
@@ -41,6 +46,6 @@ const classes = computed(() => {
             <span v-if="counter > 0" class="bg-primary text-gray-100 font-bold px-2 py-0.5 text-xs rounded-lg">
                 {{ counter }}
             </span>
-        </Link>
+        </RouterLink>
     </li>
 </template>

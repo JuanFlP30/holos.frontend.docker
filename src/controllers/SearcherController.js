@@ -1,15 +1,18 @@
 import { ref } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { api } from '@Services/Api.js';
 
 /**
  * Controlador simple de las bandejas
  */
 class SearcherController
 {
+    route = '';
+    params = {};
     query = ref('');
-    
-    constructor(route, params) {
+
+    constructor({ route, model, params = {} }) {
         this.route = route;
+        this.model = ref(model);
         this.params = params;
     }
 
@@ -18,44 +21,64 @@ class SearcherController
      */
     search = (q = '', params) => {
         this.query.value = q;
-        router.get(this._getRoute(), {
-            q,
-            ...params
-        }, {preserveState: true});
+        api.get(this._getRoute(), {
+            params: {
+                q: this.query.value,
+                ...params
+            },
+            onSuccess: (r) => {
+                this.model.value = r.users;
+            }
+        });
     };
 
     /**
      * Paginación simple
      */
     withPagination = (page, params) =>  {
-        router.get(this._getRoute(), {
-            page,
-            ...params
-        }, {preserveState: true});
+        api.get(this._getRoute(), {
+            params: {
+                page,
+                ...params
+            },
+            onSuccess: (r) => {
+                this.model.value = r.users;
+            }
+        });
     }
 
     /**
-     * Búsqueda con paginación en tablas
+     * Búsqueda con Paginación en tablas
      */
     searchWithPagination = (page, params) =>  {
-        router.get(page, {
-            q: this.query.value,
-            ...params
-        }, {preserveState: true});
+        api.get(page, {
+            params: {
+                q: this.query.value,
+                ...params
+            },
+            onSuccess: (r) => {
+                this.model.value = r.users;
+            }
+        });
     }
 
     /**
-     * Búsqueda con páginación en bandejas
+     * Búsqueda con Paginación en bandejas
      */
     searchWithInboxPagination = (page, params) =>  {
-        router.get(page, {
-            q: this.query.value,
-            ...params
-        }, {preserveState: true});
+        api.get(page, {
+            params: {
+                q: this.query.value,
+                ...params
+            },
+            onSuccess: (r) => {
+                this.model.value = r.users;
+            }
+        });
     }
 
     /**
-     * Obtiene la ruta segun los parametros
+     * Obtiene la ruta según los parámetros
      */
     _getRoute = () => {
         return (this.params)

@@ -68,9 +68,9 @@ function submit() {
             <slot />
             <div class="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 flex flex-col items-center justify-end space-y-4 mt-4">
                 <PrimaryButton
-                    :class="{ 'opacity-25': form.processing }" 
-                    :disabled="form.processing"
                     v-text="$t(action)"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
                 />
             </div>
         </form>

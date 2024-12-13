@@ -1,9 +1,18 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { useRouter } from 'vue-router';
+
+/** Definidores */
+const router = useRouter();
+
+/** Métodos */
+const home = () => router.push(view({ name: 'index' }));
 
 </script>
 <template>
-    <Link :href="'/'" class="flex w-full justify-center items-center space-x-2">
+    <div
+        class="flex w-full justify-center items-center space-x-2 cursor-pointer"
+        @click="home"
+    >
         <img src="/images/logo.png" class="h-20" />
-    </Link>
+    </div>
 </template>

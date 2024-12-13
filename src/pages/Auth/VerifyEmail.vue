@@ -5,17 +5,21 @@ import { Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@Holos/Button/Primary.vue';
 import Layout        from '@Holos/Layout/AuthLayout.vue';
 
+/** Propiedades */
 const props = defineProps({
     status: String,
 });
 
 const form = useForm({});
 
+/** Propiedades computadas */
+const verificationLinkSent = computed(() => props.status === 'verification-link-sent');
+
+/** Métodos */
 const submit = () => {
     form.post(route('verification.send'));
 };
 
-const verificationLinkSent = computed(() => props.status === 'verification-link-sent');
 </script>
 
 <template>

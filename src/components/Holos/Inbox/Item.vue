@@ -1,18 +1,17 @@
 <script setup>
 import { ref, computed } from 'vue';
 
-// Propiedades
+/** Propiedades */
 const props = defineProps({
     inboxCtl: Object, //Controller
     item: Object,
     selecteds: Object
 })
 
-// Variables generales
 const check        = ref(false);
 const messageHover = ref(false);
 
-// Métodos
+/** Métodos */  
 const select = () => (!check.value)
     ? props.inboxCtl.onSelectOne(props.item)
     : props.inboxCtl.onUnselectOne(props.item);
@@ -35,9 +34,9 @@ const selected = computed(() => {
     >
         <div class="pr-2">
             <input
-                type="checkbox"
-                class="focus:ring-0 border-2 border-gray-400"
                 v-model="check"
+                class="focus:ring-0 border-2 border-gray-400"
+                type="checkbox"
                 @click="select"
             >
         </div>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Link  } from '@inertiajs/vue3';
-import { transl, can, goTo } from './Module'
+import { transl, can, viewTo } from './Module'
 
 import ModalController    from '@Controllers/ModalController.js';
 import SearcherController from '@Controllers/SearcherController.js';
@@ -18,7 +18,7 @@ import GoogleIcon from '@/Components/Shared/GoogleIcon.vue';
 
 /** Definidores */
 const inboxCtl = new InboxController();
-const searcherCtl = new SearcherController(goTo('index'));
+const searcherCtl = new SearcherController(viewTo('index'));
 
 /** Eventos */
 const props = defineProps({

@@ -1,22 +1,31 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { RouterLink } from 'vue-router';
 
 import IconButton from '@Holos/Button/Icon.vue'
+
+defineProps({
+    title: String
+});
 
 </script>
 
 <template>
-   <div class="flex w-full justify-end py-[0.31rem] border-y-2 border-page-t dark:border-page-dt">
-        <div id="buttons" class="flex items-center space-x-2 text-sm py-0.5">
-            <slot />
-            <Link :href="route('dashboard.index')">
+    <div v-if="title" class="flex w-full justify-center">
+        <h2
+            class="font-bold text-xl uppercase"
+            v-text="title"
+        />
+    </div>
+    <div class="flex w-full justify-end py-[0.31rem] mb-2 border-y-2 border-page-t dark:border-page-dt">
+        <div id="buttons" class="flex items-center space-x-2 text-sm">
+            <RouterLink :to="$view({ name: 'index' })">
                 <IconButton
                     :title="$t('home')"
                     class="text-white"
                     icon="home"
                     filled
                 />
-            </Link>
+            </RouterLink>
         </div>
     </div>
 </template>

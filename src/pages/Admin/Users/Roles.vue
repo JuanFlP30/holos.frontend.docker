@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
-import { goTo, transl } from './Module';
+import { onMounted, ref } from 'vue';
+import { api, useForm } from '@Services/Api';
+import { transl } from './Module';
 
 import PrimaryButton  from '@Holos/Button/Primary.vue';
 import FormSection    from '@Holos/FormSection.vue';
@@ -9,25 +9,38 @@ import Selectable     from '@Holos/Form/Selectable.vue';
 
 /** Propiedades */
 const props = defineProps({
-    role: Object,
-    roles: Object,
-    user: Object
+    userId: String
 });
 
 const form = useForm({
-    roles: props.role
+    roles: []
 });
+
+const roles = ref([]);
 
 /** Métodos */
 function updateProfileInformation() {
     form.transform(data => ({
         roles: data.roles.map(role => role.id)
-    })).post(route(goTo('sync-roles'), {user:props.user.id}), {
-        preserveScroll: true,
-        onSuccess: () =>  Notify.success(lang('roles.edit.onSuccess')),
-        onError: () => Notify.error(lang('roles.edit.onError'))
+    })).put(apiTo('roles', { user: props.userId }), {
+        onSuccess: () => Notify.success(Lang('roles.edit.onSuccess')),
+        onError: () => Notify.error(Lang('roles.edit.onError'))
     });
 };
+
+/** Ciclos */
+onMounted(() => {
+    api.get(route('system.roles'), {
+        onSuccess: (r) => roles.value = r.roles
+    });
+
+    api.get(apiTo('roles', { user: props.userId }), {
+        onSuccess: (r) => {
+            console.log(r);
+            form.roles = r.roles
+        }
+    });
+});
 </script>
 
 <template>
@@ -43,7 +56,7 @@ function updateProfileInformation() {
                 <Selectable
                     v-model="form.roles"
                     label="description"
-                    title="Roles"
+                    title="roles.title"
                     :options="roles"
                     multiple
                 />

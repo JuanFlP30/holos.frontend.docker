@@ -9,8 +9,8 @@ defineProps({
 
 <template>
     <label v-if="title"
-        :for="id"   
         class="block text-sm font-medium text-page-t dark:text-page-dt"
+        :for="id"
     >
         {{ $t(title) }}
         <span v-if="required"

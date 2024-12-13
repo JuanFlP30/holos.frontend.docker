@@ -14,7 +14,7 @@ const props = defineProps({
     editable: Boolean,
     show: Boolean,
     title: {
-        default: lang('details'),
+        default: Lang('details'),
         type: String
     }
 });
@@ -38,14 +38,13 @@ const props = defineProps({
         <template #footer>
             <div class="space-x-2">
                 <slot name="buttons" />
-                <PrimaryButton 
-                    v-if="editable"
-                    @click="$emit('edit')"
+                <PrimaryButton v-if="editable"
                     v-text="$t('update')"
+                    @click="$emit('edit')"
                 />
                 <SecondaryButton
-                    @click="$emit('close')" 
                     v-text="$t('close')"
+                    @click="$emit('close')" 
                 />
             </div>
         </template>

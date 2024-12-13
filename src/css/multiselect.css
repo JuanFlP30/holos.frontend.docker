@@ -1,0 +1,57 @@
+.multiselect {
+    @apply dark:text-white min-h-8;
+  }
+
+.multiselect__input,
+.multiselect__single  {
+    @apply bg-white dark:bg-primary dark:text-white
+}
+
+.multiselect__input::placeholder {
+  @apply text-gray-300;
+}
+
+.multiselect__tag {
+  @apply dark:bg-green-800;
+}
+
+.multiselect__tag-icon::after {
+  @apply text-gray-300;
+}
+
+.multiselect__tag-icon:focus::after,
+.multiselect__tag-icon:hover::after {
+  @apply text-white;
+}
+
+.multiselect__tags {
+  @apply dark:bg-primary min-h-8 border-0 border-b border-b-slate-400 pt-1 with-color-transition;
+}
+
+.multiselect__option--highlight {
+  @apply dark:bg-green-900 dark:text-white outline-0;
+}
+
+.multiselect__option--highlight::after {
+  @apply dark:bg-green-800 dark:text-white;
+}
+
+.multiselect__option--selected.multiselect__option--highlight {
+    @apply bg-red-500 dark:bg-red-600 text-white;
+  }
+
+  .multiselect__option--selected.multiselect__option--highlight::after {
+    @apply bg-red-400 dark:bg-red-500 text-white;
+  }
+
+.multiselect__content-wrapper {
+    @apply bg-gray-100 dark:bg-primary;
+  }
+
+  
+  .multiselect--disabled,
+  .multiselect--disabled .multiselect__select,
+  .multiselect--disabled .multiselect__current,
+  .multiselect__option--disabled.multiselect__option--highlight{
+    background: none;
+  }

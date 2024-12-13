@@ -1,7 +1,8 @@
 <script setup>
-    defineProps({
-        name: String
-    });
+/** Propiedades */
+const props = defineProps({
+    name: String
+});
 </script>
 
 <template>

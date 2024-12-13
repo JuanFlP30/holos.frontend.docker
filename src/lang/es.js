@@ -300,6 +300,9 @@ export default {
     search:'Buscar',
     selected: 'Seleccionado',
     select: 'Seleccionar',
+    session: {
+        closed: 'Sesión cerrada',
+    },
     setting: 'Configuración',
     settings: {
         assistances: {
@@ -393,6 +396,7 @@ export default {
         title:'Usuarios',
     },
     version:'Versión',
+    welcome: '<b>Bienvenido</b> {name}.',
     workstation: 'Puesto de trabajo',
     workstations: {
         create: {

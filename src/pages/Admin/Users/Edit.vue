@@ -1,52 +1,58 @@
 <script setup>
-import { Link, useForm } from '@inertiajs/vue3';
-import { goTo, transl } from './Module';
+import { onMounted } from 'vue';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
+import { api, useForm } from '@Services/Api';
+import { viewTo, apiTo } from './Module';
 
 import IconButton      from '@Holos/Button/Icon.vue'
 import PageHeader      from '@Holos/PageHeader.vue';
-import Layout          from '@/Layouts/AppLayout.vue';
 import Form            from './Form.vue'
 
-/** Propiedades */
-const props = defineProps({
-    model: Object,
-});
+/** Definiciones */
+const vroute = useRoute();
+const router = useRouter();
 
 /** Propiedades */
 const form = useForm({
-    name: props.model.name,
-    paternal: props.model.paternal,
-    maternal: props.model.maternal,
-    email: props.model.email,
-    phone: props.model.phone,
+    id: null,
+    name: '',
+    paternal: '',
+    maternal: '',
+    email: '',
+    phone: '',
 });
 
 /** Métodos */
 function submit() {
-    form.put(route(goTo('update'), {user:props.model.id}), {
-        onSuccess: () => Notify.success(lang('register.edit.onSuccess')),
-        onError:   () => Notify.error(lang('register.edit.onError')),
-        onFinish:  () => form.reset('password')
+    form.put(apiTo('update', { user: form.id }), {
+        onSuccess: () => {
+            Notify.success(Lang('register.edit.onSuccess'))
+            router.push(viewTo({ name: 'index' }));
+        },
     })
 }
+
+onMounted(() => {
+    api.get(apiTo('show', { user: vroute.params.id }), {
+        onSuccess: (r) => form.fill(r.user)
+    });
+})
 </script>
 
 <template>
-  <Layout :title="transl('edit.title')">
     <PageHeader>
-        <Link :href="route(goTo('index'))">
+        <RouterLink :to="viewTo({ name: 'index' })">
             <IconButton
                 class="text-white"
                 icon="arrow_back"
                 :title="$t('return')"
                 filled
             />
-        </Link>
+        </RouterLink>
     </PageHeader>
     <Form
         action="update"
         :form="form"
         @submit="submit"
     />
-  </Layout>
 </template>

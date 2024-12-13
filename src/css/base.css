@@ -1,3 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import './icons.css';
+@import './notifications.css';
+@import "vue-multiselect/dist/vue-multiselect.css";
+@import './multiselect.css';
+@import './app.css';

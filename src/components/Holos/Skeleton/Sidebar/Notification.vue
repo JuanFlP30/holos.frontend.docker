@@ -6,10 +6,8 @@ import useNotifier from '@Stores/Notifier'
 import GoogleIcon from '@Shared/GoogleIcon.vue';
 import Item       from './Notification/Item.vue';
 
-/**
- * Definidores
- */
-const notifier = useNotifier();
+/** Definidores */
+const notifier            = useNotifier();
 const notificationSidebar = useNotificationSidebar()
 
 /** Eventos */
@@ -20,9 +18,7 @@ const props = defineProps({
   sidebar: Boolean
 });
 
-/**
- * Ciclos
- */
+/** Ciclos */
 onMounted(() => {
   notifier.boot();
 });

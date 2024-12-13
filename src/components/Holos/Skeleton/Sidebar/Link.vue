@@ -1,12 +1,13 @@
 <script setup>
 import { computed } from 'vue';
-import { Link } from '@inertiajs/vue3';
-import useLeftSidebar from '@/Stores/LeftSidebar';
+import { RouterLink, useRoute } from 'vue-router';
 
-import GoogleIcon from '@/Components/Shared/GoogleIcon.vue';
+import useLeftSidebar from '@Stores/LeftSidebar';
+import GoogleIcon     from '@Shared/GoogleIcon.vue';
 
 /** Definidores */
 const leftSidebar = useLeftSidebar();
+const vroute      = useRoute();
 
 /** Propiedades */
 const props = defineProps({
@@ -16,7 +17,7 @@ const props = defineProps({
 });
 
 const classes = computed(() => {
-    let status = route().current(props.to)
+    let status = props.to === vroute.name
         ? 'bg-secondary/30 dark:bg-secondary-d/30 border-secondary dark:border-secondary-d'
         : 'border-transparent';
 
@@ -32,8 +33,11 @@ const closeSidebar = () => {
 
 <template>
     <li @click="closeSidebar()">
-        <Link :href="route(to)" :class="classes">
-            <span 
+        <RouterLink
+            :class="classes"
+            :to="$view({name:to})"
+        >
+            <span
                 v-if="icon"
                 class="inline-flex justify-center items-center ml-4 mr-2"
             >
@@ -45,11 +49,10 @@ const closeSidebar = () => {
             </span>
             <span 
                 v-if="name"
+                v-text="$t(name)"
                 class="text-sm tracking-wide truncate"
-            >
-                {{$t(name)}}
-            </span>
+            />
             <slot />
-        </Link>
+        </RouterLink>
     </li>
 </template>

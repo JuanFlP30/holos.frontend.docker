@@ -20,7 +20,7 @@ const props = defineProps({
     class: String,
     id: String,
     modelValue: Number | String,
-    onError: String,
+    onError: String | Array,
     placeholder: String,
     required: Boolean,
     title: String,
@@ -31,11 +31,6 @@ const props = defineProps({
 });
 
 const input = ref(null);
-
-/** Exposiciones */
-defineExpose({
-    focus: () => input.value.focus()
-});
 
 /** Propiedades calculadas */
 const autoId = computed(() => {
@@ -50,6 +45,11 @@ const autoTitle = computed(() => {
     }
 
     return props.id;
+});
+
+/** Exposiciones */
+defineExpose({
+    focus: () => input.value.focus()
 });
 
 /** Ciclos */
@@ -68,14 +68,14 @@ onMounted(() => {
             :title="autoTitle"
         />
         <input
-            :id="autoId"
-            class="input-primary"
-            :placeholder="placeholder"
+            v-bind="$attrs"
             ref="input"
+            class="input-primary"
+            :id="autoId"
+            :placeholder="placeholder"
             :required="required"
             :type="type"
             :value="modelValue"
-            v-bind="$attrs"
             @input="$emit('update:modelValue', $event.target.value)"
         >
         <Error

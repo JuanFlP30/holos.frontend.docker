@@ -1,9 +1,9 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { RouterLink } from 'vue-router'
 
 defineProps({
     as: String,
-    href: String
+    to: String
 });
 
 const style = 'block px-4 py-2 text-sm leading-5 hover:bg-secondary/80 dark:hover:bg-secondary-d/80 focus:outline-none focus:bg-gray-100 transition';
@@ -28,12 +28,12 @@ const style = 'block px-4 py-2 text-sm leading-5 hover:bg-secondary/80 dark:hove
             <slot />
         </a>
 
-        <Link 
+        <RouterLink 
             v-else
-            :href="href"
+            :to="$view({ name: to })"
             :class="style"
         >
             <slot />
-        </Link>
+        </RouterLink>
     </div>
 </template>

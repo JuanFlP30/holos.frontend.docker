@@ -1,17 +1,22 @@
 <script setup>
+import { APP_VERSION, APP_COPYRIGHT } from '@/config.js'
 import useLeftSidebar from '@Stores/LeftSidebar'
 
 import Logo from '@Holos/Logo.vue';
 
+/** Definidores */
+const leftSidebar = useLeftSidebar()
+
+/** Eventos  */
 const emit = defineEmits(['open']);
 
+/** Propiedades */
 const props = defineProps({
   sidebar: Boolean
 });
 
-const leftSidebar = useLeftSidebar()
-
 const year = (new Date).getFullYear();
+
 </script>
 
 <template>
@@ -37,10 +42,10 @@ const year = (new Date).getFullYear();
           </div>
           <div class="mb-4 px-5 space-y-1">
             <p class="block text-center text-xs">
-              &copy {{year}} {{$page.props.copyright}}
+              &copy {{year}} {{ APP_COPYRIGHT }}
             </p>
             <p class="text-center text-xs text-yellow-500 cursor-pointer">
-                V{{$page.version}}
+                V{{ APP_VERSION }}
             </p>
           </div>
         </div>

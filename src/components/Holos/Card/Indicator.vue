@@ -1,21 +1,21 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { RouterLink } from 'vue-router';
 
 import GoogleIcon from '@Shared/GoogleIcon.vue';
 
 /** Propiedades */
 defineProps({
-    to: String,
+    icon: String,
     title: String,
-    value: Number,
-    icon: String
+    to: String,
+    value: Number
 });
 </script>
 
 <template>
-    <Link
+    <RouterLink
         class="relative flex-1 flex flex-col gap-2 p-4 rounded -md bg-gray-200 dark:bg-transparent dark:border"
-        :href="to"
+        :to="to"
     >
         <label class="text-base font-semibold tracking-wider">
             {{ title }}
@@ -30,5 +30,5 @@ defineProps({
               filled
             />
         </div>
-    </Link>
+    </RouterLink>
 </template>

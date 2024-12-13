@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.app-bg-light {
+  @apply bg-primary
+}
+
+.app-bg-dark {
+  @apply bg-primary-d
+}
+
+.btn {
+  @apply inline-flex justify-center items-center w-fit px-1.5 py-1.5 rounded-md font-medium border border-transparent text-xs text-white uppercase tracking-widest hover:opacity-90 focus:outline-none active:saturate-150 disabled:opacity-25 transition;
+}
+
+.btn-primary {
+  @apply bg-primary dark:bg-primary-d text-primary-t dark:text-primary-dt hover:bg-secondary dark:hover:bg-secondary-d hover:text-secondary-t dark:hover:text-secondary-dt;
+}
+
+.btn-secondary {
+  @apply bg-secondary dark:bg-secondary-d text-secondary-t dark:text-secondary-dt hover:bg-secondary dark:hover:bg-secondary-d hover:text-secondary-t dark:hover:text-secondary-dt;
+}
+
+.btn-success {
+  @apply bg-success dark:bg-success-d text-success-t dark:text-success-dt hover:bg-success dark:hover:bg-success hover:text-success-t dark:hover:text-success-dt;
+}
+
+.btn-danger {
+  @apply bg-danger dark:bg-danger-d text-danger-t dark:text-danger-dt hover:bg-danger dark:hover:bg-danger hover:text-danger-t dark:hover:text-danger-dt;
+}
+
+.btn-warning {
+  @apply bg-warning dark:bg-warning-d text-warning-t dark:text-warning-dt hover:bg-warning dark:hover:bg-warning hover:text-warning-t dark:hover:text-warning-dt;
+}
+
+.btn-icon {
+  @apply flex w-fit min-h-6 px-1.5 py-1.5 rounded-md font-medium bg-primary dark:bg-primary-d text-primary-t dark:text-primary-dt hover:bg-secondary dark:hover:bg-secondary-d hover:text-secondary-t dark:hover:text-secondary-dt;
+}
+
+.input-primary {
+    @apply w-full p-2 border rounded-md outline-0 bg-transparent
+}
+
+.nav-item {
+    @apply p-1
+}
+
+.table-item {
+  @apply px-2 border text-sm;
+}
+
+.table-actions {
+  @apply flex justify-center items-center space-x-2;
+}
+
+nav a.router-link-active {
+  @apply bg-secondary/30 dark:bg-secondary-d/30 border-secondary dark:border-secondary-d
+}
+
+table {
+  @apply w-full;
+}
+
+table>thead {
+  @apply bg-primary text-white;
+}
+
+table>thead>tr {
+  @apply text-base font-semibold tracking-wide text-left text-white bg-primary dark:bg-primary-d uppercase border-b divide-indigo-50 divide-x;
+}
+
+table>thead>tr>th {
+  @apply px-2 border border-white text-sm;
+}
+
+.with-transition {
+  @apply transition-all duration-300
+}
+
+.with-color-transition {
+    @apply transition-colors duration-500
+}
+
+/**
+ * Switch
+ */
+.toggle-checkbox:checked {
+  @apply right-0 border-slate-500
+}
+
+.toggle-checkbox:checked + .toggle-label {
+  @apply bg-slate-500
+}

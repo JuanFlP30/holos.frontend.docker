@@ -5,35 +5,45 @@ import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import { useRoute, ZiggyVue } from 'ziggy-js';
 import { i18n, lang } from '@/lang/i18n.js';
+import router from '@Router/Index'
 import Notify from '@Plugins/Notify'
 import TailwindScreen from '@Plugins/TailwindScreen'
+import { pagePlugin } from '@Services/Page';
 
-import App from './App.vue'
+import App from '@Layouts/AppLayout.vue'
+import { view } from '@Services/Page';
 
 // Configurar axios
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 // Crear instancias globales
+window.axios    = axios;
 window.Lang     = lang;
 window.Notify   = new Notify();
 window.TwScreen = new TailwindScreen();
 
 async function boot() {
     try {
-        const { data } = await axios.get('/api/routes');
+        const { data } = await axios.get(import.meta.env.VITE_API_URL + '/api/routes');
 
         // Iniciar rutas
         window.Ziggy = data;
         window.route = useRoute();
+        window.view = view;
     } catch (error) {
         console.error(error);
         alert('Failed to load routes');
     }
 
+    if(import.meta.env.VITE_REVERB_ACTIVE === 'true') {
+        await import('@Services/Broadcast')
+    }
+
     createApp(App)
         .use(createPinia())
         .use(i18n)
+        .use(pagePlugin)
+        .use(router)
         .use(ZiggyVue)
         .mount('#app');
 }

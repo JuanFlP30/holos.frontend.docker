@@ -13,7 +13,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <section class="py-4">
+    <section class="pb-2">
         <div class="w-full overflow-hidden rounded-md shadow-lg">
             <div class="w-full overflow-x-auto">
                 <table class="w-full">

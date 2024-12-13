@@ -18,6 +18,11 @@ const i18n = createI18n({
   messages
 });
 
-const lang = (text) => i18n.global.t(text);
+function lang(text) {
+  return i18n.global.t(text);
+}
 
-export {i18n, lang};
+export {
+  i18n,
+  lang
+};

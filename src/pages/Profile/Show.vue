@@ -1,11 +1,11 @@
 <script setup>
 import SectionBorder                  from '@Holos/SectionBorder.vue';
-import AppLayout                      from '@Layouts/AppLayout.vue';
 import DeleteUserForm                 from '@Pages/Profile/Partials/DeleteUserForm.vue';
-import LogoutOtherBrowserSessionsForm from '@Pages/Profile/Partials/LogoutOtherBrowserSessionsForm.vue';
 import TwoFactorAuthenticationForm    from '@Pages/Profile/Partials/TwoFactorAuthenticationForm.vue';
 import UpdatePasswordForm             from '@Pages/Profile/Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm   from '@Pages/Profile/Partials/UpdateProfileInformationForm.vue';
+import LogoutOtherBrowserSessionsForm from '@Pages/Profile/Partials/LogoutOtherBrowserSessionsForm.vue';
+import PageHeader                     from '@Holos/PageHeader.vue';
 
 defineProps({
     confirmsTwoFactorAuthentication: Boolean,
@@ -14,44 +14,25 @@ defineProps({
 </script>
 
 <template>
-    <AppLayout title="Profile">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Profile
-            </h2>
-        </template>
-
+    <PageHeader :title="$t('profile')" />
+    <div>
         <div>
-            <div class="py-10 sm:px-6 lg:px-8">
-                <div v-if="$page.props.jetstream.canUpdateProfileInformation">
-                    <UpdateProfileInformationForm :user="$page.props.auth.user" />
-
-                    <SectionBorder />
-                </div>
-
-                <div v-if="$page.props.jetstream.canUpdatePassword">
-                    <UpdatePasswordForm class="mt-10 sm:mt-0" />
-
-                    <SectionBorder />
-                </div>
-
-                <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
-                    <TwoFactorAuthenticationForm
-                        :requires-confirmation="confirmsTwoFactorAuthentication"
-                        class="mt-10 sm:mt-0"
-                    />
-
-                    <SectionBorder />
-                </div>
-
-                <LogoutOtherBrowserSessionsForm :sessions="sessions" class="mt-10 sm:mt-0" />
-
-                <template v-if="$page.props.jetstream.hasAccountDeletionFeatures">
-                    <SectionBorder />
-
-                    <DeleteUserForm class="mt-10 sm:mt-0" />
-                </template>
-            </div>
+            <UpdateProfileInformationForm :user="$page.user" />
+            <SectionBorder />
         </div>
-    </AppLayout>
+        <div>
+            <UpdatePasswordForm class="mt-10 sm:mt-0" />
+            <SectionBorder />
+        </div>
+        <!-- <div>
+            <TwoFactorAuthenticationForm
+                :requires-confirmation="confirmsTwoFactorAuthentication"
+                class="mt-10 sm:mt-0"
+            />
+            <SectionBorder />
+        </div> -->
+        <!-- <LogoutOtherBrowserSessionsForm :sessions="sessions" class="mt-10 sm:mt-0" /> -->
+        <SectionBorder />
+        <DeleteUserForm class="mt-10 sm:mt-0" />
+    </div>
 </template>

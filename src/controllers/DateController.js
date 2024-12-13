@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 
-/* Obtiene la fecha actual en el formato deseado */
+// Obtener fecha en formato deseado
 function getDate(value = null) {
     const date = (value)
         ? DateTime.fromISO(value)
@@ -9,7 +9,7 @@ function getDate(value = null) {
     return date.toLocaleString(DateTime.DATE_MED);
 }
 
-/* Obtiene la horaa actual en el formato deseado */
+// Obtener hora en formato deseado
 function getTime(value = null) {
     const date = (value)
         ? DateTime.fromISO(value)
@@ -18,7 +18,7 @@ function getTime(value = null) {
     return date.toLocaleString(DateTime.TIME_24_SIMPLE);
 }
 
-/** Obtener fecha y hora */
+// Obtener fecha y hora
 function getDateTime(value) {
     const date = (value)
         ? DateTime.fromISO(value)
@@ -27,4 +27,8 @@ function getDateTime(value) {
     return date.toLocaleString(DateTime.DATETIME_SHORT);
 }
 
-export { getDate, getTime, getDateTime }
+export {
+    getDate,
+    getDateTime,
+    getTime
+}

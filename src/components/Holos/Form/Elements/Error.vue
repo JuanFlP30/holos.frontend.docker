@@ -1,7 +1,7 @@
 <script setup>
 /** Propiedades */
 defineProps({
-    onError: String
+    onError: String | Array
 });
 </script>
 
@@ -9,6 +9,6 @@ defineProps({
     <p v-if="onError"
         class="mt-1 pl-2 text-xs text-red-500 dark:text-red-300"
     >
-        {{onError}}
+        {{ Array.isArray(onError) ? onError[0] : onError }}
     </p>
 </template>

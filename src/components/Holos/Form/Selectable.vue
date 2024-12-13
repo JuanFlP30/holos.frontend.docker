@@ -14,25 +14,25 @@ const emit = defineEmits([
 /** Propiedades */
 const props = defineProps({
     customLabel: String,
-    trackBy: {
-        default: 'id',
-        type: String
-    },
+    disabled: Boolean,
     label: {
         default: 'name',
         type: String
     },
     modelValue: String | Number,
-    title: String,
+    multiple: Boolean,
+    onError: String | Array,
     options: Object,
-    onError: String,
     placeholder: {
         default: 'Buscar ...',
         type: String
     },
     required: Boolean,
-    multiple: Boolean,
-    disabled: Boolean
+    trackBy: {
+        default: 'id',
+        type: String
+    },
+    title: String,
 });
 
 const multiselect = ref();
@@ -56,8 +56,8 @@ defineExpose({
 <template>
     <div class="flex flex-col">
         <Label
-            :title="title"
             :required="required"
+            :title="title"
         />
         <VueMultiselect
             ref="multiselect"
@@ -69,8 +69,8 @@ defineExpose({
             :close-on-select="true"
             :custom-label="customLabel"
             :disabled="disabled"
-            :multiple="multiple"
             :label="label"
+            :multiple="multiple"
             :options="options"
             :placeholder="placeholder"
             :preserve-search="true"

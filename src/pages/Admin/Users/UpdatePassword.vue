@@ -1,30 +1,29 @@
 <script setup>
-import { goTo, transl } from './Module';
-import { useForm } from '@inertiajs/vue3';
+import { apiTo, transl } from './Module';
+import { useForm } from '@Services/Api';
 
 import PrimaryButton from '@Holos/Button/Primary.vue';
 import Input         from '@Holos/Form/Input.vue';
 import FormSection   from '@Holos/FormSection.vue';
 
+/** Propiedades */
 const props = defineProps({
-    user: Object
+    userId: String
 });
 
 const form = useForm({
-    _method: 'POST',
     password: '',
     password_confirmation: '',
 });
 
+/** Métodos */
 const updateProfileInformation = () => {
-    form.post(route(goTo('password'), props.user.id), {
-        errorBag: 'updateProfileInformation',
-        preserveScroll: true,
+    form.put(apiTo('password', { user: props.userId }), {
         onSuccess: () => {
-            Notify.success(lang('account.password.updated'));
+            Notify.success(Lang('account.password.updated'));
             form.reset();
         },
-        onError: () => Notify.error(lang('updateFail'))
+        onError: () => Notify.error(Lang('updateFail'))
     });
 };
 </script>
@@ -40,19 +39,19 @@ const updateProfileInformation = () => {
         <template #form>
             <div class="col-span-6 sm:col-span-4 space-y-4">
                 <Input
+                    v-model="form.password"
                     id="password"
                     title="account.password.new"
                     type="password"
-                    v-model="form.password"
                     :onError="form.errors.password"
                     autocomplete="off"
                     required
                 />
                 <Input
+                    v-model="form.password_confirmation"
                     icon="password"
                     id="passwordConfirmation"
                     type="password"
-                    v-model="form.password_confirmation"
                     :onError="form.errors.password_confirmation"
                     required
                 />

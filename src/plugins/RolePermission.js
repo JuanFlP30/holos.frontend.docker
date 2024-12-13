@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { api } from '@Services/Api';
 
 const permissionsInit = ref(false)
 const allPermissions  = ref([])
@@ -22,10 +23,13 @@ const hasPermission = (can) => {
 
 const bootPermissions = () => {
     if (!permissionsInit.value) {
-        axios.get(route('system.permissions')).then((res) => {
-            loadPermissions(res.data.data.permissions)
-            
-            permissionsInit.value = true;
+        api.get(route('user.permissions'), {
+            onSuccess: (res) => {
+                loadPermissions(res.permissions)
+            },
+            onFinish: () => {
+                permissionsInit.value = true;
+            }
         })
     }
 }

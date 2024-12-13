@@ -21,7 +21,7 @@ const props = defineProps({
     id: String,
     icon: String,
     modelValue: Number | String,
-    onError: String,
+    onError: String | Array,
     placeholder: String,
     required: Boolean,
     title: String,
@@ -33,16 +33,13 @@ const props = defineProps({
 
 const input = ref(null);
 
-/**
- * Propiedades calculadas
- */
+/** Propiedades computadas */
 const autoId = computed(() => {
     return (props.id)
         ? props.id
         : uuidv4()
 })
 
-/** Propiedades computadas */
 const value = computed({
   get() {
     return props.modelValue
@@ -73,9 +70,9 @@ onMounted(() => {
             />
             <input
                 ref="input"
+                v-model="value"
                 v-bind="$attrs"
                 class="pl-2 w-full outline-none border-none bg-transparent"
-                v-model="value"
                 :id="autoId"
                 :placeholder="placeholder"
                 :type="type"

@@ -1,13 +1,13 @@
 <script setup>
-import { router } from '@inertiajs/vue3';
+import { api } from '@Services/Api.js';
 
 import DestroyModal from '../Destroy.vue';
 import Header       from '../Elements/Header.vue';
 
 /** Eventos */
 const emit = defineEmits([
-    'close', 
-    'switchModal'
+    'close',
+    'update'
 ]);
 
 /** Propiedades */
@@ -18,15 +18,14 @@ const props = defineProps({
 });
 
 /** Métodos */
-const destroy = (id) => router.delete(props.to(id), {
-    preserveScroll: true,
+const destroy = (id) => api.delete(props.apiTo(id), {
     onSuccess: () => {
-        props.model.pop;
-        Notify.success(lang('deleted'));
+        Notify.success(Lang('deleted'));
         emit('close');
+        emit('update');
     },
     onError: () => {
-        Notify.info(lang('notFound'));
+        Notify.info(Lang('notFound'));
         emit('close');
     }
 });
@@ -39,8 +38,8 @@ const destroy = (id) => router.delete(props.to(id), {
         @destroy="destroy(model.id)"
     >
         <Header
-            :title="model.name"
             :subtitle="model.full_last_name"
+            :title="model.name"
         />
     </DestroyModal>
 </template>

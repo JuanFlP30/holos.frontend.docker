@@ -7,7 +7,6 @@
 
 import axios from 'axios';
 import { reactive, ref } from 'vue';
-import { lang } from '@Lang/i18n';
 
 axios.defaults.withXSRFToken = true;
 // axios.defaults.withCredentials = true;
@@ -18,20 +17,14 @@ axios.defaults.withXSRFToken = true;
 const failCodes = [
     400,
     409,
+    422
 ];
 
 /**
  * Servidor a utilizar
  */
-const server = ref('');
-const token  = ref(localStorage.token);
-
-/**
- * Define el servidor de la api
- */
-const defineApiServer = (x) => {
-    server.value = x;
-}
+const token     = ref(localStorage.token);
+const csrfToken = ref(localStorage.csrfToken);
 
 /**
  * Define el token de la api
@@ -42,20 +35,12 @@ const defineApiToken = (x) => {
 }
 
 /**
- * Ruta base del servidor
+ * Define CSRF token
  */
-const apiBaseUrl = (url) => {
-    return `${server.value}/${url}`
+const defineCsrfToken = (x) => {
+    csrfToken.value = x;
+    localStorage.csrfToken = x;
 }
-
-
-/**
- * Ruta api del servidor
- */
-const apiUrl = (url) => {
-    return apiBaseUrl(`api/${url}`)
-}
-
 
 /**
  * Define el token de la api
@@ -63,6 +48,14 @@ const apiUrl = (url) => {
 const resetApiToken = () => {
     token.value = undefined;
     localStorage.removeItem('token');
+}
+
+/**
+ * Reset CSRF token
+ */
+const resetCsrfToken = () => {
+    csrfToken.value = undefined;
+    localStorage.removeItem('csrfToken');
 }
 
 /**
@@ -75,9 +68,13 @@ const hasToken = () => {
 /**
  * Fuerza el cierre de la sesión
  */
-const logout = () => {
-    localStorage.removeItem('token');
-    token.value = undefined;
+const closeSession = () => {
+    resetApiToken()
+    resetCsrfToken()
+
+    Notify.info(Lang('session.closed'))
+
+    location.replace('auth.html')
 }
 
 /**
@@ -138,6 +135,8 @@ const api = {
                 if(options.hasOwnProperty('onFail')) {
                     options.onFail(data.data);
                 }
+
+                console.log(data.data);
             }
 
             if(options.hasOwnProperty('onFinish')) {
@@ -152,9 +151,9 @@ const api = {
 
             // Código de sesión invalida
             if(response.status === 401 && response.data?.message == 'Unauthenticated.') {
-                Notify.error(lang('session.expired'));
+                Notify.error(Lang('session.expired'));
 
-                logout();
+                closeSession();
 
                 return
             }
@@ -182,35 +181,35 @@ const api = {
     get(url, options) {
         this.load({
             method: 'get',
-            url: apiUrl(url),
+            url,
             options
         })
     },
     post(url, options) {
         this.load({
             method: 'post',
-            url: apiUrl(url),
+            url,
             options
         })
     },
     put(url, options) {
         this.load({
             method: 'put',
-            url: apiUrl(url),
+            url,
             options
         })
     },
     patch(url, options) {
         this.load('patch', {
             method: 'patch',
-            url: apiUrl(url),
+            url,
             options
         })
     },
     delete(url, options) {
         this.load({
             method: 'delete',
-            url: apiUrl(url),
+            url,
             options
         })
     },
@@ -219,7 +218,6 @@ const api = {
             ...options,
             data: resources
         })
-        console.log(api.resource)
     },
     download(url, file, params = {}) {
         axios({
@@ -310,6 +308,14 @@ const useForm = (form = {}) =>  {
         processing: false,
         wasSuccessful: false,
         _inputs: Object.keys(form),
+        _original: {
+            ...form
+        },
+        reset() {
+            for(let i in this._original) {
+                this[i] = this._original[i]
+            }
+        },
         data() {
             let data = {};
 
@@ -354,7 +360,8 @@ const useForm = (form = {}) =>  {
                             ? 'multipart/form-data  boundary='
                             : 'application/json',
                         'Accept': 'application/json',
-                        'Authorization': `Bearer ${apiToken}`
+                        'Authorization': `Bearer ${apiToken}`,
+                        'X-CSRF-TOKEN': csrfToken.value
                     }
                 });
 
@@ -397,45 +404,43 @@ const useForm = (form = {}) =>  {
         },
         fill(model) {
             this._inputs.forEach(element => {
-                if (element == 'is_active') {
-                    this[element] = (model[element] == 1)
-                } else {
-                    this[element] = model[element] ?? this[element]
-                }
+                this[element] = (element == 'is_active')
+                    ? (model[element] == 1)
+                    : model[element] ?? this[element]
             });
         },
         get(url, options) {
             this.load({
                 method: 'get',
-                url: apiUrl(url),
+                url,
                 options
             })
         },
         post(url, options) {
             this.load({
                 method: 'post',
-                url: apiUrl(url),
+                url,
                 options
             })
         },
         put(url, options) {
             this.load({
                 method: 'put',
-                url: apiUrl(url),
+                url,
                 options
             })
         },
         patch(url, options) {
             this.load('patch', {
                 method: 'patch',
-                url: apiUrl(url),
+                url,
                 options
             })
         },
         delete(url, options) {
             this.load({
                 method: 'delete',
-                url: apiUrl(url),
+                url,
                 options
             })
         },
@@ -507,8 +512,8 @@ const useSearcher = (options = {
 
             // Código de sesión invalida
             if(response.status === 401 && response.data.message == 'Unauthenticated.') {
-                Notify.error(lang('session.expired'));
-                logout();
+                Notify.error(Lang('session.expired'));
+                closeSession();
                 return
             }
             
@@ -535,13 +540,13 @@ const useSearcher = (options = {
     search(q, filters = {}) {
         this.query = q
         this.load({
-            url: apiUrl(options.url),
+            url,
             filters
         })
     },
     refresh(filters = {}) {
         this.load({
-            url: apiUrl(options.url),
+            url,
             filters
         })
     },
@@ -550,12 +555,11 @@ const useSearcher = (options = {
 export {
     api,
     token,
-    apiBaseUrl,
-    apiUrl,
+    closeSession,
     hasToken,
     useForm,
     useSearcher,
-    defineApiServer,
     defineApiToken,
+    defineCsrfToken,
     resetApiToken
 }

@@ -65,10 +65,10 @@ function add() {
             itemA.value = null
             itemB.value = null
         } else {
-            Notify.warning(lang('todo.uniqueSub.b.required', {name:lang('subclassification')}))
+            Notify.warning(Lang('todo.uniqueSub.b.required', {name:Lang('subclassification')}))
         }
     } else {
-        Notify.warning(lang('todo.uniqueSub.a.required', {name:lang('classification')}))
+        Notify.warning(Lang('todo.uniqueSub.a.required', {name:Lang('classification')}))
     }
 }
 
@@ -115,18 +115,23 @@ onMounted(() => {
         <p>{{ title }}</p>
         <div class="w-full grid gap-2 grid-cols-2 dark:bg-primary-d/50 rounded-md">
             <Selectable
-                :title="itemATitle"
                 v-model="itemA"
+                :title="itemATitle"
                 :options="itemsAUnselected"
             />
             <Input
-                :title="itemBTitle"
                 v-model="itemB"
+                :title="itemBTitle"
                 :type="type"
                 @keyup.enter="add"
             />
             <div class="col-span-2 flex justify-center">
-                <PrimaryButton type="button" @click="add">{{ $t('add') }}</PrimaryButton>
+                <PrimaryButton
+                    type="button"
+                    @click="add"
+                >
+                    {{ $t('add') }}
+                </PrimaryButton>
             </div>
             <div class="col-span-2 text-sm">
                 <p><b>{{ $t('items') }}</b> ({{ values.length }})</p>
@@ -136,18 +141,17 @@ onMounted(() => {
                     <div class="relative rounded border border-primary/50">
                         <div class="grid gap-2 grid-cols-2 w-full items-center p-2 dark:bg-primary-d/50">
                             <Input
-                                :title="itemATitle"
                                 v-model="item.item.name"
+                                :title="itemATitle"
                                 disabled
                             />
                             <Input
-                                :title="itemBTitle"
                                 v-model="item.value"
+                                :title="itemBTitle"
                             />
                         </div>
                         <div class="absolute right-1 top-1">
                             <GoogleIcon
-                                type="button"
                                 class="btn-icon-primary"
                                 name="close"
                                 @click="remove(index, item.item)"

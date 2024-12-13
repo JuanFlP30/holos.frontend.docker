@@ -1,6 +1,9 @@
 <script setup>
 import useRightSidebar from '@Stores/RightSidebar'
 
+/** Definidores */
+const rightSidebar = useRightSidebar()
+
 /** Eventos */
 const emit = defineEmits(['open']);
 
@@ -8,9 +11,6 @@ const emit = defineEmits(['open']);
 const props = defineProps({
   sidebar: Boolean
 });
-
-/** Definidores */
-const rightSidebar = useRightSidebar()
 </script>
 
 <template>

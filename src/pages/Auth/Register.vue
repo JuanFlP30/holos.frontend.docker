@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { useForm } from '@Services/Api.js'
 
 import Checkbox      from '@Holos/Checkbox.vue';
 import InputLabel    from '@Holos/InputLabel.vue';
@@ -8,17 +8,19 @@ import PrimaryButton from '@Holos/Button/Primary.vue';
 import Input         from '@Holos/Form/InputWithIcon.vue'
 import Layout        from '@Holos/Layout/AuthLayout.vue'
 
+/** Propiedades */
 const form = useForm({
     name: '',
     paternal: '',
     maternal: '',
-    phone: '',  
+    phone: '',
     email: '',
     password: '',
     password_confirmation: '',
     terms: false,
 });
 
+/** Métodos */
 const submit = () => {
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
@@ -87,7 +89,7 @@ const submit = () => {
             />
 
 
-            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
+            <div class="mt-4">
                 <InputLabel for="terms">
                     <div class="flex items-center">
                         <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />

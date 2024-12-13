@@ -12,12 +12,12 @@ const emit = defineEmits([
 
 /** Propiedades */
 const props = defineProps({
-    class: String,
-    required: Boolean,
     accept: {
         default: 'image/png, image/jpeg',
         type: String
     },
+    class: String,
+    required: Boolean,
     title: {
         default: 'photo.title',
         type: String
@@ -60,17 +60,17 @@ const updatePhotoPreview = () => {
     <div class="col-span-6">
         <input
             ref="photoInput"
-            type="file"
             class="hidden"
+            type="file"
             :accept="accept"
             :required="required"
             @change="updatePhotoPreview"
         >
         <Label
-            class="dark:text-gray-800"
             id="image_file"
-            :title="title"
+            class="dark:text-gray-800"
             :required="required"
+            :title="title"
         />
         <div v-show="! photoPreview" class="mt-2">
             <!-- si existe una imagen cargada, entonces se muestra en este slot -->
@@ -79,9 +79,9 @@ const updatePhotoPreview = () => {
         <div v-show="photoPreview" class="mt-2">
             <div v-if="fileType == 'application/pdf'" class="flex overflow-hidden max-w-full">
                 <GoogleIcon 
-                    :title="$t('crud.edit')"
                     class="text-gray-400" 
                     name="picture_as_pdf"
+                    :title="$t('crud.edit')"
                     outline 
                 />
                 <div class="ml-2 font-bold text-gray-400 flex-1">
@@ -90,17 +90,17 @@ const updatePhotoPreview = () => {
             </div>
             <div v-else>
                 <span
-                    :class="class"
                     class="block rounded-lg h-40 bg-cover bg-no-repeat bg-center"
+                    :class="class"
                     :style="'background-image: url(\'' + photoPreview + '\');'"
                 />
             </div>
             
         </div>
         <SecondaryButton
+            v-text="$t('photo.new')"
             class="mt-2 mr-2"
             type="button"
-            v-text="$t('photo.new')"
             @click.prevent="selectNewPhoto"
         />
     </div>

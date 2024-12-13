@@ -13,7 +13,7 @@ const emit = defineEmits([
 const props = defineProps({
     show: Boolean,
     title: {
-        default: lang('edit'),
+        default: Lang('edit'),
         type: String
     }
 });
@@ -38,12 +38,12 @@ const props = defineProps({
             <div class="space-x-2">
                 <slot name="buttons" />
                 <PrimaryButton 
-                    @click="$emit('update')"
                     v-text="$t('update')"
+                    @click="$emit('update')"
                 />
                 <SecondaryButton
-                    @click="$emit('close')" 
                     v-text="$t('close')"
+                    @click="$emit('close')" 
                 />
             </div>
         </template>

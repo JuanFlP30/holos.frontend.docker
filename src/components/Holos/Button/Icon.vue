@@ -5,11 +5,11 @@ import GoogleIcon from '@Shared/GoogleIcon.vue'
 const props = defineProps({
     icon:  String,
     fill: Boolean,
-    title: String,
     style: {
         type: String,
         default: 'rounded'
     },
+    title: String,
     type: {
         type: String,
         default: 'button'
@@ -24,8 +24,8 @@ const props = defineProps({
         :type="type"
     >
         <GoogleIcon
-            :name="icon"
             :fill="fill"
+            :name="icon"
             :style="style"
         />   
     </button>

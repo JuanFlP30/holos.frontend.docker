@@ -1,40 +1,53 @@
 <script setup>
-import { ref } from 'vue';
-import { Link  } from '@inertiajs/vue3';
-import { transl, can, goTo } from './Module'
+import { onMounted, ref } from 'vue';
+import { can, apiTo, viewTo } from './Module'
+import { api } from '@Services/Api';
 
-import ModalController    from '@/Controllers/ModalController.js';
-import SearcherController from '@/Controllers/SearcherController.js';
+import ModalController    from '@Controllers/ModalController.js';
+import SearcherController from '@Controllers/SearcherController.js';
 
 import IconButton      from '@Holos/Button/Icon.vue'
 import DestroyView     from '@Holos/Modal/Template/Destroy.vue';
 import SearcherHead    from '@Holos/Searcher.vue';
 import Table           from '@Holos/Table.vue';
-import DashboardLayout from '@Layouts/AppLayout.vue';
 import GoogleIcon      from '@Shared/GoogleIcon.vue';
 import ShowView        from './Modals/Show.vue';
 
-/** Eventos */
-const props = defineProps({
-    models: Object
-});
-
 /** Controladores */
 const Modal    = new ModalController();
-const Searcher = new SearcherController(goTo('index'));
 
 /** Propiedades */
 const destroyModal = ref(Modal.destroyModal);
 const showModal    = ref(Modal.showModal);
 const modelModal   = ref(Modal.modelModal);
+
+const models = ref([]);
+
+const Searcher = new SearcherController({
+    route: 'users.index',
+    model: models
+});
+
+/** Métodos */
+function load() {
+    api.get(apiTo('index'), {
+        onSuccess: (r) => models.value = r.users
+    });
+}
+
+/** Ciclos */
+onMounted(() => load());
 </script>  
 
 <template>
-    <DashboardLayout :title="transl('system')">
-        <SearcherHead @search="Searcher.search">
-            <Link
-            v-if="can('create')"
-                :href="route(goTo('create'))"
+    <div>
+        <SearcherHead
+            :title="$t('users.title')"
+            @search="Searcher.search"
+        >
+            <RouterLink
+                v-if="can('create')"
+                :to="viewTo({ name: 'create' })"
             >
                 <IconButton
                     class="text-white"
@@ -42,7 +55,7 @@ const modelModal   = ref(Modal.modelModal);
                     :title="$t('crud.create')"
                     filled
                 />
-            </Link>
+            </RouterLink>
         </SearcherHead>
         <div class="pt-2 w-full">
             <Table 
@@ -92,10 +105,10 @@ const modelModal   = ref(Modal.modelModal);
                                     @click="Modal.switchShowModal(model)"
                                     outline
                                 />
-                                <Link
+                                <RouterLink
                                     v-if="can('edit')"
                                     class="h-fit"
-                                    :href="route(goTo('edit'), model.id)"
+                                    :to="viewTo({ name: 'edit', params: { id: model.id } })"
                                 >
                                     <GoogleIcon
                                         class="btn-icon"
@@ -103,7 +116,7 @@ const modelModal   = ref(Modal.modelModal);
                                         :title="$t('crud.edit')"
                                         outline
                                     />
-                                </Link>
+                                </RouterLink>
                                 <GoogleIcon
                                     v-if="can('destroy')"
                                     class="btn-icon"
@@ -112,17 +125,17 @@ const modelModal   = ref(Modal.modelModal);
                                     @click="Modal.switchDestroyModal(model)"
                                     outline
                                 />
-                                <Link
+                                <RouterLink
                                     v-if="can('settings')"
                                     class="h-fit"
-                                    :href="route('admin.users.settings', model.id)"
+                                    :to="viewTo({ name: 'settings', params: { id: model.id } })"
                                 >
                                     <GoogleIcon
                                         class="btn-icon"
                                         name="settings"
                                         :title="$t('setting')"
                                     />
-                                </Link>
+                                </RouterLink>
                             </div>
                         </td>
                     </tr>
@@ -151,9 +164,10 @@ const modelModal   = ref(Modal.modelModal);
             v-if="can('destroy')"
             :model="modelModal"
             :show="destroyModal"
-            :to="(user) => route(goTo('destroy'), {user})"
+            :to="(user) => apiTo('destroy', { user })"
             @close="Modal.switchDestroyModal"
+            @update="load"
         />
-    </DashboardLayout>
+    </div>
 </template>
     

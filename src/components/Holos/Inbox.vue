@@ -13,9 +13,9 @@ const props = defineProps({
 });
 
 /** Propiedades */
-const check          = ref(false);
 const filterMessages = ref(false);
 
+/** Métodos */
 const selectThisPage   = () => props.inboxCtl.onSelectAll(props.items, false);
 const unselectThisPage = () => props.inboxCtl.onUnselectAll(props.items)
 
@@ -60,11 +60,11 @@ const search = url => props.searcherCtl.searchWithInboxPagination(url);
                         class="relative flex items-center px-0.5 space-x-0.5"
                      >
                         <button class="px-2 pt-1" @click="filterMessages = !filterMessages">
-                           <GoogleIcon
-                           class="text-xl"
-                            name="checklist"
-                            outline
-                           />
+                            <GoogleIcon
+                                class="text-xl"
+                                name="checklist"
+                                outline
+                            />
                         </button>
                         <div
                             @click.away="filterMessages = false"

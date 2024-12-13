@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .env
+colors.json
+notes.md
 
 # Editor directories and files
 .vscode/*

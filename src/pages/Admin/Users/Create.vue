@@ -1,22 +1,20 @@
 <script setup>
-import { Link, useForm } from '@inertiajs/vue3';
-import { goTo, transl } from './Module';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { api, useForm } from '@Services/Api';
+import { viewTo } from './Module';
 
 import IconButton      from '@Holos/Button/Icon.vue'
 import Input           from '@Holos/Form/Input.vue';
 import Selectable      from '@Holos/Form/Selectable.vue';
 import PageHeader      from '@Holos/PageHeader.vue';
-import DashboardLayout from '@Layouts/AppLayout.vue';
 import Form            from './Form.vue'
 
+/** Definidores */
+const router = useRouter();
+
 /** Propiedades */
-
-defineProps({
-    roles: Object
-});
-
 const form = useForm({
-    _id: null,
     name: '',
     paternal: '',
     maternal: '',
@@ -26,30 +24,41 @@ const form = useForm({
     roles: []
 });
 
+const roles = ref([]);
+
 /** Métodos */
 function submit() {
     form.transform(data => ({
         ...data,
         roles: data.roles.map(role => role.id)
-    })).post(route(goTo('store')), {
-        onSuccess: () => Notify.success(lang('register.create.onSuccess')),
-        onError:   () => Notify.error(lang('register.create.onError')),
-        onFinish:  () => form.reset('password')
+    })).post(apiTo('store'), {
+        onSuccess: () => {
+            Notify.success(Lang('register.create.onSuccess'))
+            router.push(viewTo({ name: 'index' }));
+        }
     })
 }
+
+/** Ciclos */
+onMounted(() => {
+    api.get(route('system.roles'), {
+        onSuccess: (r) => {
+            roles.value = r.roles;
+        }
+    });
+})
 </script>
 
 <template>
-  <DashboardLayout :title="transl('create.title')">
     <PageHeader>
-        <Link :href="route(goTo('index'))">
+        <RouterLink :to="viewTo({ name: 'index' })">
             <IconButton
                 class="text-white"
                 icon="arrow_back"
                 :title="$t('return')"
                 filled
             />
-        </Link>
+        </RouterLink>
     </PageHeader>
     <Form
         action="create"
@@ -72,5 +81,4 @@ function submit() {
             multiple
         />
     </Form>
-  </DashboardLayout>
 </template>

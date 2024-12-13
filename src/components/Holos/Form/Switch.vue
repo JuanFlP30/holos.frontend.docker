@@ -16,15 +16,15 @@ const props = defineProps({
             Boolean
         ]
     },
+    disabled: Boolean,
     title: {
-        default: lang('active'),
+        default: Lang('active'),
         type: String
     },
     value: {
         default: null,
         type: String
-    },
-    disabled: Boolean
+    }
 });
 
 const uuid = uuidv4()
@@ -34,7 +34,6 @@ const proxyChecked = computed({
     get() {
         return props.checked;
     },
-
     set(val) {
         emit('update:checked', val);
     },
@@ -45,16 +44,24 @@ const proxyChecked = computed({
     <div class="flex items-center">
         <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
             <input
-                .id="uuid"
-                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                type="checkbox"
-                name="toggle"
-                :value="value"
                 v-model="proxyChecked"
+                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                name="toggle"
+                type="checkbox"
+                :id="uuid"
                 :disabled="disabled"
+                :value="value"
             />
-        <label :for="uuid" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+            <label
+                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                :for="uuid"
+            />
         </div>
-        <label :for="uuid" class="text-xs text-gray-700">{{ $t(title) }}</label>
+        <label
+            class="text-xs text-gray-700"
+            :for="uuid"
+        >
+            {{ $t(title) }}
+        </label>
     </div>
 </template>

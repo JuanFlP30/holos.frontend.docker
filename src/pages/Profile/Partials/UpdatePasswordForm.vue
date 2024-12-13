@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm } from '@Services/Api';
 
 import FormSection   from '@Holos/FormSection.vue';
 import PrimaryButton from '@Holos/Button/Primary.vue';
@@ -16,14 +16,13 @@ const form = useForm({
 });
 
 const updatePassword = () => {
-    form.put(route('user-password.update'), {
-        errorBag: 'updatePassword',
-        preserveScroll: true,
+    form.put(route('user.password'), {
         onSuccess: () => {
             form.reset();
-            Notify.success(lang('account.password.updated'));
+            Notify.success(Lang('account.password.updated'));
         },
-        onError: () => {
+        onError: (e) => {
+            console.log(e);
             if (form.errors.password) {
                 form.reset('password', 'password_confirmation');
                 passwordInput.value.focus();
