@@ -36,7 +36,6 @@ onMounted(() => {
 
     api.get(apiTo('roles', { user: props.userId }), {
         onSuccess: (r) => {
-            console.log(r);
             form.roles = r.roles
         }
     });

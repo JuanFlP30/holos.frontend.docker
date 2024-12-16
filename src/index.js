@@ -9,9 +9,9 @@ import router from '@Router/Index'
 import Notify from '@Plugins/Notify'
 import TailwindScreen from '@Plugins/TailwindScreen'
 import { pagePlugin } from '@Services/Page';
+import { reloadApp,view } from '@Services/Page';
 
 import App from '@Layouts/AppLayout.vue'
-import { view } from '@Services/Page';
 
 // Configurar axios
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -24,10 +24,10 @@ window.TwScreen = new TailwindScreen();
 
 async function boot() {
     try {
-        const { data } = await axios.get(import.meta.env.VITE_API_URL + '/api/routes');
+        const routes = await axios.get(import.meta.env.VITE_API_URL + '/api/resources/routes');
 
         // Iniciar rutas
-        window.Ziggy = data;
+        window.Ziggy = routes.data;
         window.route = useRoute();
         window.view = view;
     } catch (error) {
@@ -38,6 +38,8 @@ async function boot() {
     if(import.meta.env.VITE_REVERB_ACTIVE === 'true') {
         await import('@Services/Broadcast')
     }
+
+    reloadApp();
 
     createApp(App)
         .use(createPinia())

@@ -45,7 +45,7 @@ const year = (new Date).getFullYear();
               &copy {{year}} {{ APP_COPYRIGHT }}
             </p>
             <p class="text-center text-xs text-yellow-500 cursor-pointer">
-                V{{ APP_VERSION }}
+              APP {{ APP_VERSION }} API {{ $page.app.version }}
             </p>
           </div>
         </div>

@@ -13,6 +13,6 @@ const home = () => router.push(view({ name: 'index' }));
         class="flex w-full justify-center items-center space-x-2 cursor-pointer"
         @click="home"
     >
-        <img src="/images/logo.png" class="h-20" />
+        <img :src="$page.app.logo" class="h-20" />
     </div>
 </template>

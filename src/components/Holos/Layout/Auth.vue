@@ -59,7 +59,7 @@ onMounted(() => {
           </div>
           <div>
               <span>
-                  Versión {{ APP_VERSION }}
+                APP {{ APP_VERSION }} API {{ $page.app.version }}
               </span>
           </div>
         </footer>

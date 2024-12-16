@@ -10,6 +10,7 @@ import { resetPermissions } from '@Plugins/RolePermission';
  */
 const page = reactive({
     lang: 'es',
+    app: {},
     user: {
         id: 0,
         name: 'public'
@@ -21,9 +22,14 @@ const page = reactive({
  */
 const reloadApp = () => {
     const user = localStorage.user
+    const app = localStorage.app
 
     if(user) {
         page.user = JSON.parse(user);
+    }
+
+    if(app) {
+        page.app = JSON.parse(app);
     }
 }
 
@@ -63,6 +69,13 @@ const defineUser = (user) => {
 }
 
 /**
+ * Definir datos de la aplicación
+ */
+const defineApp = (app) => {
+    localStorage.app = JSON.stringify(app);
+}
+
+/**
  * Instalar el componente de forma nativa
  */
 const pagePlugin = {
@@ -76,8 +89,6 @@ const pagePlugin = {
  * Reload user
  */
 const reloadUser = () => {
-    console.log('reloadUser')
-
     return api.get(route('user.show'), {
         onSuccess: (r) => {
             defineUser(r.user)
@@ -107,10 +118,11 @@ const logout = () => {
 export {
     pagePlugin,
     page,
+    defineApp,
+    defineUser,
     reloadApp,
     reloadUser,
     resetPage,
-    defineUser,
     logout,
     view
 }

@@ -1,7 +1,6 @@
 <script setup>
 import { onBeforeMount, onMounted } from 'vue';
 import { bootPermissions } from '@Plugins/RolePermission.js';
-import { reloadApp } from '@Services/Page';
 import useDarkMode from '@Stores/DarkMode'
 import useLeftSidebar from '@Stores/LeftSidebar'
 import useNotificationSidebar from '@Stores/NotificationSidebar'
@@ -23,7 +22,6 @@ defineProps({
 /** Ciclos */
 onBeforeMount(() => {
     bootPermissions()
-    reloadApp();
 })
 
 onMounted(()=> {

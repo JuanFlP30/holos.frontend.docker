@@ -8,7 +8,7 @@ import { i18n, lang } from '@/lang/i18n.js';
 import router from '@Router/Auth'
 import Notify from '@Plugins/Notify'
 import TailwindScreen from '@Plugins/TailwindScreen'
-import { pagePlugin } from '@Services/Page';
+import { defineApp, pagePlugin, reloadApp } from '@Services/Page';
 
 import Auth from '@Holos/Layout/Auth.vue'
 
@@ -22,15 +22,20 @@ window.TwScreen = new TailwindScreen();
 
 async function boot() {
     try {
-        const { data } = await axios.get(import.meta.env.VITE_API_URL + '/api/routes');
-
+        const routes = await axios.get(import.meta.env.VITE_API_URL + '/api/resources/routes');
+        const app = await axios.get(import.meta.env.VITE_API_URL + '/api/resources/app');
+        
         // Iniciar rutas
-        window.Ziggy = data;
+        window.Ziggy = routes.data;
         window.route = useRoute();
+
+        defineApp(app.data);
     } catch (error) {
         console.error(error);
         alert('Failed to load routes');
     }
+
+    reloadApp();
 
     createApp(Auth)
         .use(createPinia())

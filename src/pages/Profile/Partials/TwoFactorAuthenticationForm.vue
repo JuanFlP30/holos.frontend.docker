@@ -41,8 +41,6 @@ watch(twoFactorEnabled, () => {
 const enableTwoFactorAuthentication = () => {
     enabling.value = true;
 
-    console.log('enabling ...');
-
     api.post(route('two-factor.enable'), {
         onSuccess: () => Promise.all([
             showQrCode(),

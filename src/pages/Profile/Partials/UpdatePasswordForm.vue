@@ -22,7 +22,6 @@ const updatePassword = () => {
             Notify.success(Lang('account.password.updated'));
         },
         onError: (e) => {
-            console.log(e);
             if (form.errors.password) {
                 form.reset('password', 'password_confirmation');
                 passwordInput.value.focus();
