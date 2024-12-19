@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { api, useForm } from '@Services/Api';
-import { viewTo } from './Module';
+import { transl, viewTo } from './Module';
 
 import IconButton      from '@Holos/Button/Icon.vue'
 import Input           from '@Holos/Form/Input.vue';
@@ -50,7 +50,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <PageHeader>
+    <PageHeader :title="transl('create.title')">
         <RouterLink :to="viewTo({ name: 'index' })">
             <IconButton
                 class="text-white"

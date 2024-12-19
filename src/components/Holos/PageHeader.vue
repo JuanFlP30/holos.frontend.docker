@@ -17,7 +17,8 @@ defineProps({
         />
     </div>
     <div class="flex w-full justify-end py-[0.31rem] mb-2 border-y-2 border-page-t dark:border-page-dt">
-        <div id="buttons" class="flex items-center space-x-2 text-sm">
+        <div id="buttons" class="flex items-center space-x-1 text-sm">
+            <slot />
             <RouterLink :to="$view({ name: 'index' })">
                 <IconButton
                     :title="$t('home')"

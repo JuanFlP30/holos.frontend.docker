@@ -358,6 +358,7 @@ export default {
     unknown:'Desconocido',
     update:'Actualizar',
     updated:'Actualizado',
+    updated_at:'Fecha actualización',
     updateFail:'Error al actualizar',
     unreaded:'No leído',
     user:'Usuario',

@@ -8,6 +8,7 @@ defineProps({
 
 <template>
     <div class="text-center p-6 bg-primary dark:bg-primary-d border-b">
+        <slot />
         <p class="pt-2 text-lg font-bold text-gray-50">
             {{ title }}
         </p>
