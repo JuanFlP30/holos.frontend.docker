@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { api, useForm } from '@Services/Api';
-import { transl } from './Module';
+import { apiTo, transl } from './Module';
 
 import PrimaryButton  from '@Holos/Button/Primary.vue';
 import FormSection    from '@Holos/FormSection.vue';
