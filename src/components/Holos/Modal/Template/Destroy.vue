@@ -18,7 +18,7 @@ const props = defineProps({
 });
 
 /** Métodos */
-const destroy = (id) => api.delete(props.apiTo(id), {
+const destroy = (id) => api.delete(props.to(id), {
     onSuccess: () => {
         Notify.success(Lang('deleted'));
         emit('close');
