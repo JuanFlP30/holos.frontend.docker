@@ -1,4 +1,3 @@
-import { lang } from '@Lang/i18n';
 import toastr from 'toastr';
 
 class Notify {

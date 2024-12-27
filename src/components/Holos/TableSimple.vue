@@ -25,9 +25,6 @@ const props = defineProps({
                             name="body"
                             :items="items"
                         />
-                        <tr>
-                            <slot name="empty" />
-                        </tr>
                     </tbody>
                 </table>
             </div>

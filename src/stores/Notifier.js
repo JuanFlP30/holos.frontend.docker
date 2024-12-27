@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { api } from '@Services/Api'
 import { page } from '@Services/Page'
+import { hasPermission } from '@Plugins/RolePermission'
+import { boot as bootAuthUsers, addUser, removeUser } from '@Plugins/AuthUsers'
 
 /** Propiedades */
 const hasNotifications = import.meta.env.VITE_REVERB_ACTIVE === 'true';
@@ -9,6 +11,7 @@ const hasNotifications = import.meta.env.VITE_REVERB_ACTIVE === 'true';
 const useNotifier = defineStore('notifier', {
     state: () => ({
         counter: 0,
+        unreadClosedCounter: 0,
         notifications: [],
         isStarted: false,
         user_id: 0,
@@ -21,7 +24,7 @@ const useNotifier = defineStore('notifier', {
 
                 this.subscribeGLobalNotifications();
                 this.subscribeUserNotifications();
-
+                this.suscribeAuthUsers();
                 this.isStarted = true;
 
                 this.getUpdates();
@@ -48,6 +51,23 @@ const useNotifier = defineStore('notifier', {
         unsubscribeGlobalNotifications() {
             Echo.leave('Global');
         },
+        // Usuarios logueados
+        suscribeAuthUsers() {
+            if(hasPermission('users.index')) {
+                Echo.join('online')
+                .here((users) => {
+                    bootAuthUsers(users);
+                })
+                .joining((user) => {
+                    addUser(user);
+                })
+                .leaving((user) => {
+                    removeUser(user);
+                });
+            } else {
+                Echo.join('online');
+            }
+        },
         // Notificaciones del usuario
         subscribeUserNotifications() {
             Echo.private(`App.Models.User.${this.user_id}`)
@@ -61,13 +81,26 @@ const useNotifier = defineStore('notifier', {
         },
         readNotification(id) {
             api.post(route('system.notifications.read'), {
-                id,
+                data: {
+                    id
+                },
                 onSuccess: res => {
-                    Notify.success(Lang('notifications.readed'))
                     this.getUpdates();
                 },
                 onFailed: res => {
-                    Notify.error(Lang('error'))
+                    this.getUpdates();
+                }
+            })
+        },
+        closeNotification(id) {
+            api.post(route('system.notifications.close'), {
+                data: {
+                    id
+                },
+                onSuccess: res => {
+                    this.getUpdates();
+                },
+                onFailed: res => {
                     this.getUpdates();
                 }
             })
@@ -75,8 +108,9 @@ const useNotifier = defineStore('notifier', {
         getUpdates() {
             api.get(route('system.notifications.all-unread'), {
                 onSuccess: res => {
-                    this.counter = res.data.total;
-                    this.notifications = res.data.notifications;
+                    this.counter = res.total;
+                    this.unreadClosedCounter = res.unread_closed;
+                    this.notifications = res.notifications;
                 },
                 onFailed: res => {
                     console.log('error', res)

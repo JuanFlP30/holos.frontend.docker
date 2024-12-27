@@ -1,9 +1,9 @@
 <script setup>
-import { onBeforeMount, onMounted } from 'vue';
-import { bootPermissions } from '@Plugins/RolePermission.js';
+import { onMounted } from 'vue';
 import useDarkMode from '@Stores/DarkMode'
 import useLeftSidebar from '@Stores/LeftSidebar'
 import useNotificationSidebar from '@Stores/NotificationSidebar'
+import useNotifier from '@Stores/Notifier'
 
 import Header              from '../Skeleton/Header.vue';
 import LeftSidebar         from '../Skeleton/Sidebar/Left.vue';
@@ -13,6 +13,7 @@ import NotificationSidebar from '../Skeleton/Sidebar/Notification.vue';
 const darkMode            = useDarkMode();
 const leftSidebar         = useLeftSidebar();
 const notificationSidebar = useNotificationSidebar();
+const notifier            = useNotifier();
 
 /** Propiedades */
 defineProps({
@@ -20,13 +21,11 @@ defineProps({
 });
 
 /** Ciclos */
-onBeforeMount(() => {
-    bootPermissions()
-})
 
-onMounted(()=> {
-    leftSidebar.boot()
-    darkMode.boot()
+onMounted(() => {
+    leftSidebar.boot();
+    darkMode.boot();
+    notifier.boot();
 });
 </script>
 

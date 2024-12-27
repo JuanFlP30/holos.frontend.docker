@@ -1,12 +1,24 @@
 <script setup>
+import { onMounted } from 'vue';
+import useLoader    from '@Stores/Loader';
+import { hasPermission } from '@Plugins/RolePermission';
+
 import Layout  from '@Holos/Layout/App.vue';
 import Link    from '@Holos/Skeleton/Sidebar/Link.vue';
 import Section from '@Holos/Skeleton/Sidebar/Section.vue';
+
+/** Definidores */
+const loader = useLoader()
 
 /** Propiedades */
 defineProps({
     title: String,
 });
+
+/** Ciclos */
+onMounted(() => {
+    loader.boot()
+})
 
 </script>
 
@@ -28,8 +40,12 @@ defineProps({
                     to="profile.show"
                 />
             </Section>
-            <Section :name="$t('admin.title')">
+            <Section
+                v-if="hasPermission('users.index')"
+                :name="$t('admin.title')"
+            >
                 <Link
+                    v-if="hasPermission('users.index')"
                     icon="people"
                     name="users.title" 
                     to="admin.users.index"

@@ -22,16 +22,23 @@ const hasPermission = (can) => {
 }
 
 const bootPermissions = () => {
-    if (!permissionsInit.value) {
-        api.get(route('user.permissions'), {
-            onSuccess: (res) => {
-                loadPermissions(res.permissions)
-            },
-            onFinish: () => {
-                permissionsInit.value = true;
-            }
-        })
-    }
+    return new Promise((resolve, reject) => {
+        if (!permissionsInit.value) {
+            api.get(route('user.permissions'), {
+                onSuccess: (res) => {
+                    loadPermissions(res.permissions)
+
+                    resolve(true)
+                },
+                onFinish: () => {
+                    permissionsInit.value = true;
+                },
+                onError: () => {
+                    reject(false)
+                }
+            })
+        }
+    })
 }
 
 const resetPermissions = () => {
@@ -47,8 +54,13 @@ const loadPermissions = (permissionList = []) => {
     }
 }
 
+const getAllPermissions = () => {
+    return allPermissions.value;
+}
+
 export {
     bootPermissions,
     hasPermission,
-    resetPermissions
+    resetPermissions,
+    getAllPermissions
 };

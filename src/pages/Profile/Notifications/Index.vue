@@ -1,30 +1,28 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { can, apiTo, viewTo } from './Module'
 import { useSearcher } from '@Services/Api';
-import { users } from '@Plugins/AuthUsers'
 
 import ModalController    from '@Controllers/ModalController.js';
+import { getDateTime }    from '@Controllers/DateController.js';
 
-import IconButton      from '@Holos/Button/Icon.vue'
-import DestroyView     from '@Holos/Modal/Template/Destroy.vue';
 import SearcherHead    from '@Holos/Searcher.vue';
 import Table           from '@Holos/Table.vue';
 import GoogleIcon      from '@Shared/GoogleIcon.vue';
-import ShowView        from './Modals/Show.vue';
+import IconButton      from '@Holos/Button/Icon.vue';
+import ShowView        from '@Holos/Skeleton/Sidebar/Notification/Show.vue';
 
 /** Controladores */
-const Modal    = new ModalController();
+const Modal = new ModalController();
 
 /** Propiedades */
-const destroyModal = ref(Modal.destroyModal);
+// const destroyModal = ref(Modal.destroyModal);
 const showModal    = ref(Modal.showModal);
 const modelModal   = ref(Modal.modelModal);
 
 const models = ref([]);
 
 const searcher = useSearcher({
-    url: route('users.index'),
+    url: route('system.notifications.all'),
     onSuccess: (r) => models.value = r.models,
     onError: () => models.value = []
 });
@@ -38,20 +36,14 @@ onMounted(() => {
 <template>
     <div>
         <SearcherHead
-            :title="$t('users.title')"
+            :title="$t('notifications.title')"
             @search="(x) => searcher.search(x)"
         >
-            <RouterLink
-                v-if="can('create')"
-                :to="viewTo({ name: 'create' })"
-            >
-                <IconButton
-                    class="text-white"
-                    icon="add"
-                    :title="$t('crud.create')"
-                    filled
-                />
-            </RouterLink>
+            <IconButton
+                icon="refresh"
+                :title="$t('notifications.unreadClosed')"
+                @click="searcher.search()"
+            />
         </SearcherHead>
         <div class="pt-2 w-full">
             <Table 
@@ -60,8 +52,16 @@ onMounted(() => {
                 :processing="searcher.processing"
             >
                 <template #head>
-                    <th v-text="$t('user')" />
-                    <th v-text="$t('contact')" />
+                    <th v-text="$t('title')" />
+                    <th v-text="$t('description')" />
+                    <th
+                        v-text="$t('date')"
+                        class="w-40 text-center"
+                    />
+                    <th
+                        v-text="$t('status')"
+                        class="w-32 text-center"
+                    />
                     <th
                         v-text="$t('actions')"
                         class="w-32 text-center"
@@ -70,28 +70,19 @@ onMounted(() => {
                 <template #body="{items}">
                     <tr v-for="model in items">
                         <td class="table-item border">
-                            {{ `${model.name} ${model.paternal}` }}
+                            {{ model.data.title }}
                         </td>
                         <td class="table-item border">
-                            <p>
-                                <a 
-                                    class="hover:underline"
-                                    target="_blank"
-                                    :href="`mailto:${model.email}`"
-                                >
-                                    {{ model.email }}
-                                </a>
-                            </p>
-                            <p v-if="model.phone" class="font-semibold text-xs">
-                                <b>Teléfono: </b>
-                                <a 
-                                    class="hover:underline"
-                                    target="_blank"
-                                    :href="`tel:${model.phone}`"
-                                >
-                                    {{ model.phone }}
-                                </a>
-                            </p>
+                            {{ model.data.description }}
+                        </td>
+                        <td class="table-item border">
+                            {{ getDateTime(model.created_at) }}
+                        </td>
+                        <td class="table-item border">
+                            <div class="flex items-center justify-center">
+                                <div class="w-2 h-2 rounded-full" :class="model.read_at ? 'bg-success' : 'bg-danger'"></div>
+                                <span class="ml-2">{{ model.read_at ? $t('readed') : (model.is_closed ? $t('omitted') : $t('unreaded')) }}</span>
+                            </div>
                         </td>
                         <td class="table-item">
                             <div class="table-actions">
@@ -102,37 +93,14 @@ onMounted(() => {
                                     @click="Modal.switchShowModal(model)"
                                     outline
                                 />
-                                <RouterLink
-                                    v-if="can('edit')"
-                                    class="h-fit"
-                                    :to="viewTo({ name: 'edit', params: { id: model.id } })"
-                                >
-                                    <GoogleIcon
-                                        class="btn-icon"
-                                        name="edit"
-                                        :title="$t('crud.edit')"
-                                        outline
-                                    />
-                                </RouterLink>
-                                <GoogleIcon
+                                <!-- <GoogleIcon
                                     v-if="can('destroy')"
                                     class="btn-icon"
                                     name="delete"
                                     :title="$t('crud.destroy')"
                                     @click="Modal.switchDestroyModal(model)"
                                     outline
-                                />
-                                <RouterLink
-                                    v-if="can('settings')"
-                                    class="h-fit"
-                                    :to="viewTo({ name: 'settings', params: { id: model.id } })"
-                                >
-                                    <GoogleIcon
-                                        class="btn-icon"
-                                        name="settings"
-                                        :title="$t('setting')"
-                                    />
-                                </RouterLink>
+                                /> -->
                             </div>
                         </td>
                     </tr>
@@ -147,24 +115,26 @@ onMounted(() => {
                     </td>
                     <td class="table-item border">-</td>
                     <td class="table-item border">-</td>
+                    <td class="table-item border">-</td>
+                    <td class="table-item border">-</td>
                 </template>
             </Table>
         </div>
         
         <ShowView 
-            v-if="can('index')"
             :show="showModal" 
             :model="modelModal" 
             @close="Modal.switchShowModal"
+            @reload="searcher.search()"
         />
-        <DestroyView
+        <!-- <DestroyView
             v-if="can('destroy')"
             :model="modelModal"
             :show="destroyModal"
             :to="(user) => apiTo('destroy', { user })"
             @close="Modal.switchDestroyModal"
-            @update="searcher.search()"
-        />
+            @update="getNotifications"
+        /> -->
     </div>
 </template>
     

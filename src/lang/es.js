@@ -202,17 +202,21 @@ export default {
     import: 'Importar',
     items: 'Elementos',
     maternal:'Apellido materno',
+    message:'Mensaje',
     menu:'Menú',
     name:'Nombre',
     noRecords:'Sin registros',
     notification:'Notificación',
     notifications: {
+        unreadClosed:'Ocultas',
         readed:'Marcar como leído',
         deleted:'Notificación eliminada',
         description:'Notificaciones del usuario',
         notFound:'Notificación no encontrada',
         title:'Notificaciones',
+        seeAll:'Ver todas',
     },
+    omitted:'Omitida',
     password:'Contraseña',
     passwordConfirmation:'Confirmar contraseña',
     passwordCurrent:'Contraseña actual',
@@ -246,6 +250,7 @@ export default {
     },
     profile:'Perfil',
     readed:'Leído',
+    read_at:'Fecha leído',
     register: {
         create: {
             onError: 'Error al crear el registro',
@@ -300,6 +305,11 @@ export default {
     search:'Buscar',
     selected: 'Seleccionado',
     select: 'Seleccionar',
+    server: {
+        api: {
+            noAvailable: 'No se encontró el servidor API.'
+        }
+    },
     session: {
         closed: 'Sesión cerrada',
     },
@@ -354,6 +364,7 @@ export default {
         start: 'Hora inicial',
         end: 'Hora final',
     },
+    title: 'Título',
     total: 'Total',
     unknown:'Desconocido',
     update:'Actualizar',
@@ -389,6 +400,11 @@ export default {
                 min:'Seleccionar mínimo un role'
             },
             title:'Roles de usuario',
+        },
+        online: {
+            description: 'Lista de usuarios conectados al sistema.',
+            title: 'Usuarios conectados',
+            count: 'Usuarios conectados.',
         },
         menu:'Menú de usuario',
         select:'Seleccionar un usuario',

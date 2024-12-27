@@ -13,10 +13,7 @@ const emit = defineEmits([
 const props = defineProps({
     editable: Boolean,
     show: Boolean,
-    title: {
-        default: Lang('details'),
-        type: String
-    }
+    title: String
 });
 </script>
 
@@ -25,7 +22,7 @@ const props = defineProps({
         <template #title>
             <p
                 class="font-bold text-xl"
-                v-text="title"
+                v-text="title ?? $t('details')"
             />
         </template>
         <template #content>

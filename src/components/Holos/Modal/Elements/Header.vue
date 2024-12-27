@@ -13,7 +13,7 @@ defineProps({
             {{ title }}
         </p>
         <p v-if="subtitle"
-            class="text-sm text-primary-on dark:text-primary-dark-on"
+            class="text-sm text-gray-50"
         >
             {{ subtitle }}
         </p>

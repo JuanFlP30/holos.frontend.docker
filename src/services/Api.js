@@ -245,6 +245,11 @@ const api = {
 }
 
 /**
+ * Instancia de la API
+ */
+const useApi = () => reactive(api);
+
+/**
  * Instancia de la API para formularios
  */
 const useForm = (form = {}) =>  {
@@ -462,7 +467,7 @@ const useSearcher = (options = {
     async load({
         url,
         apiToken = token.value,
-        filters = {}
+        filters,
     }) {
         this.errors = {};
         this.processing = true;
@@ -478,7 +483,7 @@ const useSearcher = (options = {
                 method: 'get',
                 url,
                 params: {
-                    query: this.query,
+                    q: this.query,
                     ...filters
                 },
                 headers: {
@@ -531,35 +536,46 @@ const useSearcher = (options = {
 
         this.processing = false;
     },
-    pagination(url, filters = {}) {
+    pagination(url, filter = {}) {
+        console.log(url, filter)
         this.load({
             url,
-            filters
+            filters : {
+                ...options.filters,
+                ...filter,
+            }
         })
     },
-    search(q, filters = {}) {
+    search(q = '', filter = {}) {
         this.query = q
         this.load({
-            url,
-            filters
+            url: options.url,
+            filters : {
+                ...options.filters,
+                ...filter,
+            }
         })
     },
-    refresh(filters = {}) {
+    refresh(filter = {}) {
         this.load({
-            url,
-            filters
+            url: options.url,
+            filters : {
+                ...options.filters,
+                ...filter,
+            }
         })
-    },
+    }
 })
 
 export {
     api,
     token,
     closeSession,
-    hasToken,
-    useForm,
-    useSearcher,
-    defineApiToken,
     defineCsrfToken,
-    resetApiToken
+    defineApiToken,
+    hasToken,
+    resetApiToken,
+    useApi,
+    useForm,
+    useSearcher
 }

@@ -1,10 +1,14 @@
 <script setup>
+import { users }     from '@Plugins/AuthUsers'
+import { hasPermission } from '@Plugins/RolePermission'
 import { logout } from '@Services/Page';
 import useDarkMode from '@Stores/DarkMode'
 import useLeftSidebar from '@Stores/LeftSidebar'
 import useNotificationSidebar from '@Stores/NotificationSidebar'
-import useNotifier from '@Stores/Notifier'
+import useNotifier   from '@Stores/Notifier'
+import useLoader     from '@Stores/Loader';
 
+import Loader       from '@Shared/Loader.vue';
 import GoogleIcon   from '@Shared/GoogleIcon.vue';
 import Dropdown     from '../Dropdown.vue';
 import DropdownLink from '../DropdownLink.vue';
@@ -19,6 +23,8 @@ const darkMode            = useDarkMode()
 const leftSidebar         = useLeftSidebar()
 const notificationSidebar = useNotificationSidebar()
 const notifier            = useNotifier()
+const loader              = useLoader()
+
 </script>
 
 <template>
@@ -36,6 +42,19 @@ const notifier            = useNotifier()
         />
         <div class="flex w-fit justify-end items-center h-14 header-right">
           <ul class="flex items-center space-x-2">
+            <li v-if="loader.isProcessing" class="flex items-center">
+              <Loader /> 
+            </li>
+            <li v-if="hasPermission('users.online')">
+              <RouterLink :to="{ name: 'admin.users.online' }" class="flex items-center">
+                <GoogleIcon
+                  class="text-xl mt-1"
+                  name="connect_without_contact"
+                  :title="$t('notifications.title')"
+                />
+                <span class="text-xs">{{ users.length - 1 }}</span>
+              </RouterLink>
+            </li>
             <li class="flex items-center">
               <GoogleIcon
                 class="text-xl mt-1"
