@@ -71,6 +71,25 @@ const router = createRouter({
                         }
                     ]
                 },
+                {
+                    path: 'roles',
+                    children: [
+                        {
+                            path: '',
+                            name: 'admin.roles.index',
+                            component: () => import('@Pages/Admin/Roles/Index.vue')
+                        },
+                        {
+                            path: 'create',
+                            name: 'admin.roles.create',
+                            component: () => import('@Pages/Admin/Roles/Create.vue')
+                        }, {
+                            path: ':id/edit',
+                            name: 'admin.roles.edit',
+                            component: () => import('@Pages/Admin/Roles/Edit.vue')
+                        }
+                    ]
+                }
             ]
         },
         {

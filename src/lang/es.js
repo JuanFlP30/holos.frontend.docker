@@ -251,6 +251,7 @@ export default {
     profile:'Perfil',
     readed:'Leído',
     read_at:'Fecha leído',
+    refresh: 'Recargar',
     register: {
         create: {
             onError: 'Error al crear el registro',
@@ -294,11 +295,17 @@ export default {
         deleted:'Rol eliminado',
         edit: {
             title: 'Editar rol',
-            description: 'Actualiza los permisos del rol.',
             onSuccess: 'Rol actualizado exitosamente',
             onError: 'Error al actualizar el role',
         },
+        update: {
+            description: 'Actualiza los permisos del rol.',
+        },
         title: 'Roles',
+        permissions: {
+            title: 'Permisos',
+            description: 'Permisos del rol.',
+        }
     },
     save:'Guardar',
     saved:'¡Guardado!',

@@ -5,24 +5,24 @@ import { useSearcher } from '@Services/Api';
 
 import ModalController    from '@Controllers/ModalController.js';
 
-import IconButton   from '@Holos/Button/Icon.vue'
-import DestroyView  from '@Holos/Modal/Template/Destroy.vue';
-import SearcherHead from '@Holos/Searcher.vue';
-import Table        from '@Holos/Table.vue';
-import ShowView     from './Modals/Show.vue';
+import IconButton      from '@Holos/Button/Icon.vue'
+import DestroyView     from '@Holos/Modal/Template/Destroy.vue';
+import SearcherHead    from '@Holos/Searcher.vue';
+import Table           from '@Holos/Table.vue';
+import Permissions     from './Modals/Permissions.vue';
 
 /** Controladores */
 const Modal    = new ModalController();
 
 /** Propiedades */
 const destroyModal = ref(Modal.destroyModal);
-const showModal    = ref(Modal.showModal);
+const editModal    = ref(Modal.editModal);
 const modelModal   = ref(Modal.modelModal);
 
 const models = ref([]);
 
 const searcher = useSearcher({
-    url: route('users.index'),
+    url: route('roles.index'),
     onSuccess: (r) => models.value = r.models,
     onError: () => models.value = []
 });
@@ -36,7 +36,7 @@ onMounted(() => {
 <template>
     <div>
         <SearcherHead
-            :title="$t('users.title')"
+            :title="$t('roles.title')"
             @search="(x) => searcher.search(x)"
         >
             <RouterLink
@@ -63,8 +63,7 @@ onMounted(() => {
                 :processing="searcher.processing"
             >
                 <template #head>
-                    <th v-text="$t('user')" />
-                    <th v-text="$t('contact')" />
+                    <th v-text="$t('name')" />
                     <th
                         v-text="$t('actions')"
                         class="w-32 text-center"
@@ -73,35 +72,15 @@ onMounted(() => {
                 <template #body="{items}">
                     <tr v-for="model in items">
                         <td class="table-item border">
-                            {{ `${model.name} ${model.paternal}` }}
-                        </td>
-                        <td class="table-item border">
-                            <p>
-                                <a 
-                                    class="hover:underline"
-                                    target="_blank"
-                                    :href="`mailto:${model.email}`"
-                                >
-                                    {{ model.email }}
-                                </a>
-                            </p>
-                            <p v-if="model.phone" class="font-semibold text-xs">
-                                <b>Teléfono: </b>
-                                <a 
-                                    class="hover:underline"
-                                    target="_blank"
-                                    :href="`tel:${model.phone}`"
-                                >
-                                    {{ model.phone }}
-                                </a>
-                            </p>
+                            {{ model.description }}
                         </td>
                         <td class="table-item">
                             <div class="table-actions">
                                 <IconButton
-                                    icon="visibility"
-                                    :title="$t('crud.show')"
-                                    @click="Modal.switchShowModal(model)"
+                                    v-if="can('edit') && ![1,2].includes(model.id)"
+                                    icon="license"
+                                    :title="$t('roles.permissions.title')"
+                                    @click="Modal.switchEditModal(model)"
                                     outline
                                 />
                                 <RouterLink
@@ -116,51 +95,30 @@ onMounted(() => {
                                     />
                                 </RouterLink>
                                 <IconButton
-                                    v-if="can('destroy')"
+                                    v-if="can('destroy') && ![1,2].includes(model.id)"
                                     icon="delete"
                                     :title="$t('crud.destroy')"
                                     @click="Modal.switchDestroyModal(model)"
                                     outline
                                 />
-                                <RouterLink
-                                    v-if="can('settings')"
-                                    class="h-fit"
-                                    :to="viewTo({ name: 'settings', params: { id: model.id } })"
-                                >
-                                    <IconButton
-                                        icon="settings"
-                                        :title="$t('setting')"
-                                    />
-                                </RouterLink>
                             </div>
                         </td>
                     </tr>
                 </template>
-                <template #empty>
-                    <td class="table-item border">
-                        <div class="flex items-center text-sm">
-                            <p class="font-semibold">
-                                {{ $t('registers.empty') }}
-                            </p>
-                        </div>
-                    </td>
-                    <td class="table-item border">-</td>
-                    <td class="table-item border">-</td>
-                </template>
             </Table>
         </div>
         
-        <ShowView 
+        <Permissions
             v-if="can('index')"
-            :show="showModal" 
+            :show="editModal" 
             :model="modelModal" 
-            @close="Modal.switchShowModal"
+            @close="Modal.switchEditModal"
         />
         <DestroyView
             v-if="can('destroy')"
             :model="modelModal"
             :show="destroyModal"
-            :to="(user) => apiTo('destroy', { user })"
+            :to="(role) => apiTo('destroy', { role })"
             @close="Modal.switchDestroyModal"
             @update="searcher.search()"
         />

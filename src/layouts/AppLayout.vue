@@ -50,6 +50,12 @@ onMounted(() => {
                     name="users.title" 
                     to="admin.users.index"
                 />
+                <Link
+                    v-if="hasPermission('roles.index')"
+                    icon="license"
+                    name="roles.title" 
+                    to="admin.roles.index"
+                />
             </Section>
         </template>
         <!-- Contenido -->

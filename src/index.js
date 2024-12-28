@@ -7,7 +7,7 @@ import { useRoute, ZiggyVue } from 'ziggy-js';
 import { i18n, lang } from '@Lang/i18n.js';
 import router from '@Router/Index'
 import Notify from '@Plugins/Notify'
-import { bootPermissions } from '@Plugins/RolePermission';
+import { bootPermissions, bootRoles } from '@Plugins/RolePermission';
 import TailwindScreen from '@Plugins/TailwindScreen'
 import { pagePlugin } from '@Services/Page';
 import { reloadApp, view } from '@Services/Page';
@@ -42,6 +42,7 @@ async function boot() {
     if(initRoutes) {
         // Iniciar permisos
         await bootPermissions();
+        await bootRoles();
     
         // Iniciar broadcast
         if(import.meta.env.VITE_REVERB_ACTIVE === 'true') {

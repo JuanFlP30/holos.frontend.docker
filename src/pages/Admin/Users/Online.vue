@@ -9,7 +9,6 @@ import IconButton      from '@Holos/Button/Icon.vue'
 import DestroyView     from '@Holos/Modal/Template/Destroy.vue';
 import Header          from '@Holos/PageHeader.vue';
 import Table           from '@Holos/TableSimple.vue';
-import GoogleIcon      from '@Shared/GoogleIcon.vue';
 import ShowView        from './Modals/Show.vue';
 
 /** Controladores */
@@ -85,9 +84,8 @@ const modelModal   = ref(Modal.modelModal);
                             </td>
                             <td class="table-item">
                                 <div class="table-actions">
-                                    <GoogleIcon
-                                        class="btn-icon"
-                                        name="visibility"
+                                    <IconButton
+                                        icon="visibility"
                                         :title="$t('crud.show')"
                                         @click="Modal.switchShowModal(model)"
                                         outline
@@ -97,17 +95,15 @@ const modelModal   = ref(Modal.modelModal);
                                         class="h-fit"
                                         :to="viewTo({ name: 'edit', params: { id: model.id } })"
                                     >
-                                        <GoogleIcon
-                                            class="btn-icon"
-                                            name="edit"
+                                        <IconButton
+                                            icon="edit"
                                             :title="$t('crud.edit')"
                                             outline
                                         />
                                     </RouterLink>
-                                    <GoogleIcon
+                                    <IconButton
                                         v-if="can('destroy')"
-                                        class="btn-icon"
-                                        name="delete"
+                                        icon="delete"
                                         :title="$t('crud.destroy')"
                                         @click="Modal.switchDestroyModal(model)"
                                         outline
@@ -117,9 +113,8 @@ const modelModal   = ref(Modal.modelModal);
                                         class="h-fit"
                                         :to="viewTo({ name: 'settings', params: { id: model.id } })"
                                     >
-                                        <GoogleIcon
-                                            class="btn-icon"
-                                            name="settings"
+                                        <IconButton
+                                            icon="settings"
                                             :title="$t('setting')"
                                         />
                                     </RouterLink>

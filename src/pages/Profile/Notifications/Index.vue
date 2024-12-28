@@ -7,9 +7,9 @@ import { getDateTime }    from '@Controllers/DateController.js';
 
 import SearcherHead    from '@Holos/Searcher.vue';
 import Table           from '@Holos/Table.vue';
-import GoogleIcon      from '@Shared/GoogleIcon.vue';
 import IconButton      from '@Holos/Button/Icon.vue';
 import ShowView        from '@Holos/Skeleton/Sidebar/Notification/Show.vue';
+import GoogleIcon      from '@Shared/GoogleIcon.vue';
 
 /** Controladores */
 const Modal = new ModalController();
@@ -41,7 +41,7 @@ onMounted(() => {
         >
             <IconButton
                 icon="refresh"
-                :title="$t('notifications.unreadClosed')"
+                :title="$t('refresh')"
                 @click="searcher.search()"
             />
         </SearcherHead>
@@ -86,9 +86,8 @@ onMounted(() => {
                         </td>
                         <td class="table-item">
                             <div class="table-actions">
-                                <GoogleIcon
-                                    class="btn-icon"
-                                    name="visibility"
+                                <IconButton
+                                    icon="visibility"
                                     :title="$t('crud.show')"
                                     @click="Modal.switchShowModal(model)"
                                     outline

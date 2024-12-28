@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { api } from '@Services/Api'
 import { page } from '@Services/Page'
-import { hasPermission } from '@Plugins/RolePermission'
+import { hasPermission, reloadPermissions, getAllRolesIds } from '@Plugins/RolePermission'
 import { boot as bootAuthUsers, addUser, removeUser } from '@Plugins/AuthUsers'
 
 /** Propiedades */
@@ -25,6 +25,7 @@ const useNotifier = defineStore('notifier', {
                 this.subscribeGLobalNotifications();
                 this.subscribeUserNotifications();
                 this.suscribeAuthUsers();
+                this.suscribeRoles();
                 this.isStarted = true;
 
                 this.getUpdates();
@@ -67,6 +68,18 @@ const useNotifier = defineStore('notifier', {
             } else {
                 Echo.join('online');
             }
+        },
+        suscribeRoles() {
+            const roles = getAllRolesIds();
+
+            roles.forEach(role => {
+                Echo.private(`App.Models.Role.${role}`)
+                    .listen('UpdateRoleUser', e => {
+                        reloadPermissions();
+
+                        Notify.success(`Actualizando permisos de ${e.role.description}`)
+                    });
+            });
         },
         // Notificaciones del usuario
         subscribeUserNotifications() {
