@@ -93,6 +93,11 @@ const router = createRouter({
             ]
         },
         {
+            path: '/changelogs',
+            name: 'changelogs',
+            component: () => import('@Pages/Changelogs.vue')
+        },
+        {
             path: '/:pathMatch(.*)*',
             name: '404',
             component: () => import('@Pages/Errors/404.vue')

@@ -41,11 +41,11 @@ const year = (new Date).getFullYear();
             </ul>
           </div>
           <div class="mb-4 px-5 space-y-1">
-            <p class="block text-center text-xs">
-              &copy {{year}} {{ APP_COPYRIGHT }}
-            </p>
+              <p class="block text-center text-xs">
+                &copy {{year}} {{ APP_COPYRIGHT }}
+              </p>
             <p class="text-center text-xs text-yellow-500 cursor-pointer">
-              APP {{ APP_VERSION }} API {{ $page.app.version }}
+              <RouterLink :to="{name:'changelogs'}"> APP {{ APP_VERSION }} </RouterLink> API {{ $page.app.version }}
             </p>
           </div>
         </div>
