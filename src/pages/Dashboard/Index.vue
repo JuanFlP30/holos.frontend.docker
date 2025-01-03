@@ -5,5 +5,5 @@ import PageHeader from '@Holos/PageHeader.vue';
 
 <template>
     <PageHeader title="Dashboard" />
-    <p v-html="$t('welcome', { name: $page.user.name })"></p>
+    <p><b>{{ $t('welcome') }}</b>, {{ $page.user.name }}.</p>
 </template>

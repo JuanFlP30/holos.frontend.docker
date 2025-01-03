@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { can, apiTo, viewTo } from './Module'
 import { useSearcher } from '@Services/Api';
+import { hasPermission } from '@Plugins/RolePermission';
 
 import ModalController    from '@Controllers/ModalController.js';
 
@@ -22,7 +23,7 @@ const modelModal   = ref(Modal.modelModal);
 const models = ref([]);
 
 const searcher = useSearcher({
-    url: route('users.index'),
+    url: apiTo('index'),
     onSuccess: (r) => models.value = r.models,
     onError: () => models.value = []
 });
@@ -31,7 +32,7 @@ const searcher = useSearcher({
 onMounted(() => {
     searcher.search();
 });
-</script>  
+</script>
 
 <template>
     <div>
@@ -59,8 +60,8 @@ onMounted(() => {
         <div class="pt-2 w-full">
             <Table 
                 :items="models"
-                @send-pagination="searcher.pagination"
                 :processing="searcher.processing"
+                @send-pagination="(page) => searcher.pagination(page)"
             >
                 <template #head>
                     <th v-text="$t('user')" />
@@ -130,6 +131,16 @@ onMounted(() => {
                                     <IconButton
                                         icon="settings"
                                         :title="$t('setting')"
+                                    />
+                                </RouterLink>
+                                <RouterLink
+                                    v-if="hasPermission('activities.index')"
+                                    class="h-fit"
+                                    :to="$view({ name: 'admin.activities.index', query: { user: model.id } })"
+                                >
+                                    <IconButton
+                                        icon="timeline"
+                                        :title="$t('activity')"
                                     />
                                 </RouterLink>
                             </div>

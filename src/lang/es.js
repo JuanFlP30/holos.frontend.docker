@@ -69,9 +69,14 @@ export default {
         title: 'Cuenta',
     },
     actions:'Acciones',
+    activity:'Actividad',
     add: 'Agregar',
     admin: {
         title: 'Administración',
+        activity: {
+            title: 'Historial de acciones',
+            description: 'Historial de acciones realizadas por los usuarios en orden cronológico.'
+        }
     },
     app: {
         theme: {
@@ -115,6 +120,7 @@ export default {
             notifySendVerification: 'Se ha enviado un nuevo enlace de verificación a su dirección de correo electrónico.',
         },
     },
+    author:'Autor',
     code:'Código',
     contracted_at: 'Fecha contratación',
     cancel:'Cancelar',
@@ -347,7 +353,9 @@ export default {
     },
     startDate:'Fecha de inicio',
     status:'Estado',
-    system:'Sistema',
+    system:{
+        title:'Núcleo de Holos',
+    },
     target: {
         title: 'Meta',
         total: 'Meta total'
@@ -381,6 +389,10 @@ export default {
     unreaded:'No leído',
     user:'Usuario',
     users:{
+        activity: {
+            title: 'Actividad del usuario',
+            description: 'Historial de acciones realizadas por el usuario.',
+        },
         create:{
             title:'Crear usuario',
             description:'Permite crear nuevos usuarios. No olvides otorgarle roles para que pueda acceder a las partes del sistema deseados.',
@@ -388,6 +400,7 @@ export default {
             onError:'Ocurrió un error al crear el usuario'
         },
         deleted:'Usuario eliminado',
+        remove: 'Remover usuario',
         edit: {
             title: 'Editar usuario'
         },
@@ -398,7 +411,7 @@ export default {
         },
         notFount:'Usuario no encontrado',
         password: {
-            description:'Permite actualizar las contraseñas de los usuarios sobre escribiendola.',
+            description:'Permite actualizar las contraseñas de los usuarios sobre escribiéndola.',
             title:'Actualizar contraseña',
         },
         roles: {
@@ -420,7 +433,7 @@ export default {
         title:'Usuarios',
     },
     version:'Versión',
-    welcome: '<b>Bienvenido</b> {name}.',
+    welcome: 'Bienvenido',
     workstation: 'Puesto de trabajo',
     workstations: {
         create: {

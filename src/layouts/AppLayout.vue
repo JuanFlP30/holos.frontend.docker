@@ -32,7 +32,7 @@ onMounted(() => {
                 <Link
                     icon="monitoring"
                     name="dashboard" 
-                    to="index"
+                    to="dashboard.index"
                 />
                 <Link
                     icon="person"
@@ -55,6 +55,12 @@ onMounted(() => {
                     icon="license"
                     name="roles.title" 
                     to="admin.roles.index"
+                />
+                <Link
+                    v-if="hasPermission('activities.index')"
+                    icon="event"
+                    name="history.title" 
+                    to="admin.activities.index"
                 />
             </Section>
         </template>

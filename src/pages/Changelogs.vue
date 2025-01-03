@@ -44,6 +44,18 @@ const changelogs = [
             'FIX: Tooltip de botones en tablas.'
         ],
         date: '2024-12-28'
+    },
+    {
+        version: '0.9.5',
+        details: [
+            'ADD: Historial de acciones general.',
+            'ADD: Historial de acciones por usuario.',
+            'FIX: Paginación con filtros.',
+            'UPDATE: La ruta / ahora redirige a /dashboard en caso de que se desarrolle un frontend publico.',
+            'UPDATE: Se agregaron los elementos administrados en /admin',
+            'UPDATE: Redirección a dashboard al iniciar sesión.'
+        ],
+        date: '2025-01-03'
     }
 ]
 </script>

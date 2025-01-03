@@ -1,6 +1,7 @@
 <script setup>
 import { onUpdated, ref } from 'vue';
 import { api } from '@Services/Api';
+import { apiTo } from '../Module';
 
 import Header     from '@Holos/Modal/Elements/Header.vue';
 import EditModal  from '@Holos/Modal/Edit.vue';
@@ -22,7 +23,7 @@ const permissions = ref([]);
 
 /** Métodos */
 function update() {
-    api.put(route('roles.permissions', { role: props.model.id }), {
+    api.put(apiTo('permissions', { role: props.model.id }), {
         data: {
             permissions: permissions.value
         },
@@ -40,7 +41,7 @@ onUpdated(() => {
         onSuccess: (r) => permissionTypes.value = r.models
     });
 
-    api.get(route('roles.permissions', { role: props.model.id }), {
+    api.get(apiTo('permissions', { role: props.model.id }), {
         onSuccess: (r) => {
             if(r.permissions) {
                 permissions.value = r.permissions.map(p => p.id);

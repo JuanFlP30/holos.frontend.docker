@@ -15,6 +15,11 @@ const router = createRouter({
         {
             path: '/',
             name: 'index',
+            redirect: '/dashboard'
+        },
+        {
+            path: '/dashboard',
+            name: 'dashboard.index',
             component: () => import('@Pages/Dashboard/Index.vue')
         }, {
             path: '/profile',
@@ -87,6 +92,17 @@ const router = createRouter({
                             path: ':id/edit',
                             name: 'admin.roles.edit',
                             component: () => import('@Pages/Admin/Roles/Edit.vue')
+                        }
+                    ]
+                },
+                {
+                    path: 'activities',
+                    children: [
+                        {
+                            path: '',
+                            name: 'admin.activities.index',
+                            beforeEnter: (to, from, next) => can(next, 'activities.index'),
+                            component: () => import('@Pages/Admin/Activities/Index.vue')
                         }
                     ]
                 }

@@ -537,7 +537,6 @@ const useSearcher = (options = {
         this.processing = false;
     },
     pagination(url, filter = {}) {
-        console.log(url, filter)
         this.load({
             url,
             filters : {

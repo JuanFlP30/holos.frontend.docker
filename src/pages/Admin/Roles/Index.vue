@@ -22,7 +22,7 @@ const modelModal   = ref(Modal.modelModal);
 const models = ref([]);
 
 const searcher = useSearcher({
-    url: route('roles.index'),
+    url: apiTo('index'),
     onSuccess: (r) => models.value = r.models,
     onError: () => models.value = []
 });
@@ -59,7 +59,7 @@ onMounted(() => {
         <div class="pt-2 w-full">
             <Table 
                 :items="models"
-                @send-pagination="searcher.pagination"
+                @send-pagination="(page) => searcher.pagination(page)"
                 :processing="searcher.processing"
             >
                 <template #head>

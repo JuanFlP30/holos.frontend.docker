@@ -70,7 +70,7 @@ defineProps({
                     class="text-xs text-gray-400 truncate"
                 />
                 <div v-else
-                    v-text="$t('system')"
+                    v-text="$t('system.title')"
                     class="text-xs text-gray-400 truncate"
                 />
             </div>

@@ -9,4 +9,5 @@
     <p class="bg-secondary"></p>
     <p class="hover:bg-primary/80 dark:hover:bg-primary-d/80"></p>
     <p class="bg-secondary-d"></p>
+    <p class="bg-danger border-danger"></p>
 </template>

@@ -2,7 +2,7 @@ import { lang } from '@Lang/i18n';
 import { hasPermission } from '@Plugins/RolePermission.js';
 
 // Ruta API
-const apiTo = (name, params = {}) => route(`users.${name}`, params)
+const apiTo = (name, params = {}) => route(`admin.users.${name}`, params)
 
 // Ruta visual
 const viewTo = ({ name = '', params = {}, query = {} }) => view({ name: `admin.users.${name}`, params, query })
