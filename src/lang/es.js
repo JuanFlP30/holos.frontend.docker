@@ -1,3 +1,5 @@
+import { success } from "toastr";
+
 export default {
     '&':'y',
     account: {
@@ -101,6 +103,8 @@ export default {
             description: '¿Ha olvidado su contraseña? No hay problema. Sólo tienes que indicarnos tu dirección de correo electrónico y te enviaremos un enlace para restablecer la contraseña que te permitirá elegir una nueva.',
             sendLink: 'Enviar enlace de recuperación',
             title: 'Contraseña olvidada',
+            success: 'Se ha enviado un enlace de recuperación a su dirección de correo electrónico.',
+            error: 'Error al enviar el enlace de recuperación, intente más tarde.',
         },
         login: 'Iniciar sesión',
         logout: 'Cerrar sesión',

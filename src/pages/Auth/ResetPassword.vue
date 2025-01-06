@@ -1,31 +1,45 @@
 <script setup>
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useForm } from '@Services/Api.js'
 
 import PrimaryButton from '@Holos/Button/Primary.vue';
 import Input         from '@Holos/Form/InputWithIcon.vue'
 
-/** Propiedades */
-const props = defineProps({
-    email: String,
-    token: String,
-});
+/** Definidores */
+const vroute = useRoute();
+const router = useRouter();
 
+/** Propiedades */
 const form = useForm({
-    token: props.token,
-    email: props.email,
+    token: '',
     password: '',
     password_confirmation: '',
 });
 
+const email = ref('');
+
 /** Métodos */
 const submit = () => {
-    form.post(route('password.update'), {
+    form.post(route('auth.reset-password'), {
         onSuccess: () => {
             Notify.success(Lang('auth.reset.success'));
+            router.push({ name: 'index' })
         },
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onError: () => {
+            router.push({ name: 'index' });
+        }
     });
 };
+
+onMounted(() => {
+    console.log('mount')
+
+    form.token = vroute.query.token;
+    email.value = vroute.query.email;
+
+    // router.replace({ query: {} });
+})
 </script>
 
 <template>
@@ -34,9 +48,8 @@ const submit = () => {
             icon="mail"
             id="email"
             type="email"
-            v-model="form.email"
-            :onError="form.errors.email"
-            :placeholder="$t('email.title')"
+            v-model="email"
+            disabled
         />
         <Input
             icon="password"

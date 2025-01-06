@@ -18,7 +18,16 @@ const form = useForm({
 
 /** Métodos */
 const submit = () => {
-    form.post(route('password.email'));
+    form.post(route('auth.forgot-password'), {
+        onSuccess: () => {
+            Notify.success(Lang('auth.forgotPassword.success'));
+            router.push({ name: 'index' });
+        },
+        onError: () => {
+            Notify.error(Lang('auth.forgotPassword.error'));
+            router.push({ name: 'index' });
+        }
+    });
 };
 </script>
 

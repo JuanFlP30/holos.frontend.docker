@@ -18,6 +18,7 @@ const emit = defineEmits([
 /** Propiedades */
 const props = defineProps({
     class: String,
+    disabled: Boolean,
     id: String,
     modelValue: Number | String,
     onError: String | Array,
@@ -71,6 +72,8 @@ onMounted(() => {
             v-bind="$attrs"
             ref="input"
             class="input-primary"
+            :class="{ 'cursor-not-allowed': disabled }"
+            :disabled="disabled"
             :id="autoId"
             :placeholder="placeholder"
             :required="required"
