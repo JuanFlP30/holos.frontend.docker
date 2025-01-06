@@ -67,13 +67,13 @@ const borderColor = computed(() => {
                     </span>
                 </div>
                 <div class="p-2">
-                    <div class="flex flex-col justify-center items-center md:flex-row md:justify-start space-x-4">
+                    <div class="flex flex-col justify-center items-center md:flex-row md:justify-start md:space-x-4">
                         <div v-if="event.user" class="w-32">
                             <div class="flex flex-col w-full justify-center items-center space-y-2">
                                 <img :src="event.user?.profile_photo_url" alt="Photo" class="w-24 h-24 rounded-full">
                             </div>
                         </div>
-                        <div class="flex flex-col space-y-2">
+                        <div class="flex w-full flex-col justify-start space-y-2">
                             <div>
                                 <h4 class="font-semibold">{{ $t('description') }}:</h4>
                                 <p>{{ event.description }}.</p>

@@ -56,6 +56,14 @@ const changelogs = [
             'UPDATE: Redirección a dashboard al iniciar sesión.'
         ],
         date: '2025-01-03'
+    },
+    {
+        version: '0.9.6',
+        details: [
+            'FIX: Historial de acciones, modo responsivo.',
+            'ADD: Recuperación de contraseña.'
+        ],
+        date: '2025-01-06'
     }
 ]
 </script>
