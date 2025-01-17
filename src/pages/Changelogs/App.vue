@@ -64,6 +64,13 @@ const changelogs = [
             'ADD: Recuperación de contraseña.'
         ],
         date: '2025-01-06'
+    },
+    {
+        version: '0.9.7',
+        details: [
+            'ADD: Visualización de historial de cambios del backend.',
+        ],
+        date: '2025-01-17'
     }
 ]
 </script>

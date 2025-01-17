@@ -45,7 +45,7 @@ const year = (new Date).getFullYear();
                 &copy {{year}} {{ APP_COPYRIGHT }}
               </p>
             <p class="text-center text-xs text-yellow-500 cursor-pointer">
-              <RouterLink :to="{name:'changelogs'}"> APP {{ APP_VERSION }} </RouterLink> API {{ $page.app.version }}
+              <RouterLink :to="{name:'changelogs.app'}"> APP {{ APP_VERSION }} </RouterLink> <RouterLink :to="{name:'changelogs.core'}"> API {{ $page.app.version }} </RouterLink>
             </p>
           </div>
         </div>

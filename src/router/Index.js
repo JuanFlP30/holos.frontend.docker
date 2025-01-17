@@ -111,7 +111,18 @@ const router = createRouter({
         {
             path: '/changelogs',
             name: 'changelogs',
-            component: () => import('@Pages/Changelogs.vue')
+            children: [
+                {
+                    path: '',
+                    name: 'changelogs.app',
+                    component: () => import('@Pages/Changelogs/App.vue')
+                },
+                {
+                    path: 'core',
+                    name: 'changelogs.core',
+                    component: () => import('@Pages/Changelogs/Core.vue')
+                }
+            ]
         },
         {
             path: '/:pathMatch(.*)*',
