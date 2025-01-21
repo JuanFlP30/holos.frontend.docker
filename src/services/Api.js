@@ -9,7 +9,7 @@ import axios from 'axios';
 import { reactive, ref } from 'vue';
 
 axios.defaults.withXSRFToken = true;
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 /**
  * Códigos de falla
@@ -23,7 +23,7 @@ const failCodes = [
 /**
  * Servidor a utilizar
  */
-const token     = ref(localStorage.token);
+const token     = ref(sessionStorage.token);
 const csrfToken = ref(localStorage.csrfToken);
 
 /**
@@ -31,7 +31,7 @@ const csrfToken = ref(localStorage.csrfToken);
  */
 const defineApiToken = (x) => {
     token.value = x;
-    localStorage.token = x;
+    sessionStorage.token = x;
 }
 
 /**
@@ -47,7 +47,7 @@ const defineCsrfToken = (x) => {
  */
 const resetApiToken = () => {
     token.value = undefined;
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
 }
 
 /**

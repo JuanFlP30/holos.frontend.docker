@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { hasPermission } from '@Plugins/RolePermission';
 
+import examples from './Examples';
+
 function can(next, can) {
     if (!hasPermission(can)) {
         next({ name: '404' });
@@ -128,7 +130,8 @@ const router = createRouter({
             path: '/:pathMatch(.*)*',
             name: '404',
             component: () => import('@Pages/Errors/404.vue')
-        }
+        },
+        ...examples,
     ]
 })
 
