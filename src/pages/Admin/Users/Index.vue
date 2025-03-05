@@ -22,6 +22,7 @@ const modelModal   = ref(Modal.modelModal);
 
 const models = ref([]);
 
+/** Métodos */
 const searcher = useSearcher({
     url: apiTo('index'),
     onSuccess: (r) => models.value = r.models,
@@ -72,11 +73,14 @@ onMounted(() => {
                     />
                 </template>
                 <template #body="{items}">
-                    <tr v-for="model in items">
-                        <td class="table-item border">
+                    <tr
+                        v-for="model in items"
+                        class="table-row"
+                    >
+                        <td class="table-cell">
                             {{ `${model.name} ${model.paternal}` }}
                         </td>
-                        <td class="table-item border">
+                        <td class="table-cell">
                             <p>
                                 <a 
                                     class="hover:underline"
@@ -88,16 +92,16 @@ onMounted(() => {
                             </p>
                             <p v-if="model.phone" class="font-semibold text-xs">
                                 <b>Teléfono: </b>
-                                <a 
+                                <span
                                     class="hover:underline"
                                     target="_blank"
                                     :href="`tel:${model.phone}`"
                                 >
                                     {{ model.phone }}
-                                </a>
+                                </span>
                             </p>
                         </td>
-                        <td class="table-item">
+                        <td class="table-cell">
                             <div class="table-actions">
                                 <IconButton
                                     icon="visibility"
@@ -148,15 +152,15 @@ onMounted(() => {
                     </tr>
                 </template>
                 <template #empty>
-                    <td class="table-item border">
+                    <td class="table-cell">
                         <div class="flex items-center text-sm">
                             <p class="font-semibold">
                                 {{ $t('registers.empty') }}
                             </p>
                         </div>
                     </td>
-                    <td class="table-item border">-</td>
-                    <td class="table-item border">-</td>
+                    <td class="table-cell">-</td>
+                    <td class="table-cell">-</td>
                 </template>
             </Table>
         </div>

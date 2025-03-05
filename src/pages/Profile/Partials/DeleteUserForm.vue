@@ -69,16 +69,19 @@ const closeModal = () => {
                 </template>
 
                 <template #content>
-                    {{ $t('account.delete.confirm') }}
+                    <div class="px-4 pb-2">
+                        <p>{{ $t('account.delete.confirm') }}</p>
+    
+                        <div class="mt-4">
+                            <Input
+                                ref="passwordInput"
+                                v-model="form.password"
+                                id="password"
+                                type="password"
+                                :onError="form.errors.password"
+                            />
+                        </div>
 
-                    <div class="mt-4">
-                        <Input
-                            ref="passwordInput"
-                            v-model="form.password"
-                            id="password"
-                            type="password"
-                            :onError="form.errors.password"
-                        />
                     </div>
                 </template>
 

@@ -96,11 +96,11 @@ const submit = () => {
 
                         <div class="ms-2 text-primary-t dark:text-primary-dt">
                             I agree to the
-                            <a target="_blank" :href="route('terms.show')" class="underline text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <a target="_blank" :href="route('terms.show')" class="underline text-sm rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 {{ $t('terms.service') }}
                             </a>
                             and
-                            <a target="_blank" :href="route('policy.show')" class="underline text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <a target="_blank" :href="route('policy.show')" class="underline text-sm rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 {{ $t('policy.privacy') }}
                             </a>
                         </div>
@@ -110,7 +110,7 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link :href="route('login')" class="underline text-sm bg-page-text hover:bg-page-background text-page-background hover:text-page-text rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <Link :href="route('login')" class="underline text-sm bg-page-text hover:bg-page-background text-page-background hover:text-page-text rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     {{ $t('auth.register.already') }}
                 </Link>
 

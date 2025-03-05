@@ -29,7 +29,7 @@ const year = (new Date).getFullYear();
       :class="{'w-64': leftSidebar.isClosed, 'w-screen': leftSidebar.isOpened}"
     >
       <div class="flex flex-col h-full p-2 md:w-64">
-        <div class="flex h-full flex-col w-[15.5rem] justify-between rounded-lg  overflow-y-auto overflow-x-hidden bg-primary dark:bg-primary-d text-white">
+        <div class="flex h-full flex-col w-[15.5rem] justify-between rounded-sm overflow-y-auto overflow-x-hidden bg-primary dark:bg-primary-d text-white">
           <div>
             <div class="flex w-full px-2 mt-2">
               <Logo

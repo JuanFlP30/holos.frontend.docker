@@ -25,7 +25,7 @@ function submit() {
 </script>
 
 <template>
-    <div class="w-full py-4">
+    <div class="w-full pb-2">
         <p class="text-justify text-sm" v-text="transl(`${action}.description`)" />
     </div>
     <div class="w-full">
@@ -41,28 +41,24 @@ function submit() {
                 v-model="form.paternal"
                 id="paternal"
                 :onError="form.errors.paternal"
-                autofocus
                 required
             />
             <Input
                 v-model="form.maternal"
                 id="maternal"
                 :onError="form.errors.maternal"
-                autofocus
             />
             <Input
                 v-model="form.phone"
                 id="phone"
                 :onError="form.errors.phone"
                 type="number"
-                autofocus
             />
             <Input
                 v-model="form.email"
                 id="email.title"
                 type="email"
                 :onError="form.errors.email"
-                autofocus
                 required
             />
             <slot />

@@ -47,11 +47,11 @@ onMounted(() => {
             />
         </div>
 
-        <main class="bg-white/10 w-full mx-auto sm:max-w-2xl backdrop-blur-sm text-white px-4 py-8 rounded-md">
+        <main class="bg-white/10 w-full mx-auto sm:max-w-2xl backdrop-blur-xs text-white px-4 py-8 rounded-md">
           <slot />
         </main>
 
-        <footer class="absolute bottom-0 flex w-full h-8 px-4 items-center justify-between bg-primary dark:bg-primary-d backdrop-blur-sm text-white transition-colors duration-global">
+        <footer class="absolute bottom-0 flex w-full h-8 px-4 items-center justify-between bg-primary dark:bg-primary-d backdrop-blur-xs text-white transition-colors duration-global">
           <div>
               <span>
                   &copy;{{ APP_COPYRIGHT }}

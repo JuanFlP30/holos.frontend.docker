@@ -59,21 +59,19 @@ onUpdated(() => {
         <Header
             :title="model.description"
         />
-        <div class="p-4 border-b">
+        <div class="p-4">
             <div class="grid gap-4 grid-cols-2">
                 <div v-for="permissionType in permissionTypes">
-                    <div>
-                        <p class="font-bold">{{ permissionType.name}}</p>
-                        <ul class="space-y-0.5 list-none">
-                            <li v-for="permission in permissionType.permissions">
-                                <Checkbox
-                                    v-model="permissions"
-                                    :title="permission.description"
-                                    :value="permission.id"
-                                />
-                            </li>
-                        </ul>
-                    </div>
+                    <p class="font-bold">{{ permissionType.name}}</p>
+                    <ul class="space-y-0.5 list-none">
+                        <li v-for="permission in permissionType.permissions">
+                            <Checkbox
+                                v-model="permissions"
+                                :title="permission.description"
+                                :value="permission.id"
+                            />
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

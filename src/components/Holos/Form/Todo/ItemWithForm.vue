@@ -111,7 +111,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="rounded border border-primary dark:border-primary-d p-2">
+    <div class="rounded-sm border border-primary dark:border-primary-d p-2">
         <p>{{ title }}</p>
         <div class="w-full grid gap-2 grid-cols-2 dark:bg-primary-d/50 rounded-md">
             <Selectable
@@ -138,7 +138,7 @@ onMounted(() => {
             </div>
             <div class="col-span-2 space-y-2 ">
                 <template v-for="item, index in values">
-                    <div class="relative rounded border border-primary/50">
+                    <div class="relative rounded-sm border border-primary/50">
                         <div class="grid gap-2 grid-cols-2 w-full items-center p-2 dark:bg-primary-d/50">
                             <Input
                                 v-model="item.item.name"

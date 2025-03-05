@@ -55,13 +55,13 @@ const modelModal   = ref(Modal.modelModal);
                 <template #body="{items}">
                     <template v-for="model in items">
                         <tr v-if="model.id != 1">
-                            <td class="table-item border">
+                            <td class="table-cell border">
                                 <img :src="model.profile_photo_url" alt="Profile photo" class="w-10 h-10 rounded-full">
                             </td>
-                            <td class="table-item border">
+                            <td class="table-cell border">
                                 {{ `${model.full_name}` }}
                             </td>
-                            <td class="table-item border">
+                            <td class="table-cell border">
                                 <p>
                                     <a 
                                         class="hover:underline"
@@ -82,7 +82,7 @@ const modelModal   = ref(Modal.modelModal);
                                     </a>
                                 </p>
                             </td>
-                            <td class="table-item">
+                            <td class="table-cell">
                                 <div class="table-actions">
                                     <IconButton
                                         icon="visibility"

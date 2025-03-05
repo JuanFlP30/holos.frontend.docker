@@ -26,8 +26,8 @@ const props = defineProps({
             />
         </template>
         <template #content>
-            <div class="w-full right-0 mt-2">
-                <div class="rounded overflow-hidden shadow-lg">
+            <div class="w-full right-0">
+                <div class="overflow-hidden shadow-lg">
                     <slot />
                 </div>
             </div>

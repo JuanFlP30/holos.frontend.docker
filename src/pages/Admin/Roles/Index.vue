@@ -70,11 +70,11 @@ onMounted(() => {
                     />
                 </template>
                 <template #body="{items}">
-                    <tr v-for="model in items">
-                        <td class="table-item border">
+                    <tr v-for="model in items" class="table-row">
+                        <td class="table-cell border">
                             {{ model.description }}
                         </td>
-                        <td class="table-item">
+                        <td class="table-cell">
                             <div class="table-actions">
                                 <IconButton
                                     v-if="can('edit') && ![1,2].includes(model.id)"

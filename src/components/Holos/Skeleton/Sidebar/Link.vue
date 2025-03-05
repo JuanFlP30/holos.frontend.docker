@@ -21,7 +21,7 @@ const classes = computed(() => {
         ? 'bg-secondary/30 dark:bg-secondary-d/30 border-secondary dark:border-secondary-d'
         : 'border-transparent';
 
-    return `flex items-center h-11 focus:outline-none hover:bg-secondary/30 dark:hover:bg-secondary-d/30 border-l-4 hover:border-secondary dark:hover:border-secondary-d pr-6 ${status} transition`
+    return `flex items-center h-11 focus:outline-hidden hover:bg-secondary/30 dark:hover:bg-secondary-d/30 border-l-4 hover:border-secondary dark:hover:border-secondary-d pr-6 ${status} transition`
 });
 
 const closeSidebar = () => {

@@ -68,7 +68,7 @@ const search = url => props.searcherCtl.searchWithInboxPagination(url);
                         </button>
                         <div
                             @click.away="filterMessages = false"
-                            class="bg-gray-200 shadow-2xl absolute left-0 top-6 w-32 py-2 text-gray-900 rounded z-10"
+                            class="bg-gray-200 shadow-2xl absolute left-0 top-6 w-32 py-2 text-gray-900 rounded-sm z-10"
                             :class="{'hidden':!filterMessages}"
                         >
                             <button

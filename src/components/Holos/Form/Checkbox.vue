@@ -28,7 +28,7 @@ const vModel = computed({
 <template>
     <div class="relative w-full h-8">
         <input
-            class="appearance-none rounded-lg bg-primary cursor-pointer h-full w-full checked:bg-secondary dark:checked:bg-secondary-d transition-all duration-200 peer"
+            class="appearance-none rounded-sm bg-primary cursor-pointer h-full w-full checked:bg-secondary dark:checked:bg-secondary-d transition-all duration-200 peer"
             type="checkbox"
             :id="uuid"
             v-model="vModel"

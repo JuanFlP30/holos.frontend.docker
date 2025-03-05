@@ -1,6 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "../../colors.css";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-google-icon-outlined: "Material Symbols Outlined"; 
+  --font-google-icon-outlined-fill: "Material Symbols Outlined Fill";
+  --font-google-icon-rounded: "Material Symbols Rounded";
+  --font-google-icon-rounded-fill: "Material Symbols rounded-sm Fill";
+  --font-google-icon-sharp: "Material Symbols Sharp";
+  --font-google-icon-sharp-fill: "Material Symbols Sharp Fill";
+}
 
 .app-bg-light {
   @apply bg-primary
@@ -11,7 +20,7 @@
 }
 
 .btn {
-  @apply inline-flex justify-center items-center w-fit px-1.5 py-1.5 rounded-md font-medium border border-transparent text-xs text-white uppercase tracking-widest hover:opacity-90 focus:outline-none active:saturate-150 disabled:opacity-25 transition;
+  @apply inline-flex justify-center items-center w-fit px-1.5 py-1.5 rounded-sm font-medium border border-transparent text-xs text-white uppercase tracking-widest hover:opacity-90 focus:outline-hidden active:saturate-150 disabled:opacity-25 cursor-pointer transition;
 }
 
 .btn-primary {
@@ -35,51 +44,35 @@
 }
 
 .btn-icon {
-  @apply flex w-fit min-h-6 px-1.5 py-1.5 rounded-md font-medium bg-primary dark:bg-primary-d text-primary-t dark:text-primary-dt hover:bg-secondary dark:hover:bg-secondary-d hover:text-secondary-t dark:hover:text-secondary-dt;
+  @apply flex w-fit min-h-6 px-1.5 py-1.5 rounded-sm font-medium bg-primary dark:bg-primary-d text-primary-t dark:text-primary-dt hover:bg-secondary dark:hover:bg-secondary-d hover:text-secondary-t dark:hover:text-secondary-dt cursor-pointer;
 }
 
 .input-primary {
-    @apply w-full p-2 border rounded-md outline-0 bg-transparent
+  @apply w-full p-[6.5px] border-b border-page-t/50 dark:border-page-dt/50 bg-primary/5 rounded-sm outline-0 
 }
 
 .nav-item {
-    @apply p-1
+  @apply p-1
 }
 
-.table-item {
-  @apply px-2 border text-sm;
+.table-row {
+  @apply hover:bg-secondary/10 dark:hover:bg-secondary-d/10 transition-colors duration-100
+}
+
+.table-cell {
+  @apply px-2 py-0.5 text-sm border border-primary/30 dark:border-primary-dt/30;
 }
 
 .table-actions {
-  @apply flex justify-center items-center space-x-2;
+  @apply flex  justify-center items-center space-x-1;
 }
 
 nav a.router-link-active {
   @apply bg-secondary/30 dark:bg-secondary-d/30 border-secondary dark:border-secondary-d
 }
 
-table {
-  @apply w-full;
-}
-
-table>thead {
-  @apply bg-primary text-white;
-}
-
-table>thead>tr {
-  @apply text-base font-semibold tracking-wide text-left text-white bg-primary dark:bg-primary-d uppercase border-b divide-indigo-50 divide-x;
-}
-
-table>thead>tr>th {
-  @apply px-2 border border-white text-sm;
-}
-
 .with-transition {
   @apply transition-all duration-300
-}
-
-.with-color-transition {
-    @apply transition-colors duration-500
 }
 
 /**

@@ -30,41 +30,39 @@ defineProps({
                 </div>
             </div>
         </Header>
-        <div class="py-2 border-b">
-            <div class="flex w-full px-4 py-2">
-                <GoogleIcon 
-                    class="text-xl text-success"
-                    name="contact_mail"
-                />
-                <div class="pl-3">
-                    <p class="font-bold text-lg leading-none pb-2">
-                        {{ $t('details') }}
-                    </p>
-                    <p>
-                        <b>{{ $t('name') }}: </b>
-                        {{ model.full_name }}
-                    </p>
-                    <p>
-                        <b>{{ $t('phone') }}: </b>
-                        <a :href="`tel:${model.phone}`" target="_blank" class="hover:text-danger">
-                            {{ model.phone ?? '-' }}
-                        </a>
-                    </p>
-                    <p>
-                        <b>{{ $t('email.title') }}: </b>
-                        <a :href="`mailto:${model.email}`" target="_blank" class="hover:text-danger">
-                            {{ model.email }}
-                        </a>
-                    </p>
-                    <p>
-                        <b>{{ $t('created_at') }}: </b>
-                        {{ getDateTime(model.created_at) }}
-                    </p>
-                    <p>
-                        <b>{{ $t('updated_at') }}: </b>
-                        {{ getDateTime(model.updated_at) }}
-                    </p>
-                </div>
+        <div class="flex w-full p-4">
+            <GoogleIcon 
+                class="text-xl text-success"
+                name="contact_mail"
+            />
+            <div class="pl-3">
+                <p class="font-bold text-lg leading-none pb-2">
+                    {{ $t('details') }}
+                </p>
+                <p>
+                    <b>{{ $t('name') }}: </b>
+                    {{ model.full_name }}
+                </p>
+                <p>
+                    <b>{{ $t('phone') }}: </b>
+                    <a :href="`tel:${model.phone}`" target="_blank" class="hover:text-danger">
+                        {{ model.phone ?? '-' }}
+                    </a>
+                </p>
+                <p>
+                    <b>{{ $t('email.title') }}: </b>
+                    <a :href="`mailto:${model.email}`" target="_blank" class="hover:text-danger">
+                        {{ model.email }}
+                    </a>
+                </p>
+                <p>
+                    <b>{{ $t('created_at') }}: </b>
+                    {{ getDateTime(model.created_at) }}
+                </p>
+                <p>
+                    <b>{{ $t('updated_at') }}: </b>
+                    {{ getDateTime(model.updated_at) }}
+                </p>
             </div>
         </div>
     </ShowModal>

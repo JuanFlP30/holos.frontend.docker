@@ -18,7 +18,7 @@ defineProps({
 </script>
 
 <template>
-    <li class="flex flex-col w-full items-center p-2 bg-primary dark:bg-primary-d text-white rounded-lg shadow-md">
+    <li class="flex flex-col w-full items-center p-2 bg-primary dark:bg-primary-d text-white rounded-sm shadow-md">
         <div class="flex w-full justify-between text-gray-400">
             <div>
                 <h6 class="text-[10px]">{{ getDateTime(notification.created_at) }}</h6>
@@ -43,7 +43,7 @@ defineProps({
                     </div>
                 </template>
                 <template v-else>
-                    <div class="w-10 h-10 bg-secondary dark:bg-secondary-d rounded-xl flex items-center justify-center">
+                    <div class="w-10 h-10 bg-secondary dark:bg-secondary-d rounded-sm flex items-center justify-center">
                         <img v-if="notification.user"
                            class="rounded-full object-cover"
                            :alt="notification.user.name"

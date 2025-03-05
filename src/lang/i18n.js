@@ -13,13 +13,14 @@ const messages = {
 }
 
 const i18n = createI18n({
+  legacy: false,
   locale,
   fallbackLocale: locale,
   messages
 });
 
-function lang(text) {
-  return i18n.global.t(text);
+function lang(text, params = {}) {
+  return i18n.global.t(text, params);
 }
 
 export {

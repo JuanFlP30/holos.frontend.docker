@@ -65,7 +65,7 @@ onMounted(() => {
 
 <template>
     <div class="mb-4">
-        <div class="flex items-center border-2 py-2 px-3 rounded-2xl">
+        <div class="flex items-center border-2 py-2 px-3 rounded-sm">
             <GoogleIcon
                 :name="icon"
             />
@@ -73,7 +73,7 @@ onMounted(() => {
                 ref="input"
                 v-model="value"
                 v-bind="$attrs"
-                class="pl-2 w-full outline-none border-none bg-transparent"
+                class="pl-2 w-full outline-hidden border-none bg-transparent"
                 :class="{ 'cursor-not-allowed': disabled }"
                 :disabled="disabled"
                 :id="autoId"

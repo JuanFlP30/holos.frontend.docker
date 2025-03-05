@@ -35,13 +35,13 @@ onMounted(() => {
             <template #body="{items}">
                 <template v-for="item in items">
                     <tr>
-                        <td class="table-item">
+                        <td class="table-cell">
                             <span v-text="item.version" />
                         </td>
-                        <td class="table-item">
+                        <td class="table-cell">
                             <span v-text="item.date" />
                         </td>
-                        <td class="table-item">
+                        <td class="table-cell">
                             <ul class="list-disc list-inside">
                                 <li v-for="detail in item.changes" v-text="detail" />
                             </ul>

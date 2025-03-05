@@ -23,7 +23,7 @@ const props = defineProps({
       :class="{'w-64': rightSidebar.isClosed, 'w-screen': rightSidebar.isOpened}"
     >
       <div class="flex flex-col h-full p-2 md:w-64">
-        <div class="flex h-full flex-col w-[15.5rem] justify-between rounded-lg  overflow-y-auto overflow-x-hidden bg-primary dark:bg-primary-d text-white">
+        <div class="flex h-full flex-col w-[15.5rem] justify-between rounded-sm  overflow-y-auto overflow-x-hidden bg-primary dark:bg-primary-d text-white">
           <div>
             <ul class="flex h-full flex-col md:pb-4 space-y-1">
               <slot />

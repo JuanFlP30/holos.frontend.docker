@@ -16,7 +16,7 @@ const props = defineProps({
 
 <template>
     <section class="pb-2">
-        <div class="w-full overflow-hidden rounded-md shadow-lg">
+        <div class="w-full overflow-hidden rounded-sm shadow-lg">
             <div v-if="!processing" class="w-full overflow-x-auto">
                 <template v-if="items?.total > 0">
                     <slot

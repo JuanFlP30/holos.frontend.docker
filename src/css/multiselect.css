@@ -4,7 +4,7 @@
 
 .multiselect__input,
 .multiselect__single  {
-    @apply bg-white dark:bg-primary dark:text-white
+    @apply bg-white dark:bg-transparent dark:text-white
 }
 
 .multiselect__input::placeholder {
@@ -12,7 +12,7 @@
 }
 
 .multiselect__tag {
-  @apply dark:bg-green-800;
+  @apply bg-success dark:bg-success-d;
 }
 
 .multiselect__tag-icon::after {
@@ -25,7 +25,7 @@
 }
 
 .multiselect__tags {
-  @apply dark:bg-primary min-h-8 border-0 border-b border-b-slate-400 pt-1 with-color-transition;
+  @apply bg-primary/5  dark:bg-primary-d/5 min-h-8 border-0 border-b border-page-t/50 dark:border-page-dt/50 pt-1;
 }
 
 .multiselect__option--highlight {
@@ -45,7 +45,7 @@
   }
 
 .multiselect__content-wrapper {
-    @apply bg-gray-100 dark:bg-primary;
+    @apply bg-page dark:bg-page-d;
   }
 
   

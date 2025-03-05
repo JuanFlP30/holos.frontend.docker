@@ -57,7 +57,7 @@ const clear = () => {
                 </div>
                 <input
                     id="search"
-                    class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg outline-0 focus:ring-primary focus:border-primary block sm:w-56 md:w-72 lg:w-80 pr-10 px-2.5 py-1"
+                    class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-sm outline-0 focus:ring-primary focus:border-primary block sm:w-56 md:w-72 lg:w-80 pr-10 px-2.5 py-1"
                     autocomplete="off"
                     :placeholder="placeholder"
                     required

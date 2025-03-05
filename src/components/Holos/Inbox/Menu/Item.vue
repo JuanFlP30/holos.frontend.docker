@@ -19,10 +19,10 @@ const props = defineProps({
 /** Propiedades computadas */
 const classes = computed(() => {
     let status = route().current(props.to, props.toParam)
-        ? 'bg-secondary bg-opacity-30'
-        : 'border-transparent hover:bg-secondary hover:bg-opacity-30';
+        ? 'bg-secondary/30'
+        : 'border-transparent hover:bg-secondary/30';
 
-    return ` text-primary flex items-center justify-between py-1.5 px-4 rounded cursor-pointer ${status} transition`
+    return ` text-primary flex items-center justify-between py-1.5 px-4 rounded-sm cursor-pointer ${status} transition`
 });
 </script>
 
@@ -43,7 +43,7 @@ const classes = computed(() => {
                     {{ title }}
                 </span>
             </span>
-            <span v-if="counter > 0" class="bg-primary text-gray-100 font-bold px-2 py-0.5 text-xs rounded-lg">
+            <span v-if="counter > 0" class="bg-primary text-gray-100 font-bold px-2 py-0.5 text-xs rounded-sm">
                 {{ counter }}
             </span>
         </RouterLink>

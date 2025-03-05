@@ -31,8 +31,8 @@ const loader              = useLoader()
     <header
       class="fixed px-2 w-[calc(100vw)] bg-transparent transition-all duration-300 z-50"
       :class="{'md:w-[calc(100vw-16rem)]':leftSidebar.isOpened,'md:w-[calc(100vw)]':!leftSidebar.isClosed}"
-      >
-        <div class="my-2 flex px-6 items-center justify-between h-[2.75rem] rounded-lg bg-primary dark:bg-primary-d text-white z-20 ">
+    >
+      <div class="my-2 flex px-2 items-center justify-between h-[2.75rem] rounded-sm bg-primary dark:bg-primary-d text-white z-20 ">
         <GoogleIcon
           class="text-2xl mt-1 z-50"
           name="list"
@@ -45,16 +45,18 @@ const loader              = useLoader()
             <li v-if="loader.isProcessing" class="flex items-center">
               <Loader /> 
             </li>
-            <li v-if="hasPermission('users.online')">
-              <RouterLink :to="{ name: 'admin.users.online' }" class="flex items-center">
-                <GoogleIcon
-                  class="text-xl mt-1"
-                  name="connect_without_contact"
-                  :title="$t('notifications.title')"
-                />
-                <span class="text-xs">{{ users.length - 1 }}</span>
-              </RouterLink>
-            </li>
+            <template v-if="notifier.isEnabled">
+              <li v-if="hasPermission('users.online')">
+                <RouterLink :to="{ name: 'admin.users.online' }" class="flex items-center">
+                  <GoogleIcon
+                    class="text-xl mt-1"
+                    name="connect_without_contact"
+                    :title="$t('notifications.title')"
+                  />
+                  <span class="text-xs">{{ users.length - 1 }}</span>
+                </RouterLink>
+              </li>
+            </template>
             <li class="flex items-center">
               <GoogleIcon
                 class="text-xl mt-1"
@@ -86,11 +88,11 @@ const loader              = useLoader()
                   <template #trigger>
                     <div class="flex space-x-4">
                       <button
-                        class="flex items-center space-x-4 text-sm border-2 border-transparent rounded-full focus:outline-none transition"
+                        class="flex items-center space-x-4 text-sm border-2 border-transparent rounded-full focus:outline-hidden cursor-pointer transition"
                         :title="$t('users.menu')"
                       >
                         <img 
-                          class="h-8 w-8 rounded-full object-cover"
+                          class="h-8 w-8 rounded-sm object-cover"
                           :alt="$page.user.name"
                           :src="$page.user.profile_photo_url"
                         >

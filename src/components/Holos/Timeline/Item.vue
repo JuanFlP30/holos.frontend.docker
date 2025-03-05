@@ -2,13 +2,14 @@
 import { computed } from 'vue';
 import { getDate, getTime } from '@Controllers/DateController';
 
-import PrimaryButton from '@Holos/Button/Primary.vue';
-import GoogleIcon    from '@Shared/GoogleIcon.vue';
+import GoogleIcon from '@Shared/GoogleIcon.vue';
+
 /** Eventos */
 const emit = defineEmits([
     'show',
 ]);
 
+/** Propiedades */
 const props = defineProps({
     event: Object,
 });
@@ -26,6 +27,8 @@ const colors = {
     deleted: 'danger',
     restored: 'primary',
 };
+
+/** Propiedades computadas */
 
 const eventType = computed(() => {
     return props.event.event.split('.')[1];
@@ -46,7 +49,7 @@ const borderColor = computed(() => {
         <div class="relative flex w-full">
             <div class="absolute -left-3.5 top-7 h-0.5 w-8" :class="bgColor"></div>
             <div 
-                class="absolute -mt-3 -left-3.5 top-7 w-6 h-6 flex items-center justify-center rounded-full" 
+                class="absolute -mt-3 -left-3.5 top-7 w-6 h-6 flex items-center justify-center rounded-sm" 
                 :class="bgColor"
                 @click="emit('show', event.data)"
             >
@@ -54,8 +57,8 @@ const borderColor = computed(() => {
                     :name="icons[eventType]"
                 />
             </div>
-            <div class="w-full rounded-lg shadow-xl dark:shadow-page-dt dark:shadow-sm my-2 mx-4">
-                <div class="flex justify-between p-2 rounded-t-lg" :class="bgColor">
+            <div class="w-full rounded-sm shadow-xl dark:shadow-page-dt dark:shadow-xs my-2 mx-4">
+                <div class="flex justify-between p-2 rounded-t-sm" :class="bgColor">
                     <span
                         class="font-medium text-sm cursor-pointer"
                         @click="emit('show', event.data)"
@@ -70,7 +73,7 @@ const borderColor = computed(() => {
                     <div class="flex flex-col justify-center items-center md:flex-row md:justify-start md:space-x-4">
                         <div v-if="event.user" class="w-32">
                             <div class="flex flex-col w-full justify-center items-center space-y-2">
-                                <img :src="event.user?.profile_photo_url" alt="Photo" class="w-24 h-24 rounded-full">
+                                <img :src="event.user?.profile_photo_url" alt="Photo" class="w-24 h-24 rounded-sm">
                             </div>
                         </div>
                         <div class="flex w-full flex-col justify-start space-y-2">

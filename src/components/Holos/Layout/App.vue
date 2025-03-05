@@ -49,7 +49,7 @@ onMounted(() => {
                 />
             </div>
             <main class="flex h-full justify-center md:p-2">
-                <div class="mt-14 md:mt-0 w-full shadow-lg dark:shadow-sm md:dark:shadow-white h-[calc(100vh-4.5rem)] px-2 md:rounded-lg overflow-y-auto overflow-x-auto transition-colors duration-300">
+                <div class="mt-14 md:mt-0 w-full shadow-lg dark:shadow-xs md:dark:shadow-white h-[calc(100vh-4.5rem)] px-2 pb-4 md:rounded-sm overflow-y-auto overflow-x-auto transition-colors duration-300">
                     <slot />
                 </div>
             </main>

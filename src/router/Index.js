@@ -16,33 +16,40 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'index',
-            redirect: '/dashboard'
-        },
-        {
-            path: '/dashboard',
-            name: 'dashboard.index',
-            component: () => import('@Pages/Dashboard/Index.vue')
-        }, {
-            path: '/profile',
             children: [
                 {
                     path: '',
-                    name: 'profile.show',
-                    component: () => import('@Pages/Profile/Show.vue')
+                    name: 'index',
+                    redirect: '/dashboard'
                 },
                 {
-                    path: 'notifications',
+                    path: 'dashboard',
+                    name: 'dashboard.index',
+                    component: () => import('@Pages/Dashboard/Index.vue')
+                },
+                {
+                    path: 'profile',
                     children: [
                         {
                             path: '',
-                            name: 'profile.notifications.index',
-                            component: () => import('@Pages/Profile/Notifications/Index.vue')
-                        }
+                            name: 'profile.show',
+                            component: () => import('@Pages/Profile/Show.vue')
+                        },
+                        {
+                            path: 'notifications',
+                            children: [
+                                {
+                                    path: '',
+                                    name: 'profile.notifications.index',
+                                    component: () => import('@Pages/Profile/Notifications/Index.vue')
+                                }
+                            ]
+                        },
                     ]
                 },
-            ]
-        }, {
+            ],
+        },
+        {
             path: '/admin',
             children: [
                 {

@@ -15,7 +15,7 @@ const props = defineProps({
         <div class="w-full overflow-hidden rounded-md shadow-lg">
             <div class="w-full overflow-x-auto">
                 <table class="w-full">
-                    <thead>
+                    <thead class="bg-primary text-primary-t dark:bg-primary-d dark:text-primary-dt">
                         <tr>
                             <slot name="head" />
                         </tr>

@@ -35,13 +35,13 @@ onMounted(() => {
           />
       </RouterLink>
     </PageHeader>
-    <div class="flex w-full pt-2">
-        <div class="w-full text-center p-2 bg-primary dark:bg-primary-d border-b rounded-lg">
+    <div class="flex w-full">
+        <div class="w-full text-center p-2 bg-primary dark:bg-primary-d border-b rounded-sm">
             <p class="pt-2 text-lg font-bold text-gray-50">
                 {{ user?.name }}
             </p>
             <p class="text-sm text-gray-100">
-                {{ user?.full_last_name }}
+                {{ user?.last_name }}
             </p>
         </div>
     </div>

@@ -19,7 +19,7 @@ const props = defineProps({
 
 <template>
     <button
-        class="flex justify-center items-center h-7 w-7 rounded-md btn-icon"
+        class="flex justify-center items-center h-7 w-7 rounded-sm btn-icon"
         :title="title"
         :type="type"
     >

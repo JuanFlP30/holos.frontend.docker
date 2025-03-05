@@ -47,7 +47,7 @@ onMounted(() => {
           />
         </div>
 
-        <main class="bg-white/10 w-full backdrop-blur-sm text-white px-4 py-4 rounded-md max-w-80">
+        <main class="bg-white/10 w-full backdrop-blur-xs text-white px-4 py-4 rounded-sm max-w-80">
           <RouterView />
         </main>
 

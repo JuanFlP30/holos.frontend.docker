@@ -28,15 +28,17 @@ const props = defineProps({
             />
         </template>
         <template #content>
-            <div class="w-full right-0 mt-2">
-                <div class="rounded overflow-hidden shadow-lg">
+            <div class="w-full right-0">
+                <div class="overflow-hidden space-y-2 shadow-lg">
                     <slot />
+                    <div class="px-4 pb-2">
+                        <p 
+                        class="mt-2 p-1 rounded-md text-justify bg-danger text-danger-t"
+                        v-text="$t('delete.confirm')"
+                        />
+                    </div>
                 </div>
             </div>
-            <p 
-                class="mt-2 p-1 rounded-md text-justify bg-danger text-danger-t"
-                v-text="$t('delete.confirm')"
-            />
         </template>
         <template #footer>
             <div class="space-x-2">

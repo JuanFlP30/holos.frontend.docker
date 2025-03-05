@@ -14,7 +14,7 @@ defineProps({
 
 <template>
     <RouterLink
-        class="relative flex-1 flex flex-col gap-2 p-4 rounded -md bg-gray-200 dark:bg-transparent dark:border"
+        class="relative flex-1 flex flex-col gap-2 p-4 rounded-sm -md bg-gray-200 dark:bg-transparent dark:border"
         :to="to"
     >
         <label class="text-base font-semibold tracking-wider">

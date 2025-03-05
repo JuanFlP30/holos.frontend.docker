@@ -42,7 +42,7 @@ const modelModal   = ref(Modal.modelModal);
       :class="{'w-64': notificationSidebar.isClosed}"
     >
       <div class="flex flex-col h-full p-2 md:w-64">
-        <div class="flex h-full flex-col w-[15.5rem] justify-between rounded-lg  overflow-y-auto overflow-x-hidden bg-primary/70 text-primary-t dark:bg-primary-d/70 dark:text-primary-dt">
+        <div class="flex h-full flex-col w-[15.5rem] justify-between rounded-sm  overflow-y-auto overflow-x-hidden bg-primary/70 text-primary-t dark:bg-primary-d/70 dark:text-primary-dt">
           <div class="flex justify-between px-2 items-center">
             <div class="py-1">
               <h4 class="text-md font-semibold">

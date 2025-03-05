@@ -4,9 +4,6 @@ import { page } from '@Services/Page'
 import { hasPermission, reloadPermissions, getAllRolesIds } from '@Plugins/RolePermission'
 import { boot as bootAuthUsers, addUser, removeUser } from '@Plugins/AuthUsers'
 
-/** Propiedades */
-const hasNotifications = import.meta.env.VITE_REVERB_ACTIVE === 'true';
-
 // Almacenar estado de la barra lateral derecha
 const useNotifier = defineStore('notifier', {
     state: () => ({
@@ -14,12 +11,13 @@ const useNotifier = defineStore('notifier', {
         unreadClosedCounter: 0,
         notifications: [],
         isStarted: false,
+        isEnabled: import.meta.env.VITE_REVERB_ACTIVE === 'true',
         user_id: 0,
     }),
     actions: {
         // Iniciar instancia
         boot() {
-            if(!this.isStarted && hasNotifications) {
+            if(!this.isStarted && this.isEnabled) {
                 this.user_id = page.user.id;
 
                 this.subscribeGLobalNotifications();

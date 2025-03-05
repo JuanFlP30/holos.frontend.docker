@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 .env
-colors.json
+colors.css
 notes.md
 
 # Editor directories and files

@@ -16,10 +16,10 @@ const props = defineProps({
 
 <template>
     <section class="pb-2">
-        <div class="w-full overflow-hidden rounded-md shadow-lg">
+        <div class="w-full overflow-hidden rounded-sm shadow-lg dark:shadow-xs dark:shadow-white">
             <div class="w-full overflow-x-auto">
                 <table v-if="!processing" class="w-full">
-                    <thead>
+                    <thead class="bg-primary text-primary-t dark:bg-primary-d dark:text-primary-dt">
                         <tr>
                             <slot name="head" />
                         </tr>
@@ -50,7 +50,7 @@ const props = defineProps({
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="100%" class="table-item h-7 text-center">
+                            <td colspan="100%" class="table-cell h-7 text-center">
                                 <div class="w-full h-4 bg-secondary/50 rounded-md"></div>
                             </td>
                         </tr>

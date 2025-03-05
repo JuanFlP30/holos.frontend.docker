@@ -25,7 +25,7 @@ function submit() {
 </script>
 
 <template>
-    <div class="w-full py-4">
+    <div class="w-full pb-2">
         <p class="text-justify text-sm" v-text="transl(`${action}.description`)" />
     </div>
     <div class="w-full">
