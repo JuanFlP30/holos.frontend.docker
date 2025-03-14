@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { hasPermission } from '@Plugins/RolePermission';
 import { useSearcher } from '@Services/Api';
-import { apiTo } from './Module';
+import { apiTo, transl } from './Module';
 
 import ModalController    from '@Controllers/ModalController.js';
 
@@ -71,7 +71,7 @@ onMounted(() => {
 
 <template>
     <div>
-        <Header :title="$t('admin.activity.title')">
+        <Header :title="transl('title')">
             <RouterLink v-if="filters.user && hasPermission('users.index')" :to="$view({ name: 'admin.users.index' })">
                 <IconButton 
                     class="text-white"
@@ -81,7 +81,7 @@ onMounted(() => {
                 />
             </RouterLink>
         </Header>
-        <p class="mt-2 text-sm">{{ $t('admin.activity.description') }}</p>
+        <p class="mt-2 text-sm">{{ transl('description') }}</p>
 
         <div id="filters" class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
             <Input

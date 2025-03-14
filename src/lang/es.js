@@ -298,7 +298,7 @@ export default {
     roles:{
         create: {
             title: 'Crear rol',
-            description: 'Estos roles serán usados para dar permisos en el sistema.',
+            description: 'Este nombre sera necesario para identificar el rol en el sistema. Procura que sea algo simple.',
             onSuccess: 'Rol creado exitosamente',
             onError: 'Error al crear el role',
         },
@@ -309,9 +309,10 @@ export default {
             onError: 'Error al actualizar el role',
         },
         update: {
-            description: 'Actualiza los permisos del rol.',
+            description: 'Si crees necesario, puedes actualizar el nombre del rol. No afecta a los permisos.',
         },
         title: 'Roles',
+        description: 'Gestión de roles del sistema. Puedes crear los roles con los permisos que necesites.',
         permissions: {
             title: 'Permisos',
             description: 'Permisos del rol.',

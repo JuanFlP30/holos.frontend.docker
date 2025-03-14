@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useForm } from '@Services/Api.js'
-
+import { viewTo } from './Module';
 import PrimaryButton from '@Holos/Button/Primary.vue';
 import Input         from '@Holos/Form/InputWithIcon.vue'
 
@@ -24,21 +24,17 @@ const submit = () => {
     form.post(route('auth.reset-password'), {
         onSuccess: () => {
             Notify.success(Lang('auth.reset.success'));
-            router.push({ name: 'index' })
+            router.push(viewTo({ name: 'index' }));
         },
         onError: () => {
-            router.push({ name: 'index' });
+            router.push(viewTo({ name: 'index' }));
         }
     });
 };
 
 onMounted(() => {
-    console.log('mount')
-
     form.token = vroute.query.token;
     email.value = vroute.query.email;
-
-    // router.replace({ query: {} });
 })
 </script>
 

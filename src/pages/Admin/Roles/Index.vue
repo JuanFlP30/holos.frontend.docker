@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { can, apiTo, viewTo } from './Module'
+import { can, apiTo, viewTo, transl } from './Module'
 import { useSearcher } from '@Services/Api';
 
 import ModalController    from '@Controllers/ModalController.js';
@@ -36,7 +36,7 @@ onMounted(() => {
 <template>
     <div>
         <SearcherHead
-            :title="$t('roles.title')"
+            :title="transl('title')"
             @search="(x) => searcher.search(x)"
         >
             <RouterLink
@@ -56,7 +56,10 @@ onMounted(() => {
                 @click="searcher.search()"
             />
         </SearcherHead>
-        <div class="pt-2 w-full">
+        <div class="pt-2 space-y-2 w-full">
+            <p class="text-sm">
+                {{ transl('description') }}
+            </p>
             <Table 
                 :items="models"
                 @send-pagination="(page) => searcher.pagination(page)"
@@ -79,7 +82,7 @@ onMounted(() => {
                                 <IconButton
                                     v-if="can('edit') && ![1,2].includes(model.id)"
                                     icon="license"
-                                    :title="$t('roles.permissions.title')"
+                                    :title="transl('permissions.title')"
                                     @click="Modal.switchEditModal(model)"
                                     outline
                                 />
@@ -116,6 +119,8 @@ onMounted(() => {
         />
         <DestroyView
             v-if="can('destroy')"
+            title="description"
+            subtitle=""
             :model="modelModal"
             :show="destroyModal"
             :to="(role) => apiTo('destroy', { role })"

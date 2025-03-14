@@ -7,14 +7,6 @@ import vue from '@vitejs/plugin-vue'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
-  build: {
-    rollupOptions: {
-      input: {
-        main: './index.html', // Ruta al archivo index.html
-        auth: './auth.html',  // Ruta al archivo auth.html
-      },
-    },
-  },
   server: {
     allowedHosts: true,
   },

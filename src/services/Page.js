@@ -110,6 +110,8 @@ const logout = () => {
       onSuccess: (r) => {
         if(r.is_revoked === true) {
           closeSession()
+
+          location.replace('/')
         }
       }
     });

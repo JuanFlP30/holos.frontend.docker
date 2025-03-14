@@ -22,8 +22,7 @@ defineProps({
         @close="$emit('close')"
     >
         <Header
-            :title="model.name"
-            :subtitle="model.last_name"
+            :title="model.event"
         />
         <div class="flex w-full p-4">
             <GoogleIcon

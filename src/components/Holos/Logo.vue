@@ -1,12 +1,18 @@
 <script setup>
+import { hasToken } from '@Services/Api';
 import { useRouter } from 'vue-router';
 
 /** Definidores */
 const router = useRouter();
 
 /** Métodos */
-const home = () => router.push(view({ name: 'index' }));
-
+const home = () => {
+    if(hasToken()) {
+        router.push({ name: 'dashboard.index' });
+    } else {
+        location.replace('/');
+    }
+}
 </script>
 <template>
     <div

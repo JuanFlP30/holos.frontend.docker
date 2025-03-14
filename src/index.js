@@ -11,9 +11,11 @@ import { bootPermissions, bootRoles } from '@Plugins/RolePermission';
 import TailwindScreen from '@Plugins/TailwindScreen'
 import { pagePlugin } from '@Services/Page';
 import { reloadApp, view } from '@Services/Page';
+import { apiURL } from '@Services/Api';
 
-import App      from '@Layouts/AppLayout.vue'
+import App      from '@Components/App.vue'
 import Error503 from '@Pages/Errors/503.vue'
+import { hasToken } from './services/Api';
 
 // Configurar axios
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -29,7 +31,7 @@ async function boot() {
 
     // Iniciar rutas
     try {
-        const routes = await axios.get(import.meta.env.VITE_API_URL + '/api/resources/routes');
+        const routes = await axios.get(apiURL('resources/routes'));
 
         window.Ziggy = routes.data;
         window.route = useRoute();
@@ -41,12 +43,14 @@ async function boot() {
 
     if(initRoutes) {
         // Iniciar permisos
-        await bootPermissions();
-        await bootRoles();
-    
-        // Iniciar broadcast
-        if(import.meta.env.VITE_REVERB_ACTIVE === 'true') {
-            await import('@Services/Broadcast')
+        if(hasToken()) {
+            await bootPermissions();
+            await bootRoles();
+        
+            // Iniciar broadcast
+            if(import.meta.env.VITE_REVERB_ACTIVE === 'true') {
+                await import('@Services/Broadcast')
+            }
         }
     
         reloadApp();

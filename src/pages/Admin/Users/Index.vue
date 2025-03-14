@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { can, apiTo, viewTo } from './Module'
+import { can, apiTo, viewTo, transl } from './Module'
 import { useSearcher } from '@Services/Api';
 import { hasPermission } from '@Plugins/RolePermission';
 
@@ -38,7 +38,7 @@ onMounted(() => {
 <template>
     <div>
         <SearcherHead
-            :title="$t('users.title')"
+            :title="transl('title')"
             @search="(x) => searcher.search(x)"
         >
             <RouterLink
@@ -173,6 +173,7 @@ onMounted(() => {
         />
         <DestroyView
             v-if="can('destroy')"
+            subtitle="last_name"
             :model="modelModal"
             :show="destroyModal"
             :to="(user) => apiTo('destroy', { user })"

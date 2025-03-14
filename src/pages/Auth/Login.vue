@@ -1,10 +1,15 @@
 <script setup>
 import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { defineApiToken, defineCsrfToken, hasToken, useForm } from '@Services/Api.js'
 import { defineUser } from '@Services/Page';
+import { viewTo } from './Module.js';
 
 import PrimaryButton  from '@Holos/Button/Primary.vue'
 import Input          from '@Holos/Form/InputWithIcon.vue'
+
+/** Definidores */
+const router = useRouter();
 
 /** Propiedades */
 defineProps({
@@ -33,7 +38,7 @@ const login = () => {
 /** Ciclos */
 onMounted(() => {
   if (hasToken()) {
-    location.replace('/')
+    router.push({ name: 'dashboard.index' });
   }
 })
 </script>
@@ -62,7 +67,7 @@ onMounted(() => {
     <div class="flex justify-end mt-4">
       <RouterLink
           class="text-sm ml-2 hover:text-blue-200 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
-          :to="$view({ name: 'forgot-password' })"
+          :to="viewTo({ name: 'forgot-password' })"
       >
           {{ $t('auth.forgotPassword.ask') }}
       </RouterLink>

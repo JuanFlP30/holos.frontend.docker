@@ -71,7 +71,28 @@ const changelogs = [
             'ADD: Visualización de historial de cambios del backend.',
         ],
         date: '2025-01-17'
-    }
+    },
+    {
+        version: '0.9.8',
+        details: [
+            'UPDATE: Actualización de dependencias.',
+            'UPDATE: TailwindCSS 3 => 4.',
+            'UPDATE: Actualización de Diseño, mejoras visuales.',
+        ],
+        date: '2025-03-04'
+    },
+    {
+        version: '0.9.9',
+        details: [
+            'FIX: Obtención de recursos de backend mediante `api.resource`.',
+            'FIX: Títulos de modal de eliminación ahora son editables.',
+            'UPDATE: Simplificación de las rutas de autenticación.',
+            'UPDATE: Traducciones modulares faltantes.',
+            'UPDATE: Ahora las plantillas se definen en el grupo de rutas, y se heredan en las rutas hijas.',
+            'ADD: Función creación de URL a backend fuera de VUEJS.',
+        ],
+        date: '2025-03-13'
+    },
 ]
 </script>
 

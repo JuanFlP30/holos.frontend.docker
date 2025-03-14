@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { can, apiTo, viewTo } from './Module'
+import { can, apiTo, viewTo, transl } from './Module'
 import { users } from '@Plugins/AuthUsers'
 
 import ModalController    from '@Controllers/ModalController.js';
@@ -24,7 +24,7 @@ const modelModal   = ref(Modal.modelModal);
 <template>
     <div>
         <Header
-            :title="$t('users.online.title')"
+            :title="transl('online.title')"
         >
             <RouterLink
                 v-if="can('create')"
@@ -38,7 +38,7 @@ const modelModal   = ref(Modal.modelModal);
                 />
             </RouterLink>
         </Header>
-        <p class="mt-2">{{ $t('users.online.description') }} {{ users.length - 1 }} {{ $t('users.online.count') }}</p>
+        <p class="mt-2">{{ transl('online.description') }} {{ users.length - 1 }} {{ transl('online.count') }}</p>
         <div class="w-full -mt-2">
             <Table 
                 :items="users"

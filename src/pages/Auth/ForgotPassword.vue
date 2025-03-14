@@ -1,6 +1,8 @@
 <script setup>
-import { useForm } from '@Services/Api';
 import { useRouter } from 'vue-router';
+import { useForm } from '@Services/Api';
+import { viewTo } from './Module';
+
 import Input         from '@Holos/Form/InputWithIcon.vue'
 import PrimaryButton from '@Holos/Button/Primary.vue'
 
@@ -21,11 +23,11 @@ const submit = () => {
     form.post(route('auth.forgot-password'), {
         onSuccess: () => {
             Notify.success(Lang('auth.forgotPassword.success'));
-            router.push({ name: 'index' });
+            router.push(viewTo({ name: 'index' }));
         },
         onError: () => {
             Notify.error(Lang('auth.forgotPassword.error'));
-            router.push({ name: 'index' });
+            router.push(viewTo({ name: 'index' }));
         }
     });
 };

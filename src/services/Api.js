@@ -73,8 +73,6 @@ const closeSession = () => {
     resetCsrfToken()
 
     Notify.info(Lang('session.closed'))
-
-    location.replace('auth.html')
 }
 
 /**
@@ -84,6 +82,13 @@ const closeSession = () => {
  */
 function composeKey(parent, key) {
   return parent ? parent + '[' + key + ']' : key
+}
+
+/**
+ * URL API
+ */
+const apiURL = (path) => {
+    return import.meta.env.VITE_API_URL + '/api/' + path
 }
 
 /**
@@ -135,8 +140,6 @@ const api = {
                 if(options.hasOwnProperty('onFail')) {
                     options.onFail(data.data);
                 }
-
-                console.log(data.data);
             }
 
             if(options.hasOwnProperty('onFinish')) {
@@ -214,7 +217,7 @@ const api = {
         })
     },
     resource(resources, options) {
-        this.post('resources/get', {
+        this.post(apiURL('resources/get'), {
             ...options,
             data: resources
         })
@@ -569,6 +572,7 @@ const useSearcher = (options = {
 export {
     api,
     token,
+    apiURL,
     closeSession,
     defineCsrfToken,
     defineApiToken,

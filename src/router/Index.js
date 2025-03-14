@@ -16,6 +16,7 @@ const router = createRouter({
     routes: [
         {
             path: '/',
+            component: () => import('@Layouts/AppLayout.vue'),
             children: [
                 {
                     path: '',
@@ -51,6 +52,7 @@ const router = createRouter({
         },
         {
             path: '/admin',
+            component: () => import('@Layouts/AppLayout.vue'),
             children: [
                 {
                     path: 'users',
@@ -119,7 +121,7 @@ const router = createRouter({
         },
         {
             path: '/changelogs',
-            name: 'changelogs',
+            component: () => import('@Layouts/AppLayout.vue'),
             children: [
                 {
                     path: '',
@@ -130,6 +132,27 @@ const router = createRouter({
                     path: 'core',
                     name: 'changelogs.core',
                     component: () => import('@Pages/Changelogs/Core.vue')
+                }
+            ]
+        },
+        {
+            path: '/auth',
+            component: () => import('@Holos/Layout/Auth.vue'),
+            children: [
+                {
+                    path: '',
+                    name: 'auth.index',
+                    component: () => import('@Pages/Auth/Login.vue')
+                },
+                {
+                    path: 'forgot-password',
+                    name: 'auth.forgot-password',
+                    component: () => import('@Pages/Auth/ForgotPassword.vue')
+                },
+                {
+                    path: 'reset-password',
+                    name: 'auth.reset-password',
+                    component: () => import('@Pages/Auth/ResetPassword.vue')
                 }
             ]
         },

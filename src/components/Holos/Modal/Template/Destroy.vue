@@ -15,6 +15,14 @@ const props = defineProps({
     model: Object,
     show: Boolean,
     to: Function,
+    title: {
+        type: String,
+        default: 'name'
+    },
+    subtitle: {
+        type: String,
+        default: 'description'
+    }
 });
 
 /** Métodos */
@@ -38,8 +46,8 @@ const destroy = (id) => api.delete(props.to(id), {
         @destroy="destroy(model.id)"
     >
         <Header
-            :subtitle="model.full_last_name"
-            :title="model.name"
+            :title="model[title]"
+            :subtitle="model[subtitle]"
         />
     </DestroyModal>
 </template>
