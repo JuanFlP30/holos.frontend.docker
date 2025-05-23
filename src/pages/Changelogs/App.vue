@@ -93,6 +93,14 @@ const changelogs = [
         ],
         date: '2025-03-13'
     },
+    {
+        version: '0.9.10',
+        details: [
+            'ADD: Se actualizo el método api.resource por api.catalog para obtener catálogos del backend.',
+            'UPDATE: Actualización de dependencias.'
+        ],
+        date: '2025-05-23'
+    }
 ]
 </script>
 

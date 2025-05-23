@@ -216,8 +216,8 @@ const api = {
             options
         })
     },
-    resource(resources, options) {
-        this.post(apiURL('resources/get'), {
+    catalog(resources, options) {
+        this.post(apiURL('catalogs/get'), {
             ...options,
             data: resources
         })

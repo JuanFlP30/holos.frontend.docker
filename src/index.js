@@ -10,7 +10,7 @@ import Notify from '@Plugins/Notify'
 import { bootPermissions, bootRoles } from '@Plugins/RolePermission';
 import TailwindScreen from '@Plugins/TailwindScreen'
 import { pagePlugin } from '@Services/Page';
-import { reloadApp, view } from '@Services/Page';
+import { defineApp, reloadApp, view } from '@Services/Page';
 import { apiURL } from '@Services/Api';
 
 import App      from '@Components/App.vue'
@@ -32,8 +32,10 @@ async function boot() {
     // Iniciar rutas
     try {
         const routes = await axios.get(apiURL('resources/routes'));
+        const appData = await axios.get(apiURL('resources/app'));
 
         window.Ziggy = routes.data;
+        defineApp(appData.data);
         window.route = useRoute();
         window.view  = view;
         initRoutes   = true;
