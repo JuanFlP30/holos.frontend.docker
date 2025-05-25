@@ -65,37 +65,22 @@ onUnmounted(() => {
 
 <template>
     <teleport to="body">
-        <transition leave-active-class="duration-300">
-            <div v-show="show" class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50" scroll-region>
-                <transition
-                    enter-active-class="ease-out duration-300"
-                    enter-from-class="opacity-0"
-                    enter-to-class="opacity-100"
-                    leave-active-class="ease-in duration-300"
-                    leave-from-class="opacity-100"
-                    leave-to-class="opacity-0"
+        <transition
+            enter-active-class="ease-out duration-300"
+            enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enter-to-class="opacity-100 translate-y-0 sm:scale-100"
+            leave-active-class="ease-in duration-300"
+            leave-from-class="opacity-100 translate-y-0 sm:scale-100"
+            leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        >
+            <div v-show="show" class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 bg-primary/90 z-50 transition-all" scroll-region>
+                <div 
+                    v-show="show" 
+                    class="mb-6 bg-page text-page-t dark:bg-page-d dark:text-page-dt rounded-sm overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto" 
+                    :class="maxWidthClass"
                 >
-                    <div v-show="show" class="fixed inset-0 transform transition-all" @click="close">
-                        <div class="absolute inset-0 bg-primary text-primary-t dark:bg-primary-d dark:text-primary-dt opacity-75" />
-                    </div>
-                </transition>
-
-                <transition
-                    enter-active-class="ease-out duration-300"
-                    enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    enter-to-class="opacity-100 translate-y-0 sm:scale-100"
-                    leave-active-class="ease-in duration-300"
-                    leave-from-class="opacity-100 translate-y-0 sm:scale-100"
-                    leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                >
-                    <div 
-                        v-show="show" 
-                        class="mb-6 bg-page text-page-t dark:bg-page-d dark:text-page-dt rounded-sm overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto" 
-                        :class="maxWidthClass"
-                    >
-                        <slot v-if="show" />
-                    </div>
-                </transition>
+                    <slot v-if="show" />
+                </div>
             </div>
         </transition>
     </teleport>
