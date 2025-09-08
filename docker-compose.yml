@@ -1,0 +1,13 @@
+services:
+  holos-frontend:
+    build:
+      context: /var/www/holos.frontend
+      dockerfile: dockerfile
+    ports:
+      - "5050:80"
+    networks:
+      - holos-network
+
+networks:
+  holos-network:
+    driver: bridge
