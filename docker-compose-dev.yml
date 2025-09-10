@@ -1,0 +1,16 @@
+services:
+  holos-frontend:
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    ports:
+      - "${APP_PORT}:5173"
+    volumes:
+      - .:/var/www/holos.frontend
+      - /var/www/holos.frontend/node_modules
+    networks:
+      - holos-network
+
+networks:
+  holos-network:
+    driver: bridge
